@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Трассы теплосети</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6677; --line: #dde1e8;
+    --accent: #1f6feb; --ok: #1a7f37; --bad: #cf222e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1216; --panel: #171b21; --text: #e6e9ef; --muted: #9aa3b2; --line: #2a303a;
+      --accent: #4c8dff; --ok: #3fb950; --bad: #f85149;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background: var(--bg); color: var(--text); display: flex; height: 100vh; }
+  aside { width: 380px; max-width: 100%; overflow-y: auto; background: var(--panel);
+          border-right: 1px solid var(--line); padding: 16px; }
+  #map { flex: 1; min-width: 0; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 14px; margin: 18px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .muted { color: var(--muted); }
+  a { color: var(--accent); }
+  button, input[type=file] { font: inherit; }
+  button { background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: 7px 12px; cursor: pointer; }
+  button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.variant { cursor: pointer; }
+  tr.variant.active { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .status { padding: 8px 10px; border-radius: 6px; background: var(--bg); margin-top: 8px; }
+  .status.ok { color: var(--ok); } .status.bad { color: var(--bad); }
+  .legend div { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+  .sw { width: 22px; height: 0; border-top: 4px solid; display: inline-block; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .jobs button { margin: 2px 0; width: 100%; text-align: left; }
+  details.dev { margin-top: 10px; font-size: 12px; color: var(--muted); }
+  details.dev summary { cursor: pointer; }
+  details.dev ul { margin: 6px 0 0; padding-left: 16px; }
+  details.dev li { margin: 4px 0; }
+  @media (max-width: 760px) { body { flex-direction: column; } aside { width: 100%; height: 45vh; } #map { height: 55vh; } }
+</style>
+</head>
+<body>
+<aside>
+  <h1>Трассы подключения к теплосети</h1>
+  <div class="muted">ЛЦТ 2026, задача 2 · <a href="swagger-ui.html">API</a></div>
+
+  <h2>Новый расчёт</h2>
+  <input type="file" id="file" accept=".geojson,.json">
+  <div style="margin-top:8px"><button id="upload">Загрузить и рассчитать</button></div>
+  <div id="status" class="status muted">Выберите GeoJSON-файл</div>
+  <div id="download" style="margin-top:6px" hidden><a id="downloadLink" href="#">Скачать результат (GeoJSON)</a></div>
+
+  <h2>Варианты</h2>
+  <table>
+    <thead><tr><th>#</th><th>Вариант</th><th class="num">S</th><th class="num">млн ₽</th><th class="num">м</th><th class="num">цели</th></tr></thead>
+    <tbody id="variants"><tr><td colspan="6" class="muted">Нет результата</td></tr></tbody>
+  </table>
+  <div id="variantInfo" class="muted" style="margin-top:8px"></div>
+  <details id="deviations" class="dev" hidden><summary></summary><ul></ul></details>
+
+  <h2>Легенда</h2>
+  <div class="legend">
+    <div><span class="sw" style="border-color:#2b6cb0"></span>существующая сеть</div>
+    <div><span class="sw" style="border-color:#2f9e44"></span>новая сеть, обычная прокладка (толщина — ДУ)</div>
+    <div><span class="sw" style="border-color:#e03131"></span>спецпроход</div>
+    <div><span class="dot" style="background:#c92a2a"></span>точка подключения</div>
+    <div><span class="dot" style="background:#fff;border:3px solid #0b7a36"></span>новая камера на существующей сети (присоединение)</div>
+    <div><span class="dot" style="background:#0b7a36"></span>новая камера разветвления</div>
+    <div><span class="dot" style="background:#e03131;width:7px;height:7px"></span>технический узел (граница спецучастка)</div>
+    <div><span class="dot" style="background:#7048e8;border-radius:2px;opacity:.6"></span>здания (ОКС) и другие ограничения</div>
+  </div>
+
+  <h2>Последние расчёты</h2>
+  <div id="jobs" class="jobs muted">…</div>
+</aside>
+<div id="map"></div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script>
+(function () {
+  'use strict';
+  var API = 'api/jobs';
+  var OPEN_DETAILS = location.hash === '#details'; // ссылка ?job=<id>#details открывает блок трактовок сразу
+  var map = L.map('map', { preferCanvas: true }).setView([55.751, 37.618], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 20, attribution: '© OpenStreetMap'
+  }).addTo(map);
+  var inputLayer = L.layerGroup().addTo(map);
+  var resultLayer = L.layerGroup().addTo(map);
+  var state = { job: null, result: null, variant: null };
+  var RESTRICTION_COLORS = { oks: '#7048e8', park: '#8ce99a', social_area: '#ffa8a8', prohibited_site: '#fa5252',
+    water: '#74c0fc', railway: '#b197fc', road: '#ffc078', tram_tracks: '#ff922b', gas_pipeline: '#f59f00', power_cable: '#be4bdb' };
+
+  function el(tag, text, cls) {
+    var e = document.createElement(tag);
+    if (text !== undefined && text !== null) e.textContent = String(text);
+    if (cls) e.className = cls;
+    return e;
+  }
+  function setStatus(text, kind) {
+    var s = document.getElementById('status');
+    s.textContent = text;
+    s.className = 'status ' + (kind || 'muted');
+  }
+  function popup(props) {
+    var box = el('div');
+    Object.keys(props).forEach(function (k) {
+      var v = props[k];
+      if (v === null || v === undefined) return;
+      var row = el('div');
+      row.appendChild(el('b', k + ': '));
+      row.appendChild(document.createTextNode(typeof v === 'object' ? JSON.stringify(v) : String(v)));
+      box.appendChild(row);
+    });
+    return box;
+  }
+  function fmt(n, d) { return Number(n).toLocaleString('ru-RU', { maximumFractionDigits: d, minimumFractionDigits: d }); }
+
+  function renderInput(fc) {
+    inputLayer.clearLayers();
+    if (!fc) return;
+    var layer = L.geoJSON(fc, {
+      style: function (f) {
+        var p = f.properties || {};
+        if (p.object_type === 'restriction') {
+          var c = RESTRICTION_COLORS[p.restriction_type] || '#adb5bd';
+          return { color: c, weight: f.geometry.type.indexOf('Line') >= 0 ? 3 : 1, fillColor: c, fillOpacity: 0.3 };
+        }
+        if (p.object_type === 'heat_network') return { color: '#2b6cb0', weight: 4, opacity: 0.8 };
+        return {};
+      },
+      pointToLayer: function (f, latlng) {
+        var t = (f.properties || {}).object_type;
+        if (t === 'oks_connection_point') return L.circleMarker(latlng, { radius: 5, color: '#fff', weight: 1, fillColor: '#c92a2a', fillOpacity: 1 });
+        if (t === 'heat_chamber') return L.circleMarker(latlng, { radius: 4, color: '#2b6cb0', fillColor: '#2b6cb0', fillOpacity: 1 });
+        if (t === 'source') return L.circleMarker(latlng, { radius: 8, color: '#e8590c', fillColor: '#ff922b', fillOpacity: 1 });
+        return L.circleMarker(latlng, { radius: 3 });
+      },
+      onEachFeature: function (f, l) { l.bindPopup(popup(f.properties || {})); }
+    }).addTo(inputLayer);
+    state.inputBounds = layer.getBounds();
+    state.existingChambers = {};
+    fc.features.forEach(function (f) {
+      var p = f.properties || {};
+      if (p.object_type === 'heat_chamber') state.existingChambers[p.id] = true;
+    });
+  }
+
+  function renderVariant(vid) {
+    state.variant = vid;
+    resultLayer.clearLayers();
+    if (!state.result) return;
+    var feats = state.result.features.filter(function (f) { return f.properties.variant_id === vid && f.geometry; });
+    var varLayer = L.geoJSON({ type: 'FeatureCollection', features: feats }, {
+      style: function (f) {
+        var p = f.properties;
+        return { color: p.laying_method === 'special' ? '#e03131' : '#2f9e44', weight: 2 + (p.diameter || 50) / 80, opacity: 0.95 };
+      },
+      pointToLayer: function (f, latlng) {
+        if (f.properties.object_type === 'heat_chamber') {
+          return f.properties.diag_tie_in
+            ? L.circleMarker(latlng, { radius: 6, color: '#0b7a36', weight: 3, fillColor: '#fff', fillOpacity: 1 })
+            : L.circleMarker(latlng, { radius: 5, color: '#fff', weight: 1, fillColor: '#0b7a36', fillOpacity: 1 });
+        }
+        return L.circleMarker(latlng, { radius: 3, color: '#e03131', fillColor: '#e03131', fillOpacity: 1 });
+      },
+      onEachFeature: function (f, l) {
+        var box = popup(f.properties);
+        var p = f.properties;
+        if (p.object_type === 'heat_network' && p.diag_dn_by_flow && p.diameter > p.diag_dn_by_flow) {
+          box.insertBefore(el('div', 'ДУ ' + p.diameter + ' вместо ' + p.diag_dn_by_flow + ' по расходу: повышен правилом предельной длины (§2.3, табл. 1)'), box.firstChild);
+        }
+        l.bindPopup(box);
+      }
+    }).addTo(resultLayer);
+    if (!state.fitted) {
+      var b = feats.length ? varLayer.getBounds() : state.inputBounds;
+      try { map.fitBounds(b.pad(0.15)); state.fitted = true; } catch (e) { /* пусто */ }
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('tr.variant'), function (tr) {
+      tr.classList.toggle('active', tr.dataset.vid === vid);
+    });
+    var s = summaries().filter(function (x) { return x.variant_id === vid; })[0];
+    var info = document.getElementById('variantInfo');
+    info.textContent = '';
+    if (s) {
+      info.appendChild(el('div', s.diag_description || ''));
+      info.appendChild(el('div', 'Строительство ' + fmt(s.construction_cost / 1e6, 1) + ' млн ₽, камеры ' + fmt(s.chamber_construction_cost / 1e6, 1)
+        + ' млн ₽, врезок в существующие камеры: ' + s.existing_chamber_tie_in_count));
+      var lim = lengthLimitUse(feats);
+      if (lim) {
+        info.appendChild(el('div', 'Предельная длина (§2.3): наиболее загруженный непрерывный путь одного ДУ — ' + fmt(lim.run, 0)
+          + ' м из ' + fmt(lim.max, 0) + ' м (ДУ ' + lim.dn + ', ' + fmt(lim.share * 100, 0) + ' %)'));
+      }
+      if (s.unconnected_oks_ids.length) {
+        info.appendChild(el('div', 'Не подключены: ' + s.unconnected_oks_ids.join(', ') + ' (штраф ' + fmt(s.unconnected_penalty / 1e6, 1) + ' млн ₽)'));
+        var reasons = s.diag_unconnected_reasons || {};
+        Object.keys(reasons).forEach(function (id) { info.appendChild(el('div', id + ': ' + reasons[id])); });
+      }
+    }
+    renderDeviations(s, feats);
+  }
+
+  // Предельная длина по табл. 1: непрерывный путь одного ДУ от присоединения; камера без смены ДУ отсчёт не начинает.
+  var MAX_LEN = { 50: 181, 65: 245, 80: 327, 100: 419, 125: 554, 150: 696, 200: 1042, 250: 1379, 300: 1718, 400: 2477,
+    500: 3245, 600: 4037, 700: 4775, 800: 5644, 900: 6518, 1000: 7419, 1200: 9288, 1400: 11276 };
+  function lengthLimitUse(feats) {
+    var adj = {}, roots = [];
+    feats.forEach(function (f) {
+      var p = f.properties;
+      if (p.object_type === 'heat_network') {
+        (adj[p.start_node_id] = adj[p.start_node_id] || []).push(p);
+        (adj[p.end_node_id] = adj[p.end_node_id] || []).push(p);
+      } else if (p.object_type === 'heat_chamber' && p.diag_tie_in) {
+        roots.push(p.id);
+      }
+    });
+    Object.keys(state.existingChambers || {}).forEach(function (id) { if (adj[id]) roots.push(id); });
+    var best = null;
+    roots.forEach(function (r) {
+      var stack = [[String(r), null, 0, null]], seen = {};
+      while (stack.length) {
+        var cur = stack.pop();
+        (adj[cur[0]] || []).forEach(function (l) {
+          if (l.id === cur[3] || seen[l.id]) return;
+          seen[l.id] = true;
+          var next = String(l.start_node_id) === cur[0] ? l.end_node_id : l.start_node_id;
+          var run = l.diameter === cur[1] ? cur[2] + l.length : l.length;
+          var max = MAX_LEN[l.diameter];
+          if (max && (!best || run / max > best.share)) best = { run: run, max: max, dn: l.diameter, share: run / max };
+          stack.push([String(next), l.diameter, run, l.id]);
+        });
+      }
+    });
+    return best;
+  }
+
+  // Трактовки и отступления выбранного варианта от буквы правил — только по данным результата и задания, без привязки к id.
+  var CLEARANCE = { gas_pipeline: 2.0, power_cable: 2.0, heat_network: 1.0 };
+  function renderDeviations(s, feats) {
+    var box = document.getElementById('deviations');
+    var list = box.querySelector('ul');
+    list.textContent = '';
+    var items = [];
+    var approach = ((s && s.diag_relaxed_final_approach) || []).slice().sort(function (a, b) {
+      return String(a).localeCompare(String(b), 'ru', { numeric: true });
+    });
+    if (approach.length) {
+      items.push('§2.2 «от ближайшей к точке границы полигона», точки ' + approach.join(', ') + ': прямой выход из самой близкой '
+        + 'точки контура закрыт этим же зданием (невыпуклый контур или закрытый внутренний двор), поэтому финальный '
+        + 'участок проведён от ближайшего участка внешнего контура со свободным прямым выходом. Иначе эти ОКС были бы '
+        + 'неподключаемы, а ТЗ §2.9 гарантирует подключаемость всех ОКС набора. Строгое прочтение включается '
+        + 'HEATNET_TERMINAL_POLICY=literal.');
+    }
+    var chambers = {};
+    feats.forEach(function (f) { if (f.properties.object_type === 'heat_chamber') chambers[f.properties.id] = true; });
+    feats.forEach(function (f) {
+      var p = f.properties;
+      if (p.laying_method !== 'special') return;
+      var roads = (p.diag_crossing || []).filter(function (c) { return /^(road|tram_tracks)/.test(c); });
+      if (roads.length && (chambers[p.start_node_id] || chambers[p.end_node_id])) {
+        items.push('Табл. 2, спецучасток ' + p.id + ' (' + roads.join(', ') + ') заканчивается в камере присоединения внутри '
+          + 'полигона: существующая сеть проходит под дорогой, иначе к ней не подойти. Угол ≥ 45° и запас 3 м соблюдены на '
+          + 'входе, K применён до камеры.');
+      }
+    });
+    feats.forEach(function (f) {
+      var p = f.properties;
+      if (p.laying_method !== 'special' || !(p.length > 4.01)) return;
+      var point = (p.diag_crossing || []).filter(function (c) { return /^(gas_pipeline|power_cable|heat_network)/.test(c); });
+      if (!point.length) return;
+      var clr = CLEARANCE[point[0].split(':')[0]];
+      items.push('Табл. 2, спецучасток ' + p.id + ' (' + point.join(', ') + '): ' + fmt(p.length, 1) + ' м вместо ±2 м от точки '
+        + 'пересечения. Продлён до выполнения отступа ' + fmt(clr, 1) + ' м по табл. 2 — иначе граница спецучастка и отступ '
+        + 'несовместимы; Kспец применён ко всей длине (дороже, не дешевле).');
+    });
+    items.push('Реконструкция существующей сети и камер и изменение её расходов (ТЗ §2.10–2.11, §4 п. 4 и 6) не '
+      + 'рассчитываются: актуальное техприложение (§2.4) и разъяснение №14 исключают их из расчётной модели, расходов '
+      + 'существующей сети во входных данных нет; при расхождении документов применяется техприложение (разъяснение №16).');
+    if (s && s.diag_search_truncated) {
+      items.push('Перебор вариантов прерван страховочным лимитом времени — результат может отличаться от полного перебора.');
+    }
+    var warnings = (state.jobInfo && state.jobInfo.stats && state.jobInfo.stats.input && state.jobInfo.stats.input.warnings) || [];
+    if (warnings.length) {
+      items.push('Замечания к входным данным (' + warnings.length + '): ' + warnings.slice(0, 5).join('; ')
+        + (warnings.length > 5 ? '; …' : '') + '.');
+    }
+    items.forEach(function (t) { list.appendChild(el('li', t)); });
+    box.querySelector('summary').textContent = 'Трактовки и отступления: ' + items.length;
+    box.hidden = items.length === 0;
+    if (OPEN_DETAILS) box.open = true;
+  }
+
+  function summaries() {
+    if (!state.result) return [];
+    return state.result.features.map(function (f) { return f.properties; })
+      .filter(function (p) { return p.object_type === 'variant_summary'; })
+      .sort(function (a, b) { return a.rank - b.rank; });
+  }
+
+  function renderVariants(totalTargets) {
+    var tb = document.getElementById('variants');
+    tb.textContent = '';
+    summaries().forEach(function (s) {
+      var tr = el('tr', null, 'variant');
+      tr.dataset.vid = s.variant_id;
+      tr.appendChild(el('td', s.rank));
+      tr.appendChild(el('td', s.variant_id));
+      tr.appendChild(el('td', fmt(s.score, 3), 'num'));
+      tr.appendChild(el('td', fmt(s.calculated_cost / 1e6, 1), 'num'));
+      tr.appendChild(el('td', fmt(s.new_network_length, 0), 'num'));
+      var connected = totalTargets === null ? '—' : (totalTargets - s.unconnected_oks_ids.length) + '/' + totalTargets;
+      tr.appendChild(el('td', connected, 'num'));
+      tr.addEventListener('click', function () { renderVariant(s.variant_id); });
+      tb.appendChild(tr);
+    });
+    var first = summaries()[0];
+    if (first) renderVariant(first.variant_id);
+  }
+
+  function json(r) {
+    return r.json().catch(function () { return {}; }).then(function (b) {
+      if (!r.ok) throw new Error(b.error || b.message || ('HTTP ' + r.status));
+      return b;
+    });
+  }
+
+  function openJob(id) {
+    if (!id || id === 'undefined') return;
+    clearTimeout(state.timer);
+    state.job = id;
+    state.fitted = false;
+    history.replaceState(null, '', '?job=' + encodeURIComponent(id) + (OPEN_DETAILS ? '#details' : ''));
+    fetch(API + '/' + encodeURIComponent(id)).then(json).then(function (job) {
+      if (state.job !== id) return;
+      state.jobInfo = job;
+      var dl = document.getElementById('download');
+      dl.hidden = job.status !== 'DONE';
+      document.getElementById('downloadLink').href = API + '/' + encodeURIComponent(id) + '/result';
+      if (job.status === 'DONE') {
+        setStatus(job.message, 'ok');
+        Promise.all([
+          fetch(API + '/' + encodeURIComponent(id) + '/input').then(function (r) { return r.ok ? r.json() : null; }),
+          fetch(API + '/' + encodeURIComponent(id) + '/result').then(json)
+        ]).then(function (res) {
+          if (state.job !== id) return;
+          if (res[0]) renderInput(res[0]); else { inputLayer.clearLayers(); state.existingChambers = {}; }
+          state.result = res[1];
+          var total = res[0] ? res[0].features.filter(function (f) { return (f.properties || {}).object_type === 'oks_connection_point'; }).length : null;
+          if (!res[0]) setStatus(job.message + ' · входной файл больше 20 МБ — на карте показан только результат', 'ok');
+          if (total === 0) setStatus(job.message + ' — не прочитано ни одной точки подключения: проверьте СК (WGS 84) и порядок координат (долгота, широта)', 'bad');
+          renderVariants(total);
+        }).catch(function (e) { setStatus('Ошибка отображения: ' + e.message, 'bad'); });
+      } else if (job.status === 'FAILED') {
+        setStatus('Ошибка: ' + job.message, 'bad');
+      } else if (['UPLOADED', 'QUEUED', 'RUNNING'].indexOf(job.status) >= 0) {
+        setStatus('Статус: ' + job.status + '…');
+        state.timer = setTimeout(function () { openJob(id); }, 1000);
+      } else {
+        setStatus('Статус: ' + job.status, 'bad');
+      }
+    }).catch(function (e) { setStatus('Задание ' + id + ': ' + e.message, 'bad'); });
+  }
+
+  function loadJobs() {
+    fetch(API + '?limit=10').then(function (r) { return r.json(); }).then(function (list) {
+      var box = document.getElementById('jobs');
+      box.textContent = '';
+      if (!list.length) { box.textContent = 'Пока нет'; return; }
+      list.forEach(function (j) {
+        var b = el('button', (j.originalFilename || j.id) + ' · ' + j.status, 'secondary');
+        b.addEventListener('click', function () { openJob(j.id); });
+        box.appendChild(b);
+      });
+    });
+  }
+
+  document.getElementById('upload').addEventListener('click', function () {
+    var f = document.getElementById('file').files[0];
+    if (!f) { setStatus('Сначала выберите файл', 'bad'); return; }
+    var fd = new FormData();
+    fd.append('file', f);
+    setStatus('Загрузка ' + fmt(f.size / 1048576, 1) + ' МБ…');
+    var btn = document.getElementById('upload');
+    btn.disabled = true;
+    fetch(API, { method: 'POST', body: fd }).then(json).then(function (job) {
+      btn.disabled = false;
+      loadJobs();
+      openJob(job.id);
+    }).catch(function (e) { btn.disabled = false; setStatus('Ошибка загрузки: ' + e.message, 'bad'); });
+  });
+
+  loadJobs();
+  var q = new URLSearchParams(location.search).get('job');
+  if (q) openJob(q);
+})();
+</script>
+</body>
+</html>

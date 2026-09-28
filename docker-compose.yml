@@ -1,0 +1,42 @@
+# Рассчитан на docker-compose 1.29.2 (формат 3.8). Проверен `docker-compose config` 1.29.2; полный `up` — на стенде Ubuntu 22.
+# Все настройки можно переопределить переменными окружения или файлом .env рядом с этим файлом.
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: heatnet
+      POSTGRES_USER: heatnet
+      POSTGRES_PASSWORD: heatnet
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  app:
+    build: ./service
+    depends_on:
+      - db
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      DB_URL: jdbc:postgresql://db:5432/heatnet
+      DB_USER: heatnet
+      DB_PASSWORD: heatnet
+      # расчётов одновременно (остальные задания ждут в очереди, API отвечает)
+      COMPUTE_MAX_PARALLEL: "${COMPUTE_MAX_PARALLEL:-2}"
+      JAVA_OPTS: "${JAVA_OPTS:--XX:MaxRAMPercentage=75}"
+      # трактовка §2.2 (literal | exterior | relaxed), см. service/src/main/java/.../routing/TerminalPolicy.java
+      # literal — submission-safe default; relaxed is an explicitly disclosed alternative.
+      HEATNET_TERMINAL_POLICY: "${HEATNET_TERMINAL_POLICY:-literal}"
+      # true — выдавать третий вариант «каждая цель отдельно» (базовая линия для сравнения)
+      HEATNET_SEPARATE_VARIANT: "${HEATNET_SEPARATE_VARIANT:-false}"
+      HEATNET_ORDER_BUDGET_MS: "${HEATNET_ORDER_BUDGET_MS:-60000}"
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    volumes:
+      - app-data:/data
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  app-data:

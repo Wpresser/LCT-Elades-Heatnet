@@ -1,0 +1,945 @@
+{
+ "input": "C:\\Users\\i\\OneDrive\\Документы\\LCT_Task2_Codex_Lean\\LCT_FINAL_MERGE_WORK\\release\\task\\sources\\Датасет скорректированный.geojson",
+ "output": "results/final_strict.geojson",
+ "terminal_policy": "strict",
+ "errors": 0,
+ "ambiguous": 0,
+ "input_problems": 0,
+ "warnings": 6,
+ "variants": [
+  {
+   "variant_id": "v1",
+   "terminal": {
+    "16": {
+     "target": 16,
+     "own_oks": [
+      96
+     ],
+     "final_len_m": 9.905074250793241,
+     "inside_len_m": 2.1550742509280125,
+     "strict": true,
+     "strict_nearest_m": 2.1550742509280125,
+     "exterior": true,
+     "exterior_nearest_m": 2.1550742509280125,
+     "any": true
+    },
+    "4": {
+     "target": 4,
+     "own_oks": [
+      71
+     ],
+     "final_len_m": 10.586861520297578,
+     "inside_len_m": 4.586861519753697,
+     "strict": true,
+     "strict_nearest_m": 4.586861519775478,
+     "exterior": true,
+     "exterior_nearest_m": 4.586861519775478,
+     "any": true
+    },
+    "1": {
+     "target": 1,
+     "own_oks": [
+      75
+     ],
+     "final_len_m": 14.311169004169196,
+     "inside_len_m": 8.311169003854385,
+     "strict": true,
+     "strict_nearest_m": 8.311169003897941,
+     "exterior": true,
+     "exterior_nearest_m": 8.311169003897941,
+     "any": true
+    },
+    "11": {
+     "target": 11,
+     "own_oks": [
+      90
+     ],
+     "final_len_m": 12.2691307185486,
+     "inside_len_m": 6.269130718603466,
+     "strict": true,
+     "strict_nearest_m": 6.2691307184955125,
+     "exterior": true,
+     "exterior_nearest_m": 6.2691307184955125,
+     "any": true
+    },
+    "3": {
+     "target": 3,
+     "own_oks": [
+      74
+     ],
+     "final_len_m": 10.69805141583727,
+     "inside_len_m": 4.948051415546704,
+     "strict": true,
+     "strict_nearest_m": 4.94805141560068,
+     "exterior": true,
+     "exterior_nearest_m": 4.94805141560068,
+     "any": true
+    },
+    "8": {
+     "target": 8,
+     "own_oks": [
+      81
+     ],
+     "final_len_m": 9.02664681785377,
+     "inside_len_m": 2.52664681774065,
+     "strict": true,
+     "strict_nearest_m": 2.52664681774065,
+     "exterior": true,
+     "exterior_nearest_m": 2.52664681774065,
+     "any": true
+    },
+    "6": {
+     "target": 6,
+     "own_oks": [
+      82
+     ],
+     "final_len_m": 8.552022319683976,
+     "inside_len_m": 2.5520223191676927,
+     "strict": true,
+     "strict_nearest_m": 2.5520223191457316,
+     "exterior": true,
+     "exterior_nearest_m": 2.5520223191457316,
+     "any": true
+    },
+    "12": {
+     "target": 12,
+     "own_oks": [
+      92
+     ],
+     "final_len_m": 7.521366439111903,
+     "inside_len_m": 1.5213664387943227,
+     "strict": true,
+     "strict_nearest_m": 1.5213664389022805,
+     "exterior": true,
+     "exterior_nearest_m": 1.5213664389022805,
+     "any": true
+    },
+    "15": {
+     "target": 15,
+     "own_oks": [
+      92
+     ],
+     "final_len_m": 8.170406653858654,
+     "inside_len_m": 2.1704066543535006,
+     "strict": true,
+     "strict_nearest_m": 2.1704066540066607,
+     "exterior": true,
+     "exterior_nearest_m": 2.1704066540066607,
+     "any": true
+    },
+    "9": {
+     "target": 9,
+     "own_oks": [
+      87
+     ],
+     "final_len_m": 13.353166867367515,
+     "inside_len_m": 7.353166867504493,
+     "strict": true,
+     "strict_nearest_m": 7.353166867482783,
+     "exterior": true,
+     "exterior_nearest_m": 7.353166867482783,
+     "any": true
+    },
+    "13": {
+     "target": 13,
+     "own_oks": [
+      91
+     ],
+     "final_len_m": 9.21355948873445,
+     "inside_len_m": 3.2135594904889384,
+     "strict": true,
+     "strict_nearest_m": 3.213559490256963,
+     "exterior": true,
+     "exterior_nearest_m": 3.213559490256963,
+     "any": true
+    },
+    "14": {
+     "target": 14,
+     "own_oks": [
+      89
+     ],
+     "final_len_m": 6.057679557230093,
+     "inside_len_m": 0.05767955560545929,
+     "strict": true,
+     "strict_nearest_m": 0.057679555649094466,
+     "exterior": true,
+     "exterior_nearest_m": 0.057679555649094466,
+     "any": true
+    },
+    "7": {
+     "target": 7,
+     "own_oks": [
+      83
+     ],
+     "final_len_m": 11.19366736866653,
+     "inside_len_m": 5.193667368948671,
+     "strict": true,
+     "strict_nearest_m": 5.193667369035807,
+     "exterior": true,
+     "exterior_nearest_m": 5.193667369035807,
+     "any": true
+    },
+    "17": {
+     "target": 17,
+     "own_oks": [
+      97
+     ],
+     "final_len_m": 11.37451072713419,
+     "inside_len_m": 5.374510727692428,
+     "strict": true,
+     "strict_nearest_m": 5.374510727627411,
+     "exterior": true,
+     "exterior_nearest_m": 5.374510727627411,
+     "any": true
+    }
+   },
+   "chambers": [
+    {
+     "id": "v1_ch_1",
+     "role": "tie-in",
+     "degree": 1,
+     "existing_slots": 2,
+     "diameter": 400,
+     "cost": 5000000.0,
+     "dn_incl_existing": 400,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v1_ch_2",
+     "role": "tie-in",
+     "degree": 1,
+     "existing_slots": 2,
+     "diameter": 400,
+     "cost": 5000000.0,
+     "dn_incl_existing": 400,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 300,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v1_ch_3",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 300,
+     "cost": 5000000.0,
+     "dn_incl_existing": 300,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 300,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v1_ch_4",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 200,
+     "cost": 3000000.0,
+     "dn_incl_existing": 200,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v1_ch_5",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 200,
+     "cost": 3000000.0,
+     "dn_incl_existing": 200,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v1_ch_6",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 250,
+     "cost": 5000000.0,
+     "dn_incl_existing": 250,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 250,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v1_ch_7",
+     "role": "tie-in",
+     "degree": 1,
+     "existing_slots": 2,
+     "diameter": 400,
+     "cost": 5000000.0,
+     "dn_incl_existing": 400,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 125,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v1_ch_8",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 250,
+     "cost": 5000000.0,
+     "dn_incl_existing": 250,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 250,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v1_ch_9",
+     "role": "tie-in",
+     "degree": 1,
+     "existing_slots": 2,
+     "diameter": 400,
+     "cost": 5000000.0,
+     "dn_incl_existing": 400,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 100,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v1_ch_10",
+     "role": "branch",
+     "degree": 4,
+     "existing_slots": 0,
+     "diameter": 200,
+     "cost": 3000000.0,
+     "dn_incl_existing": 200,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v1_ch_12",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 125,
+     "cost": 3000000.0,
+     "dn_incl_existing": 125,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 125,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v1_ch_13",
+     "role": "branch",
+     "degree": 4,
+     "existing_slots": 0,
+     "diameter": 200,
+     "cost": 3000000.0,
+     "dn_incl_existing": 200,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    }
+   ],
+   "recomputed": {
+    "segment_cost_from_geometry": 179867239.78155026,
+    "segment_cost_from_properties": 179867239.7813864,
+    "chamber_construction_cost": 50000000.0,
+    "chamber_cost_from_properties": 50000000.0,
+    "existing_chamber_tie_in_count": 0,
+    "existing_chamber_tie_in_cost": 0,
+    "construction_cost": 229867239.78155026,
+    "unconnected_penalty": 338995000.0,
+    "calculated_cost": 568862239.7815503,
+    "new_network_length": 1553.6517006124884,
+    "score": 20.589097815720873,
+    "unconnected_oks_ids": [
+     2,
+     5,
+     10
+    ],
+    "connected": 14,
+    "targets": 17,
+    "new_chambers": 12,
+    "technical_nodes": 0,
+    "segments": 22,
+    "segments_special": 0,
+    "dn_histogram": {
+     "100": 5,
+     "125": 7,
+     "150": 1,
+     "200": 5,
+     "250": 2,
+     "300": 1,
+     "65": 1
+    }
+   },
+   "claimed": {
+    "rank": 1,
+    "construction_cost": 229867239.7813864,
+    "chamber_construction_cost": 50000000,
+    "existing_chamber_tie_in_count": 0,
+    "existing_chamber_tie_in_cost": 0.0,
+    "unconnected_penalty": 338995000,
+    "calculated_cost": 568862239.7813864,
+    "new_network_length": 1553.6517006113452,
+    "score": 20.589097815712854,
+    "unconnected_oks_ids": [
+     2,
+     5,
+     10
+    ]
+   },
+   "summary_minus_recomputed": {
+    "construction_cost": -0.00016385316848754883,
+    "chamber_construction_cost": 0.0,
+    "existing_chamber_tie_in_count": 0.0,
+    "existing_chamber_tie_in_cost": 0.0,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": -0.00016391277313232422,
+    "new_network_length": -1.1432348401285708e-09,
+    "score": -8.01847477305273e-12
+   },
+   "tightest_clearances": [
+    {
+     "margin_m": 0.0677,
+     "segment": "\"v1_net_35\"",
+     "type": "oks",
+     "restriction": "76"
+    },
+    {
+     "margin_m": 0.2275,
+     "segment": "\"v1_net_16\"",
+     "type": "oks",
+     "restriction": "77"
+    },
+    {
+     "margin_m": 0.2276,
+     "segment": "\"v1_net_16\"",
+     "type": "oks",
+     "restriction": "71"
+    },
+    {
+     "margin_m": 0.2276,
+     "segment": "\"v1_net_17\"",
+     "type": "oks",
+     "restriction": "75"
+    },
+    {
+     "margin_m": 0.3126,
+     "segment": "\"v1_net_13\"",
+     "type": "oks",
+     "restriction": "75"
+    },
+    {
+     "margin_m": 0.3126,
+     "segment": "\"v1_net_34\"",
+     "type": "oks",
+     "restriction": "75"
+    },
+    {
+     "margin_m": 0.3148,
+     "segment": "\"v1_net_9\"",
+     "type": "oks",
+     "restriction": "91"
+    },
+    {
+     "margin_m": 0.3696,
+     "segment": "\"v1_net_3\"",
+     "type": "oks",
+     "restriction": "83"
+    },
+    {
+     "margin_m": 0.425,
+     "segment": "\"v1_net_3\"",
+     "type": "oks",
+     "restriction": "71"
+    },
+    {
+     "margin_m": 0.4298,
+     "segment": "\"v1_net_11\"",
+     "type": "oks",
+     "restriction": "89"
+    }
+   ]
+  },
+  {
+   "variant_id": "v2",
+   "terminal": {
+    "16": {
+     "target": 16,
+     "own_oks": [
+      96
+     ],
+     "final_len_m": 9.905074250793241,
+     "inside_len_m": 2.1550742509280125,
+     "strict": true,
+     "strict_nearest_m": 2.1550742509280125,
+     "exterior": true,
+     "exterior_nearest_m": 2.1550742509280125,
+     "any": true
+    },
+    "7": {
+     "target": 7,
+     "own_oks": [
+      83
+     ],
+     "final_len_m": 11.19366736866653,
+     "inside_len_m": 5.193667368948671,
+     "strict": true,
+     "strict_nearest_m": 5.193667369035807,
+     "exterior": true,
+     "exterior_nearest_m": 5.193667369035807,
+     "any": true
+    },
+    "17": {
+     "target": 17,
+     "own_oks": [
+      97
+     ],
+     "final_len_m": 11.37451072713419,
+     "inside_len_m": 5.374510727692428,
+     "strict": true,
+     "strict_nearest_m": 5.374510727627411,
+     "exterior": true,
+     "exterior_nearest_m": 5.374510727627411,
+     "any": true
+    },
+    "9": {
+     "target": 9,
+     "own_oks": [
+      87
+     ],
+     "final_len_m": 13.353166867367515,
+     "inside_len_m": 7.353166867504493,
+     "strict": true,
+     "strict_nearest_m": 7.353166867482783,
+     "exterior": true,
+     "exterior_nearest_m": 7.353166867482783,
+     "any": true
+    },
+    "14": {
+     "target": 14,
+     "own_oks": [
+      89
+     ],
+     "final_len_m": 6.057679557230093,
+     "inside_len_m": 0.05767955560545929,
+     "strict": true,
+     "strict_nearest_m": 0.057679555649094466,
+     "exterior": true,
+     "exterior_nearest_m": 0.057679555649094466,
+     "any": true
+    },
+    "13": {
+     "target": 13,
+     "own_oks": [
+      91
+     ],
+     "final_len_m": 9.21355948873445,
+     "inside_len_m": 3.2135594904889384,
+     "strict": true,
+     "strict_nearest_m": 3.213559490256963,
+     "exterior": true,
+     "exterior_nearest_m": 3.213559490256963,
+     "any": true
+    },
+    "15": {
+     "target": 15,
+     "own_oks": [
+      92
+     ],
+     "final_len_m": 8.170406653858654,
+     "inside_len_m": 2.1704066543535006,
+     "strict": true,
+     "strict_nearest_m": 2.1704066540066607,
+     "exterior": true,
+     "exterior_nearest_m": 2.1704066540066607,
+     "any": true
+    },
+    "12": {
+     "target": 12,
+     "own_oks": [
+      92
+     ],
+     "final_len_m": 7.521366439111903,
+     "inside_len_m": 1.5213664387943227,
+     "strict": true,
+     "strict_nearest_m": 1.5213664389022805,
+     "exterior": true,
+     "exterior_nearest_m": 1.5213664389022805,
+     "any": true
+    },
+    "11": {
+     "target": 11,
+     "own_oks": [
+      90
+     ],
+     "final_len_m": 12.2691307185486,
+     "inside_len_m": 6.269130718603466,
+     "strict": true,
+     "strict_nearest_m": 6.2691307184955125,
+     "exterior": true,
+     "exterior_nearest_m": 6.2691307184955125,
+     "any": true
+    },
+    "3": {
+     "target": 3,
+     "own_oks": [
+      74
+     ],
+     "final_len_m": 10.69805141583727,
+     "inside_len_m": 4.948051415546704,
+     "strict": true,
+     "strict_nearest_m": 4.94805141560068,
+     "exterior": true,
+     "exterior_nearest_m": 4.94805141560068,
+     "any": true
+    },
+    "1": {
+     "target": 1,
+     "own_oks": [
+      75
+     ],
+     "final_len_m": 14.311169004169196,
+     "inside_len_m": 8.311169003854385,
+     "strict": true,
+     "strict_nearest_m": 8.311169003897941,
+     "exterior": true,
+     "exterior_nearest_m": 8.311169003897941,
+     "any": true
+    },
+    "4": {
+     "target": 4,
+     "own_oks": [
+      71
+     ],
+     "final_len_m": 10.586861520297578,
+     "inside_len_m": 4.586861519753697,
+     "strict": true,
+     "strict_nearest_m": 4.586861519775478,
+     "exterior": true,
+     "exterior_nearest_m": 4.586861519775478,
+     "any": true
+    },
+    "6": {
+     "target": 6,
+     "own_oks": [
+      82
+     ],
+     "final_len_m": 8.552022319683976,
+     "inside_len_m": 2.5520223191676927,
+     "strict": true,
+     "strict_nearest_m": 2.5520223191457316,
+     "exterior": true,
+     "exterior_nearest_m": 2.5520223191457316,
+     "any": true
+    },
+    "8": {
+     "target": 8,
+     "own_oks": [
+      81
+     ],
+     "final_len_m": 9.02664681785377,
+     "inside_len_m": 2.52664681774065,
+     "strict": true,
+     "strict_nearest_m": 2.52664681774065,
+     "exterior": true,
+     "exterior_nearest_m": 2.52664681774065,
+     "any": true
+    }
+   },
+   "chambers": [
+    {
+     "id": "v2_ch_1",
+     "role": "tie-in",
+     "degree": 2,
+     "existing_slots": 2,
+     "diameter": 400,
+     "cost": 5000000.0,
+     "dn_incl_existing": 400,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 300,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v2_ch_3",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 300,
+     "cost": 5000000.0,
+     "dn_incl_existing": 300,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 300,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v2_ch_4",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 300,
+     "cost": 5000000.0,
+     "dn_incl_existing": 300,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 300,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v2_ch_5",
+     "role": "branch",
+     "degree": 4,
+     "existing_slots": 0,
+     "diameter": 250,
+     "cost": 5000000.0,
+     "dn_incl_existing": 250,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 250,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v2_ch_7",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 250,
+     "cost": 5000000.0,
+     "dn_incl_existing": 250,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 250,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v2_ch_8",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 250,
+     "cost": 5000000.0,
+     "dn_incl_existing": 250,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 250,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v2_ch_9",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 200,
+     "cost": 3000000.0,
+     "dn_incl_existing": 200,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v2_ch_10",
+     "role": "branch",
+     "degree": 4,
+     "existing_slots": 0,
+     "diameter": 200,
+     "cost": 3000000.0,
+     "dn_incl_existing": 200,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v2_ch_11",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 125,
+     "cost": 3000000.0,
+     "dn_incl_existing": 125,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 125,
+     "cost_new_only": 3000000
+    },
+    {
+     "id": "v2_ch_12",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 300,
+     "cost": 5000000.0,
+     "dn_incl_existing": 300,
+     "cost_incl_existing": 5000000,
+     "dn_new_only": 300,
+     "cost_new_only": 5000000
+    },
+    {
+     "id": "v2_ch_13",
+     "role": "branch",
+     "degree": 3,
+     "existing_slots": 0,
+     "diameter": 200,
+     "cost": 3000000.0,
+     "dn_incl_existing": 200,
+     "cost_incl_existing": 3000000,
+     "dn_new_only": 200,
+     "cost_new_only": 3000000
+    }
+   ],
+   "recomputed": {
+    "segment_cost_from_geometry": 209423295.95960376,
+    "segment_cost_from_properties": 209423295.95944566,
+    "chamber_construction_cost": 47000000.0,
+    "chamber_cost_from_properties": 47000000.0,
+    "existing_chamber_tie_in_count": 0,
+    "existing_chamber_tie_in_cost": 0,
+    "construction_cost": 256423295.95960376,
+    "unconnected_penalty": 338995000.0,
+    "calculated_cost": 595418295.9596038,
+    "new_network_length": 1805.6816029851282,
+    "score": 22.08875709582429,
+    "unconnected_oks_ids": [
+     2,
+     5,
+     10
+    ],
+    "connected": 14,
+    "targets": 17,
+    "new_chambers": 11,
+    "technical_nodes": 2,
+    "segments": 26,
+    "segments_special": 1,
+    "dn_histogram": {
+     "100": 7,
+     "125": 7,
+     "150": 1,
+     "200": 4,
+     "250": 3,
+     "300": 3,
+     "65": 1
+    }
+   },
+   "claimed": {
+    "rank": 2,
+    "construction_cost": 256423295.95944566,
+    "chamber_construction_cost": 47000000,
+    "existing_chamber_tie_in_count": 0,
+    "existing_chamber_tie_in_cost": 0.0,
+    "unconnected_penalty": 338995000,
+    "calculated_cost": 595418295.9594457,
+    "new_network_length": 1805.6816029830904,
+    "score": 22.08875709581375,
+    "unconnected_oks_ids": [
+     2,
+     5,
+     10
+    ]
+   },
+   "summary_minus_recomputed": {
+    "construction_cost": -0.00015810132026672363,
+    "chamber_construction_cost": 0.0,
+    "existing_chamber_tie_in_count": 0.0,
+    "existing_chamber_tie_in_cost": 0.0,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": -0.00015807151794433594,
+    "new_network_length": -2.0377228793222457e-09,
+    "score": -1.0537348771322286e-11
+   },
+   "tightest_clearances": [
+    {
+     "margin_m": 0.0677,
+     "segment": "\"v2_net_44\"",
+     "type": "oks",
+     "restriction": "76"
+    },
+    {
+     "margin_m": 0.1776,
+     "segment": "\"v2_net_37\"",
+     "type": "oks",
+     "restriction": "105"
+    },
+    {
+     "margin_m": 0.1784,
+     "segment": "\"v2_net_37\"",
+     "type": "oks",
+     "restriction": "88"
+    },
+    {
+     "margin_m": 0.2298,
+     "segment": "\"v2_net_23\"",
+     "type": "oks",
+     "restriction": "91"
+    },
+    {
+     "margin_m": 0.3126,
+     "segment": "\"v2_net_26\"",
+     "type": "oks",
+     "restriction": "90"
+    },
+    {
+     "margin_m": 0.3126,
+     "segment": "\"v2_net_45\"",
+     "type": "oks",
+     "restriction": "74"
+    },
+    {
+     "margin_m": 0.3127,
+     "segment": "\"v2_net_26\"",
+     "type": "oks",
+     "restriction": "92"
+    },
+    {
+     "margin_m": 0.425,
+     "segment": "\"v2_net_36\"",
+     "type": "oks",
+     "restriction": "83"
+    },
+    {
+     "margin_m": 0.425,
+     "segment": "\"v2_net_6\"",
+     "type": "oks",
+     "restriction": "83"
+    },
+    {
+     "margin_m": 0.425,
+     "segment": "\"v2_net_37\"",
+     "type": "oks",
+     "restriction": "87"
+    }
+   ]
+  }
+ ],
+ "items": [
+  {
+   "level": "WARNING",
+   "code": "ZIGZAG",
+   "message": "heat_network \"v1_net_11\": 13.9 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
+   "variant": "v1"
+  },
+  {
+   "level": "WARNING",
+   "code": "ZIGZAG",
+   "message": "heat_network \"v1_net_11\": 7.4 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
+   "variant": "v1"
+  },
+  {
+   "level": "WARNING",
+   "code": "ZIGZAG",
+   "message": "heat_network \"v2_net_21\": 13.9 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
+   "variant": "v2"
+  },
+  {
+   "level": "WARNING",
+   "code": "ZIGZAG",
+   "message": "heat_network \"v2_net_21\": 7.4 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
+   "variant": "v2"
+  },
+  {
+   "level": "WARNING",
+   "code": "ZIGZAG",
+   "message": "heat_network \"v2_net_35\": 23.1 deg turn next to a 0.82 m sub-segment (possible unjustified small break)",
+   "variant": "v2"
+  },
+  {
+   "level": "WARNING",
+   "code": "ZIGZAG",
+   "message": "heat_network \"v2_net_35\": 52.0 deg turn next to a 0.82 m sub-segment (possible unjustified small break)",
+   "variant": "v2"
+  }
+ ]
+}

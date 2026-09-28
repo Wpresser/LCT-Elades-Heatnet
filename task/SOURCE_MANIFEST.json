@@ -1,0 +1,37 @@
+{
+  "task": "LCT 2026 case 2",
+  "files": [
+    {
+      "file": "sources/2. ДИТ.pdf",
+      "bytes": 2333961,
+      "sha256": "71cffe6e4b799b311289f125b4e349e155be232b119f568ecbbdbdc0ce914774",
+      "source_url": "https://mostech-cloud.mos.ru/s/yiFaPesTNnj3fFx",
+      "retrieved_date": "2026-09-23",
+      "status": "Original bytes preserved; explicit revision number not established"
+    },
+    {
+      "file": "sources/Датасет скорректированный.geojson",
+      "bytes": 633402,
+      "sha256": "cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4befe87f2a21914130",
+      "source_url": "https://mostech-cloud.mos.ru/s/yiFaPesTNnj3fFx",
+      "retrieved_date": "2026-09-23",
+      "status": "Original bytes preserved; explicit revision number not established"
+    },
+    {
+      "file": "sources/Разъяснения по вопросам ЛЦТ.docx",
+      "bytes": 24368,
+      "sha256": "4ae183a3e086cd7c8853bec2f1706ab2ef91f62d46cdbdccbc98e8eb4ef1e079",
+      "source_url": "https://mostech-cloud.mos.ru/s/yiFaPesTNnj3fFx",
+      "retrieved_date": "2026-09-23",
+      "status": "Original bytes preserved; explicit revision number not established"
+    },
+    {
+      "file": "sources/Техническое  приложение ЛЦТ.docx",
+      "bytes": 43727,
+      "sha256": "c757f68dcf58f23abd18cb9217cd65107102bd53653a7485041d4363e54b71d6",
+      "source_url": "https://mostech-cloud.mos.ru/s/yiFaPesTNnj3fFx",
+      "retrieved_date": "2026-09-23",
+      "status": "Original bytes preserved; explicit revision number not established"
+    }
+  ]
+}

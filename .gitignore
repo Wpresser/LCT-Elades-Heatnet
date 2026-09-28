@@ -1,0 +1,20 @@
+# build
+service/target/
+service/data/
+*.class
+*.log
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# runtime data / outputs
+data/
+out/
+validator/out/
+
+# os / ide
+.DS_Store
+.idea/
+.vscode/

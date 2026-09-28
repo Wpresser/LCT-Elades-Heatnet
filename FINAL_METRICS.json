@@ -1,0 +1,38 @@
+{
+  "dataset_sha256": "cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130",
+  "strict": {
+    "policy": "literal",
+    "coverage": "14/17",
+    "construction_cost": 568862239.7813864,
+    "calculated_cost": 568862239.7813864,
+    "length_m": 1553.6517006113452,
+    "score": 20.589097815712854,
+    "unconnected_ids": [2, 5, 10],
+    "validation": "PASS",
+    "audit_errors": 0,
+    "sha256": "f2dbbf86f1d669a8dd30b44d3de63c573bfe9c1bfbb43b02e118998535b17070",
+    "variants": {
+      "v1": {"coverage": "14/17", "calculated_cost": 568862239.7813864, "length_m": 1553.6517006113452, "score": 20.589097815712854},
+      "v2": {"coverage": "14/17", "calculated_cost": 595418295.9594457, "length_m": 1805.6816029830904, "score": 22.08875709581375}
+    }
+  },
+  "alternative": {
+    "policy": "relaxed",
+    "coverage": "17/17",
+    "construction_cost": 271516096.5294552,
+    "calculated_cost": 271516096.5294552,
+    "length_m": 1824.6731652331825,
+    "score": 13.07647019852429,
+    "unconnected_ids": [],
+    "validation": "PASS_WITH_DISCLOSED_AMBIGUITIES",
+    "audit_errors": 0,
+    "audit_ambiguous": 6,
+    "sha256": "150743451942d7ed895158905de2da815c04c2eb95339f49da5ef3a8cd1b0d80",
+    "variants": {
+      "v1": {"coverage": "17/17", "calculated_cost": 271516096.5294552, "length_m": 1824.6731652331825, "score": 13.07647019852429},
+      "v2": {"coverage": "17/17", "calculated_cost": 289678319.56243277, "length_m": 2078.298335062663, "score": 14.345887952936106}
+    }
+  },
+  "default_policy": "strict",
+  "official_clarification_received": false
+}

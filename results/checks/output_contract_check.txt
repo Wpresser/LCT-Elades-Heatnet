@@ -1,0 +1,6 @@
+NOTE  CRS        no crs member (RFC7946 default WGS84 lon/lat) — acceptable
+NOTE  EXTRA      heat_network: extra properties {'diag_dn_by_flow': 60, 'diag_k_spec': 1, 'diag_crossing': 1} (allowed by §7 but visible)
+NOTE  EXTRA      heat_chamber: extra properties {'diag_tie_in': 29} (allowed by §7 but visible)
+NOTE  EXTRA      variant_summary: extra properties {'diag_relaxed_final_approach': 2, 'diag_unconnected_reasons': 2, 'diag_terminal_policy': 2, 'diag_description': 2, 'diag_search_truncated': 2} (allowed by §7 but visible)
+WARN  MICRO      v2_net_55 sub-segment 3.4 cm at vertex 0
+TOTAL Counter({'NOTE': 4, 'WARN': 1})

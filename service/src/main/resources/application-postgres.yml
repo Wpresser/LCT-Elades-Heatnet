@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://db:5432/heatnet}
+    username: ${DB_USER:heatnet}
+    password: ${DB_PASSWORD:heatnet}
+    hikari:
+      maximum-pool-size: 5
+      # не падать при старте, если БД ещё поднимается; таблицу создаём с повторами
+      initialization-fail-timeout: -1

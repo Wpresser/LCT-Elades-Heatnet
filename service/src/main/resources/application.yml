@@ -1,0 +1,37 @@
+server:
+  port: ${PORT:8080}
+  tomcat:
+    # не рвать соединение, если загрузка отклонена по размеру
+    max-swallow-size: -1
+
+spring:
+  application:
+    name: heatnet-service
+  servlet:
+    multipart:
+      enabled: true
+      # вход до 3 ГБ по ТЗ + запас на заголовки multipart
+      max-file-size: 3200MB
+      max-request-size: 3200MB
+      # всё крупнее 1 МБ Tomcat сразу пишет на диск; каталог задаётся абсолютным путём
+      # через SPRING_SERVLET_MULTIPART_LOCATION (в docker — /data/upload-tmp), иначе — временный каталог Tomcat
+      file-size-threshold: 1MB
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  storage:
+    dir: ${STORAGE_DIR:./data}
+  compute:
+    max-parallel: ${COMPUTE_MAX_PARALLEL:1}
+    queue-capacity: 100
+  limits:
+    max-core-objects: 500000
+    max-restrictions: 2000000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
