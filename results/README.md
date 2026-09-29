@@ -1,6 +1,6 @@
 # Финальные результаты
 
-Оба результата получены на исправленном конкурсном наборе `task/sources/Датасет скорректированный.geojson` (SHA-256 `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`).
+Оба результата получены на исправленном конкурсном наборе `task/sources/Датасет скорректированный.geojson` (SHA-256 `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4befe87f2a21914130`).
 
 | Файл | Трактовка | v1 | v2 | SHA-256 |
 |---|---|---|---|---|
@@ -16,3 +16,11 @@ python results/tools/lct_audit.py --input "task/sources/Датасет скор�
 python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_alternative.geojson --terminal-policy any
 python results/tools/output_contract_check.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
 ```
+
+Здесь C обозначает `calculated_cost`, то есть строительство плюс штраф. Strict v1:
+`construction_cost = 229867239.7813864`, `unconnected_penalty = 338995000`,
+`calculated_cost = 568862239.7813864`. Все компоненты и ranked variants — в `../FINAL_METRICS.json`.
+
+Актуальные отдельные проверки strict/alternative и browser evidence — `checks/release/`.
+`checks/validator_result_2d_competition.txt` и `checks/output_contract_check.txt` — ранее сохранённые
+проверки alternative, не доказательство strict. Реальное production API воспроизводится `../scripts/api_e2e.py`.

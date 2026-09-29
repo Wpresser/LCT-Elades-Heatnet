@@ -1,10 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import maplibregl, { Map, MapMouseEvent } from 'maplibre-gl'
+import * as maplibregl from 'maplibre-gl'
+import { Map, MapMouseEvent } from 'maplibre-gl'
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './styles.css'
-import { adaptScene, asGeoJSON, Collection, Diagnostic, Feature, featureId, ProofRecord, SceneData } from './data'
+import { adaptScene, asGeoJSON, Collection, Diagnostic, Feature, featureId, ProofRecord, SceneData, unconnectedInfo } from './data'
 import { policyCopy, Policy, variantCollection } from './policy'
+
+maplibregl.setWorkerUrl(workerUrl)
 
 type LayerKey = 'existingNetwork' | 'newNetwork' | 'existingChambers' | 'newChambers' | 'consumers' | 'oks' | 'restrictions' | 'source' | 'flow' | 'shared' | 'labels'
 type Layers = Record<LayerKey, boolean>
@@ -28,12 +32,14 @@ const humanChamber = (value: unknown) => value === 'tie-in' ? 'Новая кам
 const humanStatus = (value: unknown) => value === 'connected' ? 'Подключён' : value === 'unconnected' ? 'Не подключён' : 'Статус не определён'
 
 async function fetchJson<T>(url: string, optional = false): Promise<T | null> {
-  const response = await fetch(url)
-  if (!response.ok) {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(`${url} ${response.status}`)
+    return await response.json() as T
+  } catch (error) {
     if (optional) return null
-    throw new Error(`${url} ${response.status}`)
+    throw error
   }
-  return response.json() as Promise<T>
 }
 
 const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
@@ -108,9 +114,12 @@ function App() {
       fetchJson<Collection>(assetPath('/data/input.geojson')),
     ]).then(async ([strict, alternative, input]) => {
       if (!strict || !alternative || !input) throw new Error('Не удалось загрузить основные данные')
-      const proof = (await fetchJson<ProofRecord[]>(assetPath('/data/proof.json'), true)) ?? []
+      const manifest = await fetchJson<{ optional: string[] }>(assetPath('/data/manifest.json'))
+      const available = new Set(manifest?.optional ?? [])
+      const rawProof = available.has('proof.json') ? await fetchJson<ProofRecord[]>(assetPath('/data/proof.json'), true) : []
+      const proof = Array.isArray(rawProof) ? rawProof.filter(record => record && ['string', 'number'].includes(typeof record.target_id)) : []
       const visualEntries = await Promise.all(proof.map(async record => {
-        if (!record.visual_geojson) return [record.visual_geojson ?? '', null] as const
+        if (!record.visual_geojson || !available.has(record.visual_geojson)) return [record.visual_geojson ?? '', null] as const
         return [record.visual_geojson, await fetchJson<Collection>(assetPath(`/data/${record.visual_geojson}`), true)] as const
       }))
       const visuals: Record<string, Collection | null> = Object.fromEntries(visualEntries)
@@ -155,12 +164,12 @@ function App() {
       container: nodeRef.current, center: [37.62, 55.75], zoom: 13, pitch: 48, bearing: -15,
       style: {
         version: 8,
-        glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
         sources: {},
         layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#141413' } }],
       },
     })
     mapRef.current = map
+    map.on('error', event => console.error('MapLibre:', event.error))
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right')
     map.on('load', () => {
       const { output } = sourceData(data)
@@ -175,17 +184,17 @@ function App() {
       map.addLayer({ id: 'new-glow', type: 'line', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_network'], paint: { 'line-color': '#9eb8ea', 'line-opacity': 0.13, 'line-blur': 5, 'line-width': ['interpolate', ['linear'], ['get', 'diameter'], 50, 5, 200, 10, 800, 17] } })
       map.addLayer({ id: 'new-network', type: 'line', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_network'], paint: { 'line-color': ['match', ['get', 'diameter'], 65, '#8fd3d1', 100, '#8fb7e8', 125, '#b9a0e8', 150, '#e4be7c', 200, '#df8c78', '#9eb8ea'], 'line-opacity': 0.96, 'line-width': ['interpolate', ['linear'], ['get', 'diameter'], 50, 1.8, 200, 4.5, 800, 8], 'line-offset': 0 } })
       map.addLayer({ id: 'flow-network', type: 'line', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_network'], layout: { visibility: 'none' }, paint: { 'line-color': ['interpolate', ['linear'], ['to-number', ['get', 'flow_tph']], 0, '#8fb7e8', 30, '#e4be7c', 60, '#d97757', 100, '#fff0d2'], 'line-opacity': 0.92, 'line-blur': 0.35, 'line-width': ['interpolate', ['linear'], ['to-number', ['get', 'flow_tph']], 0, 2.4, 30, 3.8, 60, 5.6, 100, 8] } })
-      map.addLayer({ id: 'flow-arrows', type: 'symbol', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_network'], layout: { visibility: 'none', 'symbol-placement': 'line', 'symbol-spacing': 86, 'text-field': '›', 'text-size': 17, 'text-font': ['Open Sans Regular'], 'text-keep-upright': false, 'text-allow-overlap': true, 'text-ignore-placement': true }, paint: { 'text-color': '#fff0d2', 'text-halo-color': '#141413', 'text-halo-width': 1.3, 'text-opacity': 0.94 } })
-      map.addLayer({ id: 'flow-labels', type: 'symbol', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_network'], layout: { visibility: 'none', 'symbol-placement': 'line', 'symbol-spacing': 260, 'text-field': ['concat', 'ДУ ', ['to-string', ['get', 'diameter']], ' · ', ['to-string', ['get', 'flow_tph']], ' т/ч'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-allow-overlap': false, 'text-ignore-placement': false }, paint: { 'text-color': '#fff0d2', 'text-halo-color': '#141413', 'text-halo-width': 1.5, 'text-opacity': 0.96 } })
+      map.addLayer({ id: 'flow-arrows', type: 'symbol', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_network'], layout: { visibility: 'none', 'symbol-placement': 'line', 'symbol-spacing': 86, 'text-field': '›', 'text-size': 17, 'text-font': ['Arial', 'sans-serif'], 'text-keep-upright': false, 'text-allow-overlap': true, 'text-ignore-placement': true }, paint: { 'text-color': '#fff0d2', 'text-halo-color': '#141413', 'text-halo-width': 1.3, 'text-opacity': 0.94 } })
+      map.addLayer({ id: 'flow-labels', type: 'symbol', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_network'], layout: { visibility: 'none', 'symbol-placement': 'line', 'symbol-spacing': 260, 'text-field': ['concat', 'ДУ ', ['to-string', ['get', 'diameter']], ' · ', ['to-string', ['get', 'flow_tph']], ' т/ч'], 'text-size': 10, 'text-font': ['Arial', 'sans-serif'], 'text-allow-overlap': false, 'text-ignore-placement': false }, paint: { 'text-color': '#fff0d2', 'text-halo-color': '#141413', 'text-halo-width': 1.5, 'text-opacity': 0.96 } })
       map.addLayer({ id: 'shared-network', type: 'line', source: 'output', filter: ['in', ['get', 'id'], ['literal', data.sharedRawIds]], layout: { visibility: 'none' }, paint: { 'line-color': '#faf9f5', 'line-opacity': 0.96, 'line-width': 3.5, 'line-dasharray': [1, 1] } })
       map.addLayer({ id: 'existing-chambers', type: 'circle', source: 'input', filter: ['==', ['get', 'object_type'], 'heat_chamber'], paint: { 'circle-color': '#87867f', 'circle-radius': 5, 'circle-stroke-color': '#e3dacc', 'circle-stroke-width': 1.4 } })
       map.addLayer({ id: 'new-chambers', type: 'circle', source: 'output', filter: ['==', ['get', 'object_type'], 'heat_chamber'], paint: { 'circle-color': '#d97757', 'circle-radius': 7, 'circle-stroke-color': '#faf9f5', 'circle-stroke-width': 2 } })
       map.addLayer({ id: 'consumers', type: 'circle', source: 'input', filter: ['==', ['get', 'object_type'], 'oks_connection_point'], paint: { 'circle-color': '#faf9f5', 'circle-radius': 5, 'circle-stroke-color': '#141413', 'circle-stroke-width': 1.2 } })
       map.addLayer({ id: 'source', type: 'circle', source: 'input', filter: ['==', ['get', 'object_type'], 'source'], paint: { 'circle-color': '#e3dacc', 'circle-radius': 8, 'circle-stroke-color': '#141413', 'circle-stroke-width': 2 } })
       map.addLayer({ id: 'unconnected-consumers', type: 'circle', source: 'input', filter: ['all', ['==', ['get', 'object_type'], 'oks_connection_point'], ['==', ['get', 'status'], 'unconnected']], paint: { 'circle-color': '#d97757', 'circle-radius': 7, 'circle-opacity': 0.96, 'circle-stroke-color': '#faf9f5', 'circle-stroke-width': 2 } })
-      map.addLayer({ id: 'source-labels', type: 'symbol', source: 'labels', filter: ['==', ['get', 'labelKind'], 'source'], layout: { visibility: 'none', 'text-field': ['get', 'label'], 'text-size': 13, 'text-offset': [0, 1.25], 'text-anchor': 'top', 'text-font': ['Open Sans Regular'] }, paint: { 'text-color': '#faf9f5', 'text-halo-color': '#141413', 'text-halo-width': 1.5 } })
-      map.addLayer({ id: 'point-labels', type: 'symbol', source: 'labels', filter: ['in', ['get', 'labelKind'], ['literal', ['existing_chamber', 'new_chamber', 'consumer']]], layout: { visibility: 'none', 'text-field': ['get', 'label'], 'text-size': 11, 'text-offset': [0, 1.25], 'text-anchor': 'top', 'text-font': ['Open Sans Regular'], 'text-allow-overlap': false }, paint: { 'text-color': '#e3dacc', 'text-halo-color': '#141413', 'text-halo-width': 1.2 } })
-      map.addLayer({ id: 'network-labels', type: 'symbol', source: 'labels', filter: ['==', ['get', 'labelKind'], 'network'], layout: { visibility: 'none', 'symbol-placement': 'line', 'text-field': ['get', 'label'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-allow-overlap': false, 'symbol-spacing': 250 }, paint: { 'text-color': '#faf9f5', 'text-halo-color': '#141413', 'text-halo-width': 1.2 } })
+      map.addLayer({ id: 'source-labels', type: 'symbol', source: 'labels', filter: ['==', ['get', 'labelKind'], 'source'], layout: { visibility: 'none', 'text-field': ['get', 'label'], 'text-size': 13, 'text-offset': [0, 1.25], 'text-anchor': 'top', 'text-font': ['Arial', 'sans-serif'] }, paint: { 'text-color': '#faf9f5', 'text-halo-color': '#141413', 'text-halo-width': 1.5 } })
+      map.addLayer({ id: 'point-labels', type: 'symbol', source: 'labels', filter: ['in', ['get', 'labelKind'], ['literal', ['existing_chamber', 'new_chamber', 'consumer']]], layout: { visibility: 'none', 'text-field': ['get', 'label'], 'text-size': 11, 'text-offset': [0, 1.25], 'text-anchor': 'top', 'text-font': ['Arial', 'sans-serif'], 'text-allow-overlap': false }, paint: { 'text-color': '#e3dacc', 'text-halo-color': '#141413', 'text-halo-width': 1.2 } })
+      map.addLayer({ id: 'network-labels', type: 'symbol', source: 'labels', filter: ['==', ['get', 'labelKind'], 'network'], layout: { visibility: 'none', 'symbol-placement': 'line', 'text-field': ['get', 'label'], 'text-size': 10, 'text-font': ['Arial', 'sans-serif'], 'text-allow-overlap': false, 'symbol-spacing': 250 }, paint: { 'text-color': '#faf9f5', 'text-halo-color': '#141413', 'text-halo-width': 1.2 } })
       map.on('click', (event: MapMouseEvent) => {
         const hits = map.queryRenderedFeatures(event.point, { layers: ['new-network', 'existing-network', 'new-chambers', 'existing-chambers', 'unconnected-consumers', 'consumers', 'source', 'restriction-line'] })
         if (hits[0]) {
@@ -261,16 +270,14 @@ function App() {
   if (error || !data) return <div className="loading-screen"><strong>Не удалось загрузить сцену</strong><span>{error}</span></div>
 
   const p = selected?.properties ?? {}
-  const inputTargetIds = new Set(data.input.features.filter(f => f.properties?.object_type === 'oks_connection_point').map(f => idKey(f.properties.id)))
-  const visibleOutput = data.optimized
-  const connectedIds = new Set(visibleOutput.features.filter(f => f.properties?.object_type === 'heat_network').map(f => idKey(f.properties?.end_node_id)).filter(id => inputTargetIds.has(id)))
   const selectedIsNewChamber = selected?.properties?.object_type === 'heat_chamber' && data.newChamberIds.has(featureId(selected))
   const selectedIsExistingChamber = selected?.properties?.object_type === 'heat_chamber' && data.existingChamberIds.has(featureId(selected))
   const chamberKind = selectedIsNewChamber ? data.newChamberKinds.get(featureId(selected)) : undefined
   const chamberStat = selected?.properties?.object_type === 'heat_chamber' ? data.chamberStats.get(featureId(selected)) : undefined
   const segmentStat = selected?.properties?.object_type === 'heat_network' ? data.segmentStats.get(featureId(selected)) : undefined
   const selectedDiagnostic = selected?.properties?.object_type === 'oks_connection_point' ? data.diagnostics.get(featureId(selected)) : undefined
-  const selectedIsUnconnected = selected?.properties?.object_type === 'oks_connection_point' && !connectedIds.has(featureId(selected))
+  const selectedUnconnected = selected?.properties?.object_type === 'oks_connection_point' ? unconnectedInfo(data.summary, p.id) : null
+  const selectedIsUnconnected = selectedUnconnected !== null
   const restrictionTypes = data.inputSummary.restrictionTypes
   const setLayer = (key: LayerKey, value: boolean) => setLayers(current => ({ ...current, [key]: value }))
   const hoveredProperties = hovered?.properties ?? {}
@@ -339,7 +346,7 @@ function App() {
         <div className="compare"><span>Вариант v2 того же policy</span><b>S {fmtNum(baselineScore, 3)} · {fmtNum(baselineLength / 1000, 3)} км</b><span>Показанный вариант</span><b>S {fmtNum(metrics.score, 3)} · {fmtNum(metrics.length / 1000, 3)} км</b><em>−{fmtNum(scoreImprovement, 1)}% оценки · −{fmtNum(lengthReduction, 3)} км</em></div>
       </>}
     </aside>
-    {selectedIsUnconnected && selectedDiagnostic && <aside className="diagnostic-card"><div><b>Почему ОКС {String(selectedDiagnostic.proof.target_id)} не подключён</b><span>Подтверждённая диагностика</span></div><p>Допустимый терминальный подход по строгому правилу ближайшей границы не найден; применён предусмотренный ТЗ штраф. {diagnosticReason(selectedDiagnostic)}.</p></aside>}
+    {selectedUnconnected && <aside className="diagnostic-card"><div><b>Почему ОКС {String(p.id)} не подключён</b><span>Не подключён · {selectedUnconnected.policy === 'literal' ? 'strict/literal' : selectedUnconnected.policy}</span></div><p>{selectedUnconnected.reason} Применён штраф по §2.5 / §6. Relaxed — отдельная альтернативная трактовка; её результат и метрики не смешиваются со strict.</p>{selectedDiagnostic && <p>{diagnosticReason(selectedDiagnostic)}.</p>}</aside>}
     {hovered && hoverPoint && <div className="map-tooltip" style={{ left: hoverPoint.x, top: hoverPoint.y }}><strong>{hoveredTitle}</strong><span className="tooltip-id">ID {String(hoveredProperties.id ?? '—')}</span>{hoveredType === 'heat_network' && <><span>ДУ {hoveredProperties.diameter ? `${hoveredProperties.diameter} мм` : '—'}{hoveredProperties.flow_tph ? ` · ${Number(hoveredProperties.flow_tph).toFixed(1)} т/ч` : ''}</span>{hoveredProperties.length !== undefined && <span>{Number(hoveredProperties.length).toFixed(1)} м{hoveredSegmentStat?.shared ? ` · ${hoveredSegmentStat.consumers.length} потребит.` : ''}</span>}</>}{hoveredType === 'heat_chamber' && <><span>{hoveredChamberKind ? humanChamber(hoveredChamberKind) : 'Существующая камера'}</span>{hoveredChamberStat && <span>{hoveredChamberStat.incidentCount} примык. · DN {hoveredChamberStat.maxDiameter ?? '—'}</span>}</>}{hoveredType === 'oks_connection_point' && <span>{humanStatus(hoveredProperties.status)}</span>}{hoveredType === 'restriction' && <span>{String(hoveredProperties.restriction_type ?? 'Ограничение')}</span>}{hoveredType === 'source' && <span>{String(hoveredProperties.name ?? '')}</span>}</div>}
   </main>
 }

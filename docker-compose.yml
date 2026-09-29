@@ -1,4 +1,4 @@
-# Рассчитан на docker-compose 1.29.2 (формат 3.8). Проверен `docker-compose config` 1.29.2; полный `up` — на стенде Ubuntu 22.
+# Формат совместим с docker-compose 1.29.2 и Docker Compose v2; фактические проверки — FINAL_RELEASE_REPORT.md.
 # Все настройки можно переопределить переменными окружения или файлом .env рядом с этим файлом.
 version: "3.8"
 

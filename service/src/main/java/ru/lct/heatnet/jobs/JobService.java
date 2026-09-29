@@ -79,7 +79,17 @@ public class JobService {
     public Job upload(InputStream body, String filename, boolean autostart) throws IOException {
         Job job = newJob(filename);
         Path input = jobDir(job.getId()).resolve("input.geojson");
-        Files.copy(body, input, StandardCopyOption.REPLACE_EXISTING);
+        try {
+            Files.copy(body, input, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException | RuntimeException e) {
+            try {
+                Files.deleteIfExists(input);
+                Files.deleteIfExists(input.getParent());
+            } catch (IOException cleanup) {
+                e.addSuppressed(cleanup);
+            }
+            throw e;
+        }
         return registerUpload(job, input, autostart);
     }
 

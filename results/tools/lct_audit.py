@@ -9,7 +9,8 @@ cited. Usage:
     python lct_audit.py --input DATASET.geojson --output RESULT.geojson \
         [--json report.json] [--md report.md] [--terminal-policy strict|exterior|any]
 
-Exit code 0 = no ERROR findings in any variant, 1 = at least one ERROR.
+Exit code 0 = no ERROR findings (and no AMBIGUOUS findings under strict policy).
+Exit code 1 = at least one ERROR, or AMBIGUOUS under strict policy.
 
 Severity vocabulary of the report:
   ERROR     - violates an explicit mandatory rule of the appendix / clarifications
@@ -1102,7 +1103,7 @@ def main():
         if it["level"] in ("ERROR", "AMBIGUOUS"):
             print(f"{it['level']:9s} {it['code']:24s} {it['message']}")
     print(f"ERROR {r['errors']}  AMBIGUOUS {r['ambiguous']}  WARNING {r['warnings']}")
-    return 1 if r["errors"] else 0
+    return 1 if r["errors"] or (a.terminal_policy == "strict" and r["ambiguous"]) else 0
 
 
 if __name__ == "__main__":

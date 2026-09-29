@@ -34,13 +34,14 @@ curl -o result.geojson http://localhost:8080/api/jobs/ID_ЗАДАЧИ/result
 
 Замените `ID_ЗАДАЧИ` на идентификатор из ответа на первую команду. Скачивайте результат после перехода задачи в состояние `DONE`.
 
-SHA-256 исправленного конкурсного набора: `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`.
+SHA-256 исправленного конкурсного набора: `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4befe87f2a21914130`.
 
 ## Карта результата
 
 ```bash
 cd viewer
-npm install
+npm ci
+npm run test:policy
 npm run typecheck
 npm run build
 npm run dev
@@ -58,6 +59,8 @@ npm run dev
 
 ## Проверка
 
+Публичные данные viewer — проверяемые копии authoritative файлов. После изменения результатов выполните `python scripts/sync_viewer_data.py` и `python scripts/check_release_metrics.py --write`; CI проверяет совпадение байтов и метрик.
+
 ```bash
 (cd service && ./mvnw test) # нужен JDK 11
 (cd viewer && npm run test:policy && npm run typecheck && npm run build)
@@ -65,7 +68,7 @@ python results/tools/lct_audit.py --input "task/sources/Датасет скор�
 python validator/validator.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
 ```
 
-Результаты проведённых проверок — в [FINAL_VERIFICATION.md](FINAL_VERIFICATION.md). Java/Docker запуск в текущем Windows-окружении не подтверждён; необходимые команды для Ubuntu — в [FINAL_BLOCKERS.md](FINAL_BLOCKERS.md).
+Java 11, Docker, PostgreSQL и полный API E2E фактически проверены на Ubuntu runner. Команды, результаты и ограничения — в [FINAL_RELEASE_REPORT.md](FINAL_RELEASE_REPORT.md) и [FINAL_VERIFICATION.md](FINAL_VERIFICATION.md). CI повторяет проверки на push/main, pull request и workflow_dispatch без игнорирования ошибок.
 
 ## Документация и файлы
 

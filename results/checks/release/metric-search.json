@@ -1,0 +1,38 @@
+{
+  "568862239": [
+    "FINAL_METRICS.json",
+    "results/README.md",
+    "results/checks/final_strict_audit.json",
+    "results/checks/final_strict_audit.md"
+  ],
+  "229867239": [
+    "FINAL_METRICS.json",
+    "results/README.md",
+    "results/checks/final_strict_audit.json",
+    "results/checks/final_strict_audit.md"
+  ],
+  "338995000": [
+    "FINAL_METRICS.json",
+    "results/README.md",
+    "results/checks/final_strict_audit.json",
+    "results/checks/final_strict_audit.md"
+  ],
+  "20\\.589": [
+    "FINAL_METRICS.json",
+    "docs/DEMO.md",
+    "results/checks/final_strict_audit.json",
+    "results/checks/final_strict_audit.md"
+  ],
+  "13\\.076": [
+    "FINAL_METRICS.json",
+    "docs/DEMO.md",
+    "results/checks/final_alternative_audit.json",
+    "results/checks/final_alternative_audit.md",
+    "results/checks/validator_result_2d_competition.txt"
+  ],
+  "23\\.223": [],
+  "30\\.273": [],
+  "613702652": [],
+  "731926564": [],
+  "955956814": []
+}

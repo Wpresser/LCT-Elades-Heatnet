@@ -1,20 +1,13 @@
-# Что нужно проверить перед запуском
+# Release blockers
 
-На текущем Windows-компьютере есть только Java 8 без компилятора JDK 11, а также нет Docker Engine и docker-compose. Поэтому тесты Java Maven, `docker-compose config`, сборка образа, запуск сервиса и полный E2E-сценарий загрузки/выгрузки API здесь **НЕ ПРОВЕРЕНЫ**.
+No known release blockers.
 
-Перед запуском выполните на Ubuntu 22:
+Java 11 tests, Ubuntu Docker build, PostgreSQL/backend startup, real official-dataset API E2E,
+restart persistence and independent generated-output validation фактически завершились успешно.
+Viewer проверен после clean clone, npm ci, тестов, typecheck, build и dev запуска в browser.
+Evidence: `FINAL_RELEASE_REPORT.md`, `FINAL_RELEASE_STATUS.json`, `results/checks/release/`.
 
-```bash
-sudo apt-get update
-sudo apt-get install -y openjdk-11-jdk docker.io docker-compose
-cd /path/to/LCT_Task2_FINAL_SUBMISSION
-java -version
-javac -version
-docker-compose config
-docker-compose build
-docker-compose up -d
-docker-compose ps
-(cd service && ./mvnw -B test)
-```
-
-Затем загрузите `task/sources/Датасет скорректированный.geojson`, запустите строгую задачу с `HEATNET_TERMINAL_POLICY=literal`, скачайте результат и выполните описанные строгий и альтернативный валидаторы. Развёртывание можно считать проверенным только после успешного выполнения этих команд на целевой Ubuntu-машине.
+Оставшиеся нефатальные ограничения: 6 strict ZIGZAG warnings, 2 предупреждения Python validator
+на одном special segment варианта v2, размер frontend chunk. Они раскрыты в release report.
+Alternative/relaxed имеет 6 AMBIGUOUS по §2.2 и не является default submission.
+Официального нового разъяснения организаторов нет. Глобальная оптимальность не гарантируется.

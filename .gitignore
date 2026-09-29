@@ -11,6 +11,8 @@ __pycache__/
 
 # runtime data / outputs
 data/
+!viewer/public/data/
+!viewer/public/data/**
 out/
 validator/out/
 
@@ -18,3 +20,10 @@ validator/out/
 .DS_Store
 .idea/
 .vscode/
+viewer/node_modules/
+viewer/dist/
+viewer/.policy-test/
+viewer/*.tsbuildinfo
+.pytest_cache/
+.release-check/
+.env

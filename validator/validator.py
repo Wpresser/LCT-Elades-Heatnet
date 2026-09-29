@@ -79,6 +79,7 @@ class InputData:
         with open(path, encoding="utf-8") as f:
             fc = json.load(f)
         self.targets = {}     # key -> dict(id, flow, pt)
+        self.invalid_targets = {}  # missing geometry: retain target and §6 penalty, never route
         self.chambers = {}    # key -> dict(id, pt, adj)
         self.pipes = []       # dict(id, dn, line)
         self.restrictions = []  # dict(id, type, geom)
@@ -87,6 +88,12 @@ class InputData:
             t = p.get("object_type")
             k = id_key(p.get("id"))
             g = feat.get("geometry")
+            if k is not None and t == "oks_connection_point" and g is None:
+                flow = p.get("flow_tph")
+                flow = float(flow) if isinstance(flow, (int, float)) and not isinstance(flow, bool) and math.isfinite(flow) and flow >= 0 else 0.0
+                self.invalid_targets[k] = dict(id=p["id"], flow=flow)
+                report.warn(None, "input.invalid_target_geometry", f"цель {fmt_id(k)} без геометрии: учитывается как неподключённая со штрафом §6")
+                continue
             if k is None or g is None:
                 continue
             gm = to_metric(shape(g))
@@ -791,8 +798,9 @@ class VariantChecker:
         tie_cost = tie_ins * R.TIE_IN_COST
         connected = {k for k in self.adj if self.resolve(k)[0] == "target"
                      and self.component_has_root.get(self.component_of.get(k), False)}
-        unconnected = [k for k in self.inp.targets if k not in connected]
-        pen = sum(R.penalty(self.inp.targets[k]["flow"]) for k in unconnected)
+        all_targets = {**self.inp.targets, **self.inp.invalid_targets}
+        unconnected = [k for k in all_targets if k not in connected]
+        pen = sum(R.penalty(all_targets[k]["flow"]) for k in unconnected)
         construction = total_pipe + chamber_cost + tie_cost
         calculated = construction + pen
         sc = R.score(calculated, total_len)

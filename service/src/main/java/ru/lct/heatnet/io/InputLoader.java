@@ -59,7 +59,7 @@ public final class InputLoader {
     private final java.util.Map<String, Double> legacyFlow = new java.util.HashMap<>();
     private final java.util.Map<Target, String> legacyPending = new java.util.LinkedHashMap<>();
     /** Сколько раз встретился id среди узловых объектов (точки подключения, камеры, источники). */
-    private final java.util.Map<String, Integer> nodeIds = new java.util.HashMap<>();
+    private final java.util.Map<FeatureId, Integer> nodeIds = new java.util.HashMap<>();
 
     public InputLoader(ObjectMapper mapper, AppProperties.Limits limits) {
         this.mapper = mapper;
@@ -186,10 +186,10 @@ public final class InputLoader {
             return;
         }
         if (type.equals("oks_connection_point") || type.equals("heat_chamber") || type.equals("source")) {
-            int seen = nodeIds.merge(id.toString(), 1, Integer::sum);
+            int seen = nodeIds.merge(id, 1, Integer::sum);
             if (seen == 2) {
                 d.count("input.duplicate_node_id");
-                d.warn(where + ": id уже встречался у другой точки подключения, камеры или источника — ссылки на узел в выгрузке неоднозначны");
+                throw new InputFormatException(where + ": повторный id точки подключения, камеры или источника — ссылки на узел неоднозначны");
             }
         }
         try {

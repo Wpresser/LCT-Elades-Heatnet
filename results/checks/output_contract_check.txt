@@ -1,3 +1,4 @@
+HISTORICAL ALTERNATIVE/RELAXED CHECK; not current strict evidence.
 NOTE  CRS        no crs member (RFC7946 default WGS84 lon/lat) — acceptable
 NOTE  EXTRA      heat_network: extra properties {'diag_dn_by_flow': 60, 'diag_k_spec': 1, 'diag_crossing': 1} (allowed by §7 but visible)
 NOTE  EXTRA      heat_chamber: extra properties {'diag_tie_in': 29} (allowed by §7 but visible)

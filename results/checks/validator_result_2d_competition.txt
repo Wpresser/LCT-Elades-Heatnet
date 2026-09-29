@@ -1,3 +1,4 @@
+HISTORICAL ALTERNATIVE/RELAXED CHECK; not current strict evidence.
 === Вариант 'v1': ошибок 0, предупреждений 2
     подключено 17  не подключено 0  длина 1824.7 м  стоимость 271 516 097 руб  score 13.076470
     [warning] oks.final_approach_relaxed: участок 'v1_net_11': к цели 10 подход не через ближайшую точку контура ОКС 88 — строгий выход закрыт (DECISIONS №27)

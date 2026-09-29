@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "commit_sha": "08d40ab010d363fc77694e1a0e8207f755d086e3",
+  "commands": [
+    "git clone --branch codex/final-release-hardening https://github.com/Wpresser/LCT-Elades-Heatnet.git clean-clone",
+    "git pull --ff-only",
+    "python scripts/sync_viewer_data.py --check",
+    "python scripts/check_release_metrics.py",
+    "npm ci",
+    "npm run test:policy",
+    "npm run typecheck",
+    "npm run build",
+    "npm run dev -- --host 127.0.0.1 --port 5176 --strictPort"
+  ],
+  "command_exit_codes": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "dev_server": "RUNNING; HTTP/browser verified",
+  "policy_tests": 7,
+  "browser": {
+    "strict_default": true,
+    "strict_coverage": "14/17",
+    "strict_score": 20.589,
+    "alternative_coverage": "17/17",
+    "alternative_score": 13.076,
+    "summary_reason_without_proof": true,
+    "DN_flow_card": true,
+    "labels": true,
+    "3d": true,
+    "top_view": true,
+    "layers": true,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "missing_required_data": 0
+  },
+  "screenshots": [
+    "viewer-strict-unconnected.jpg",
+    "viewer-alternative-3d.jpg",
+    "viewer-engineering.jpg"
+  ]
+}

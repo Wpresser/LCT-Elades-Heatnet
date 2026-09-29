@@ -281,3 +281,4 @@ for i, (vid, rk, sc) in enumerate(summ_rows, 1):
 for lvl, code, msg in issues:
     print(f"{lvl:5} {code:10} {msg}")
 print("TOTAL", Counter(l for l, _, _ in issues))
+sys.exit(1 if any(level == "ERROR" for level, _, _ in issues) else 0)
