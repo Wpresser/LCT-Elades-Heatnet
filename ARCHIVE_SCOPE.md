@@ -1,3 +1,3 @@
-# Submission archive scope
+# Состав архива отправки
 
-This archive contains the clean source repository, the Java backend, the modern MapLibre viewer source, the official task inputs, final strict and alternative outputs, presentation files, and release verification documents. Build products, dependency directories, caches, historical prompts, and development-only snapshots are excluded.
+В архиве находятся чистый исходный репозиторий, Java-бэкенд, исходный код современного viewer на MapLibre, официальные входные данные задачи, итоговые строгий и альтернативный результаты, файлы презентации и документы проверки релиза. Результаты сборки, каталоги зависимостей, кэши, исторические промпты и временные снимки разработки исключены.

@@ -1,27 +1,27 @@
-# Terminal policy decision
+# Решение по правилу конечного участка
 
-## Decision
+## Решение
 
-The release default is `literal` (strict). The `relaxed` result is retained as an alternative interpretation and is never presented as official compliance.
+В релизе по умолчанию используется `literal` (строгий режим). Результат `relaxed` сохранён как альтернативная трактовка и не выдаётся за официальное соответствие.
 
-## Source text
+## Текст правила
 
 The current technical appendix, §2.2, states:
 
 > Для полигона, содержащего целевую точку подключения ОКС (`oks_connection_point`), допускается один финальный прямой участок от ближайшей к точке границы полигона до самой точки. Требование отступа к собственному полигону на этот участок не распространяется, в том числе на его часть в зоне отступа перед границей. Остальные ограничения продолжают действовать.
 
-The same rule appears in the written clarification for question 3. The source text is preserved in `task/text/Техническое  приложение ЛЦТ.txt:45-46` and `task/text/Разъяснения по вопросам ЛЦТ.txt:8`.
+То же правило есть в письменном разъяснении по вопросу 3. Исходный текст сохранён в `task/text/Техническое  приложение ЛЦТ.txt:45-46` и `task/text/Разъяснения по вопросам ЛЦТ.txt:8`.
 
-The general task text also says that the competition set is prepared so that all prospective OKS can be connected (`task/text/ДИТ.txt:242`). Those statements create a practical tension on targets 2, 5, and 10: a global-nearest-boundary terminal ray is blocked, while another legal-looking exit is available.
+В общем тексте задания также сказано, что конкурсный набор подготовлен так, чтобы можно было подключить все перспективные ОКС (`task/text/ДИТ.txt:242`). Для точек 2, 5 и 10 это создаёт практическое противоречие: луч к глобально ближайшей границе заблокирован, хотя доступен другой выход, который выглядит допустимым.
 
-## Strict behavior
+## Строгий режим
 
 `literal` uses the global nearest boundary point for each containing OKS polygon. On the corrected official dataset, targets 2, 5, and 10 remain unconnected and receive the official penalty. The independent audit reports zero `ERROR` findings under `--terminal-policy strict`.
 
 - v1: 14/17, C = 568,862,239.7813864 RUB, L = 1,553.6517006113452 m, S = 20.589097815712854
 - v2: 14/17, C = 595,418,295.9594457 RUB, L = 1,805.6816029830904 m, S = 22.08875709581375
 
-## Alternative behavior
+## Альтернативный режим
 
 `relaxed` keeps the same obstacle and cost rules but permits an available exterior terminal exit when the literal nearest exit is blocked by the containing OKS geometry. The output records `diag_terminal_policy=relaxed` and `diag_relaxed_final_approach` so the deviation is visible.
 
@@ -30,15 +30,15 @@ The general task text also says that the competition set is prepared so that all
 
 The independent audit reports zero structural `ERROR` findings under `--terminal-policy any`, with six `AMBIGUOUS` findings identifying the three relaxed terminal approaches in both variants. The independent Python validator also returns zero errors and marks the relaxed approaches as warnings.
 
-## Why strict is the default
+## Почему по умолчанию выбран строгий режим
 
-No newer organizer clarification is included in this handoff. The literal sentence is an explicit technical-app rule, so release and presentation default to the conservative strict interpretation. The alternative remains available for review and for a future switch if the organizers publish a clarification that resolves the conflict.
+В текущем handoff нет нового разъяснения организаторов. Формулировка правила прямо указана в техническом приложении, поэтому в релизе и презентации используется консервативная строгая трактовка. Альтернативный вариант оставлен для проверки и возможного переключения после официального разъяснения.
 
-## Switching after an official clarification
+## Переключение после официального разъяснения
 
 Set `HEATNET_TERMINAL_POLICY=relaxed` for the alternative implementation, or `literal` for submission-safe strict mode. In the viewer, choose `Строгая трактовка` or `Альтернативная трактовка`; each mode loads its own output and metrics.
 
-## Evidence
+## Подтверждающие данные
 
 - Corrected dataset SHA-256: `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`.
 - Strict output SHA-256: `f2dbbf86f1d669a8dd30b44d3de63c573bfe9c1bfbb43b02e118998535b17070`.

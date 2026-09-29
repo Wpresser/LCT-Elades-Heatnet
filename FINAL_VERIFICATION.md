@@ -1,24 +1,24 @@
-# Final verification matrix
+# Итоговая матрица проверки
 
-| Check | Result | Evidence |
+| Проверка | Результат | Подтверждение |
 |---|---|---|
-| Java unit/integration tests | NOT VERIFIED | `service/mvnw.cmd -B test` reached compilation and stopped because this host exposes a JRE: `No compiler is provided in this environment. Perhaps you are running on a JRE rather than a JDK?` |
-| Viewer policy tests | PASS (3/3) | `cd viewer && npm run test:policy` |
-| Frontend typecheck | PASS | `cd viewer && npm run typecheck` |
-| Frontend production build | PASS | `cd viewer && npm run build` (Vite warning: one 1.3 MB chunk) |
-| docker-compose config | NOT VERIFIED | Docker/docker-compose is unavailable in this host; Ubuntu command is in `FINAL_BLOCKERS.md` |
-| Docker build | NOT VERIFIED | Docker unavailable |
-| Service startup / API official dataset E2E | NOT VERIFIED | Requires Ubuntu 22, JDK 11 and Docker |
-| Strict independent audit | PASS | `lct_audit.py --terminal-policy strict`: exit 0, ERROR 0, AMBIGUOUS 0, WARNING 6 |
-| Alternative independent audit | PASS_WITH_DISCLOSURE | `lct_audit.py --terminal-policy any`: exit 0, ERROR 0, AMBIGUOUS 6, WARNING 7 |
-| Strict independent Python validator | PASS | exit 0, variant v1/v2 errors 0 |
-| Alternative independent Python validator | PASS_WITH_DISCLOSURE | exit 0, variant v1/v2 errors 0; warnings identify relaxed exits |
-| Strict output contract | PASS | `output_contract_check.py`: exit 0, no errors |
-| Alternative output contract | PASS_WITH_WARNING | exit 0, one micro-segment warning |
-| Deterministic hashes | PASS | hashes are recorded in `FINAL_METRICS.json` and `docs/TERMINAL_POLICY_DECISION.md` |
-| Browser runtime | PASS for fresh dev load | In-app browser loaded strict default with no console errors; selector switched to alternative and showed 17/17, S 13.076, and disclosure. |
-| Stale metric scan | PASS for release-facing docs and presentation | Old relaxed KPI text remains only where it is explicitly labelled as alternative or in factual GeoJSON/audit evidence |
-| Hardcode scan | PASS | No dataset coordinates or routing exceptions found in Java solver; numeric constants are rule tables and geometry tolerances |
-| Secrets scan | PASS | No credential files, private keys, tokens, or `.env` files in the staged release |
+| Модульные и интеграционные тесты Java | НЕ ПРОВЕРЕНО | `service/mvnw.cmd -B test` дошёл до компиляции и остановился: на компьютере доступна только JRE (`No compiler is provided in this environment. Perhaps you are running on a JRE rather than a JDK?`) |
+| Тесты режимов viewer | ПРОЙДЕНО (3/3) | `cd viewer && npm run test:policy` |
+| Проверка типов фронтенда | ПРОЙДЕНО | `cd viewer && npm run typecheck` |
+| Production-сборка фронтенда | ПРОЙДЕНО | `cd viewer && npm run build` (предупреждение Vite: один пакет 1,3 МБ) |
+| Проверка конфигурации docker-compose | НЕ ПРОВЕРЕНО | На компьютере нет Docker и docker-compose; команда для Ubuntu приведена в `FINAL_BLOCKERS.md` |
+| Сборка Docker-образа | НЕ ПРОВЕРЕНО | Docker недоступен |
+| Запуск сервиса и E2E API на официальном наборе | НЕ ПРОВЕРЕНО | Нужны Ubuntu 22, JDK 11 и Docker |
+| Независимый строгий аудит | ПРОЙДЕНО | `lct_audit.py --terminal-policy strict`: код 0, ERROR 0, AMBIGUOUS 0, WARNING 6 |
+| Независимый альтернативный аудит | ПРОЙДЕНО С ОГОВОРКОЙ | `lct_audit.py --terminal-policy any`: код 0, ERROR 0, AMBIGUOUS 6, WARNING 7 |
+| Независимый Python-валидатор, strict | ПРОЙДЕНО | код 0, ошибок вариантов v1/v2 нет |
+| Независимый Python-валидатор, alternative | ПРОЙДЕНО С ОГОВОРКОЙ | код 0, ошибок вариантов v1/v2 нет; предупреждения отмечают relaxed-выходы |
+| Контракт выходного файла, strict | ПРОЙДЕНО | `output_contract_check.py`: код 0, ошибок нет |
+| Контракт выходного файла, alternative | ПРОЙДЕНО С ПРЕДУПРЕЖДЕНИЕМ | код 0, одно предупреждение о микросегменте |
+| Детерминированные хэши | ПРОЙДЕНО | хэши записаны в `FINAL_METRICS.json` и `docs/TERMINAL_POLICY_DECISION.md` |
+| Работа в браузере | ПРОЙДЕНО для чистого запуска dev-сервера | Встроенный браузер открыл строгий режим без ошибок в консоли; переключение показало alternative 17/17, S 13,076 и пояснение |
+| Проверка устаревших метрик | ПРОЙДЕНО для документации и презентации | Старые relaxed-метрики остались только с явной пометкой alternative или в фактических GeoJSON и отчётах аудита |
+| Проверка зашитых исключений | ПРОЙДЕНО | В Java-решателе нет координат набора или исключений маршрутизации; числовые константы относятся к таблицам правил и допускам геометрии |
+| Проверка секретов | ПРОЙДЕНО | В подготовленной версии нет файлов с учётными данными, ключей, токенов или `.env` |
 
 The default release policy is strict/literal. The alternative output remains available as a separately disclosed interpretation. Team identity and contact fields in the presentation are filled from the supplied team information. The only release blocker is the unavailable JDK 11/Docker execution gate described in `FINAL_BLOCKERS.md`.

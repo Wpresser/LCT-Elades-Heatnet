@@ -1,5 +1,5 @@
-# Removed or excluded artifacts
+# Исключённые файлы и артефакты
 
-The submission archive excludes internal handoff prompts, `BRIEF_FOR_CLAUDE.md`, node_modules, Vite build output, generated policy-test output, Python caches, pytest caches, temporary previews, stale experimental GeoJSON candidates, and local absolute-path notes. The evidence archive retains relevant validators, logs, proofs, and both policy outputs.
+Архив отправки не содержит внутренних handoff-промптов, `BRIEF_FOR_CLAUDE.md`, node_modules, результатов сборки Vite, сгенерированных файлов тестов режимов, кэшей Python и pytest, временных превью, устаревших экспериментальных GeoJSON и заметок с локальными абсолютными путями. В архиве доказательств сохранены нужные валидаторы, логи, подтверждения и оба результата расчёта.
 
-The source tree still contains the official task documents required to reproduce the calculation. Historical prompts are not used as the release instruction.
+В исходном дереве остаются официальные документы задачи, необходимые для воспроизведения расчёта. Исторические промпты не используются как инструкция релиза.

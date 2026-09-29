@@ -1,9 +1,9 @@
-# Integration changelog
+# Журнал интеграции
 
-- Used the audited Opus Java/Spring repository as the release base.
-- Added the Sol React/TypeScript/MapLibre viewer under `viewer/` and served its factual final artifacts from `viewer/public/data/`.
-- Added a strict/alternative policy selector with separate GeoJSON and KPI summaries.
-- Made strict/literal the default in `docker-compose.yml`, `TerminalPolicy.java`, tests, README, and presentation KPI slides.
-- Kept v2 as a comparison summary while the map stays on v1 so labels and selected-object metadata cannot mix variants.
-- Retained the technical fallback UI under `service/src/main/resources/static/technical/`.
-- Added final metric, verification, blocker, presentation, and removal documentation.
+- За основу релиза взят проверенный Java/Spring-репозиторий Opus.
+- В `viewer/` добавлена карта на React/TypeScript/MapLibre; итоговые фактические данные подключаются из `viewer/public/data/`.
+- Добавлен переключатель строгой и альтернативной трактовок с отдельными GeoJSON и сводками метрик.
+- Строгий режим `strict/literal` сделан режимом по умолчанию в `docker-compose.yml`, `TerminalPolicy.java`, тестах, README и слайдах презентации.
+- Вариант v2 оставлен только в сводке для сравнения, а карта работает с v1, чтобы подписи и данные выбранного объекта не смешивали варианты.
+- Технический резервный интерфейс сохранён в `service/src/main/resources/static/technical/`.
+- Добавлены документы об итоговых метриках, проверках, блокерах, презентации и исключённых файлах.
