@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.unit.DataSize;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import ru.lct.heatnet.jobs.Job;
 import ru.lct.heatnet.jobs.JobService;
 import ru.lct.heatnet.jobs.JobStatus;
@@ -25,6 +28,7 @@ import ru.lct.heatnet.jobs.JobStatus;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.FilterInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,9 +41,11 @@ import java.util.stream.Collectors;
 public class JobController {
 
     private final JobService jobs;
+    private final long maxUploadBytes;
 
-    public JobController(JobService jobs) {
+    public JobController(JobService jobs, @Value("${spring.servlet.multipart.max-file-size:3200MB}") String maxUploadSize) {
         this.jobs = jobs;
+        this.maxUploadBytes = DataSize.parse(maxUploadSize).toBytes();
     }
 
     @Operation(summary = "Загрузить входной GeoJSON (multipart)",
@@ -58,9 +64,41 @@ public class JobController {
     public ResponseEntity<JobDto> uploadRaw(HttpServletRequest request,
                                             @RequestParam(defaultValue = "input.geojson") String filename,
                                             @RequestParam(defaultValue = "true") boolean autostart) throws IOException {
-        try (InputStream body = request.getInputStream()) {
+        if (request.getContentLengthLong() > maxUploadBytes) {
+            throw new MaxUploadSizeExceededException(maxUploadBytes);
+        }
+        try (InputStream body = new LimitedInputStream(request.getInputStream(), maxUploadBytes)) {
             Job job = jobs.upload(body, filename, autostart);
             return ResponseEntity.status(HttpStatus.CREATED).body(JobDto.of(job));
+        }
+    }
+
+    /** Count actual bytes as well as Content-Length, so chunked raw uploads cannot bypass the limit. */
+    static final class LimitedInputStream extends FilterInputStream {
+        private final long limit;
+        private long count;
+
+        LimitedInputStream(InputStream input, long limit) {
+            super(input);
+            this.limit = limit;
+        }
+
+        private void count(int bytes) {
+            if (bytes > 0 && (count += bytes) > limit) {
+                throw new MaxUploadSizeExceededException(limit);
+            }
+        }
+
+        @Override public int read() throws IOException {
+            int value = in.read();
+            count(value < 0 ? 0 : 1);
+            return value;
+        }
+
+        @Override public int read(byte[] buffer, int offset, int length) throws IOException {
+            int bytes = in.read(buffer, offset, (int) Math.min(length, limit - count + 1));
+            count(bytes);
+            return bytes;
         }
     }
 

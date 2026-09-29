@@ -2,10 +2,13 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import * as maplibregl from 'maplibre-gl'
 import { Map, MapMouseEvent } from 'maplibre-gl'
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './styles.css'
 import { adaptScene, asGeoJSON, Collection, Diagnostic, Feature, featureId, ProofRecord, SceneData, unconnectedInfo } from './data'
 import { policyCopy, Policy, variantCollection } from './policy'
+
+maplibregl.setWorkerUrl(workerUrl)
 
 type LayerKey = 'existingNetwork' | 'newNetwork' | 'existingChambers' | 'newChambers' | 'consumers' | 'oks' | 'restrictions' | 'source' | 'flow' | 'shared' | 'labels'
 type Layers = Record<LayerKey, boolean>
@@ -168,10 +171,8 @@ function App() {
     })
     mapRef.current = map
     map.on('error', event => console.error('MapLibre:', event.error))
-    window.setTimeout(() => console.info('Map readiness', map.loaded(), map.isStyleLoaded(), map.getCenter(), map.getZoom()), 1500)
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right')
     map.on('load', () => {
-      console.info('Map load event')
       const { output } = sourceData(data)
       const mappedExisting = mappedInput(data)
       map.addSource('output', { type: 'geojson', data: asGeoJSON(output.features) as any })

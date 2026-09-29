@@ -1,0 +1,82 @@
+[
+  {
+    "variant": "v1",
+    "segment": "v1_net_11",
+    "vertex_index": 5,
+    "turn_degrees": 13.949404702901875,
+    "adjacent_length_m": 0.8670025324786903,
+    "candidate_length_saving_m": 0.019690703152576816,
+    "audit_errors": [],
+    "validator_errors": [],
+    "safe_to_remove": true
+  },
+  {
+    "variant": "v1",
+    "segment": "v1_net_11",
+    "vertex_index": 6,
+    "turn_degrees": 7.422064113785728,
+    "adjacent_length_m": 0.8670025324786903,
+    "candidate_length_saving_m": 0.005123316255009058,
+    "audit_errors": [],
+    "validator_errors": [],
+    "safe_to_remove": true
+  },
+  {
+    "variant": "v2",
+    "segment": "v2_net_21",
+    "vertex_index": 7,
+    "turn_degrees": 13.949404702901875,
+    "adjacent_length_m": 0.8670025324786903,
+    "candidate_length_saving_m": 0.019690702516726333,
+    "audit_errors": [],
+    "validator_errors": [],
+    "safe_to_remove": true
+  },
+  {
+    "variant": "v2",
+    "segment": "v2_net_21",
+    "vertex_index": 8,
+    "turn_degrees": 7.422064113785728,
+    "adjacent_length_m": 0.8670025324786903,
+    "candidate_length_saving_m": 0.005123315619172786,
+    "audit_errors": [],
+    "validator_errors": [],
+    "safe_to_remove": true
+  },
+  {
+    "variant": "v2",
+    "segment": "v2_net_35",
+    "vertex_index": 6,
+    "turn_degrees": 23.11034793609284,
+    "adjacent_length_m": 0.8193766679535478,
+    "candidate_length_saving_m": 0.05229560770504804,
+    "audit_errors": [],
+    "validator_errors": [],
+    "safe_to_remove": true
+  },
+  {
+    "variant": "v2",
+    "segment": "v2_net_35",
+    "vertex_index": 7,
+    "turn_degrees": 52.00627137461749,
+    "adjacent_length_m": 0.8193766679535478,
+    "candidate_length_saving_m": 0.29497947230626664,
+    "audit_errors": [
+      {
+        "level": "ERROR",
+        "code": "FINAL_NOT_NEAREST",
+        "message": "final straight section to target 16 does not pass the nearest boundary point of own OKS 96 under policy 'strict' (§2.2)",
+        "variant": "v2"
+      }
+    ],
+    "validator_errors": [
+      {
+        "level": "error",
+        "variant": "'v2'",
+        "code": "oks.final_approach",
+        "message": "участок 'v2_net_35': финальный подход к цели 16 не через ближайшую точку контура ОКС 96, хотя строгий выход свободен (§2.2)"
+      }
+    ],
+    "safe_to_remove": false
+  }
+]

@@ -142,6 +142,30 @@ public class InputLoaderTest {
         return "{\"type\":\"Feature\",\"properties\":" + props + ",\"geometry\":" + geometry + "}";
     }
 
+    @Test
+    void duplicateNodeIdsAreRejectedButStringAndNumberRemainDistinct(@TempDir Path dir) throws Exception {
+        Path f = dir.resolve("duplicate.geojson");
+        String a = feature("{\"id\":71,\"object_type\":\"oks_connection_point\",\"flow_tph\":1}", point(37.6, 55.7));
+        Files.writeString(f, "{\"type\":\"FeatureCollection\",\"features\":[" + a + "," + a + "]}");
+        assertThatThrownBy(() -> loader.load(f)).isInstanceOf(InputFormatException.class).hasMessageContaining("id");
+        String b = feature("{\"id\":\"71\",\"object_type\":\"oks_connection_point\",\"flow_tph\":1}", point(37.6, 55.7));
+        Files.writeString(f, "{\"type\":\"FeatureCollection\",\"features\":[" + a + "," + b + "]}");
+        InputModel m = loader.load(f);
+        assertThat(m.targets).hasSize(2);
+        assertThat(m.diagnostics.get("input.duplicate_node_id")).isZero();
+    }
+
+    @Test
+    void nonfiniteFlowOrGeometryRemainUnconnectedWithFinitePenalty(@TempDir Path dir) throws Exception {
+        Path f = dir.resolve("nonfinite.geojson");
+        String a = feature("{\"id\":\"bad-flow\",\"object_type\":\"oks_connection_point\",\"flow_tph\":NaN}", point(37.6, 55.7));
+        String b = feature("{\"id\":\"bad-geometry\",\"object_type\":\"oks_connection_point\",\"flow_tph\":2}", "{\"type\":\"Point\",\"coordinates\":[Infinity,55.7]}");
+        Files.writeString(f, "{\"type\":\"FeatureCollection\",\"features\":[" + a + "," + b + "]}");
+        InputModel m = loader.load(f);
+        assertThat(m.invalidTargets).hasSize(2);
+        assertThat(m.invalidTargets.keySet()).allMatch(t -> Double.isFinite(t.flowTph));
+    }
+
     static String point(double lon, double lat) {
         return "{\"type\":\"Point\",\"coordinates\":[" + lon + "," + lat + "]}";
     }
