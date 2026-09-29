@@ -77,7 +77,7 @@ def main():
     base = args.base_url.rstrip("/")
     wait_ready(base, min(args.timeout, 180))
     if args.verify_existing:
-        job_id = json.loads(args.report.read_text())["job_id"]
+        job_id = json.loads(args.report.read_text(encoding="utf-8"))["job_id"]
     else:
         with DATASET.open("rb") as stream:
             job = request("POST", base + "/api/jobs", params={"autostart": "false"}, files={"file": (DATASET.name, stream, "application/geo+json")}).json()

@@ -19,6 +19,7 @@ CI: [https://github.com/Wpresser/LCT-Elades-Heatnet/actions/runs/36634293102](ht
 - Raw upload ограничен и Content-Length, и фактическими streamed bytes; неполные файлы удаляются при отказе.
 - Повторяющийся typed node ID отклоняется; numeric/string IDs сохраняют различие. Формулы/геометрия solver не изменены.
 - Independent validator сохраняет invalid-geometry target в unconnected penalty; dirty-input scenario теперь проверяется корректно.
+- API restart-check metadata явно читается в UTF-8; Windows HTTP verify-existing + все validators повторены, exit 0.
 - Contract checker возвращает exit 1 при ERROR; strict audit возвращает exit 1 также при AMBIGUOUS.
 - CI fail-closed на Ubuntu: Java 11, Node 22, Python, Docker/PostgreSQL, реальный API output и restart persistence.
 - Документация и исторические alternative check labels синхронизированы; missing optional assets не выдаются за обязательные.
