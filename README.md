@@ -1,22 +1,30 @@
-# LCT 2026 Task 2
+# Elades — ЛЦТ 2026, задача 2
 
-Submission-ready Java 11 / Spring Boot 2.6.3 service for building new thermal-network routes from a GeoJSON FeatureCollection. The audited backend remains the canonical runtime. The `viewer/` directory contains the modern React/TypeScript/MapLibre read-only explorer.
+Сервис автоматически строит варианты подключения новых зданий к существующей тепловой сети. Основная часть проекта написана на Java 11 и Spring Boot 2.6.3. Для просмотра результата есть отдельная карта на React, TypeScript и MapLibre.
 
-## Run the backend
+## Что делает сервис
 
-Prerequisites: Ubuntu 22, Docker Engine, `docker-compose` 1.29.2, and network access to Docker Hub/Maven Central.
+- Принимает GeoJSON с сетью, камерами, зданиями и пространственными ограничениями.
+- Строит варианты трасс, выбирает места присоединения и камеры разветвления.
+- Рассчитывает расходы, диаметры, длину, стоимость и итоговый показатель S.
+- Выгружает GeoJSON с вариантами, неподключёнными точками и пояснениями.
+
+## Запуск сервиса
+
+Нужны Ubuntu Server 22, Docker Engine, `docker-compose` 1.29.2 и доступ к Docker Hub/Maven Central.
 
 ```bash
-docker-compose down
 docker-compose up --build -d
 docker-compose logs -f app
 ```
 
-- Technical UI: `http://localhost:8080/`
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
-- API docs: `http://localhost:8080/v3/api-docs`
+После запуска доступны:
 
-Upload and download:
+- Технический интерфейс: http://localhost:8080/
+- Swagger UI: http://localhost:8080/swagger-ui.html
+- Описание API: http://localhost:8080/v3/api-docs
+
+Загрузка конкурсного набора, проверка статуса и скачивание результата:
 
 ```bash
 curl -F "file=@task/sources/Датасет скорректированный.geojson" http://localhost:8080/api/jobs
@@ -24,15 +32,9 @@ curl http://localhost:8080/api/jobs/<id>
 curl -o result.geojson http://localhost:8080/api/jobs/<id>/result
 ```
 
-The official corrected dataset SHA-256 is `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`.
+SHA-256 исправленного конкурсного набора: `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`.
 
-## Terminal policy
-
-`HEATNET_TERMINAL_POLICY=literal` is the default and the submission-safe mode. Use `relaxed` only when the alternative interpretation is explicitly accepted. `strict` aliases `literal`; `any` aliases `relaxed`.
-
-The policy decision, source quotations, strict and alternative metrics, and switching rationale are in `docs/TERMINAL_POLICY_DECISION.md` and `FINAL_METRICS.json`.
-
-## Modern viewer
+## Карта результата
 
 ```bash
 cd viewer
@@ -42,14 +44,32 @@ npm run build
 npm run dev
 ```
 
-Open `http://localhost:5173/viewer/`. The viewer defaults to strict and loads the separate `strict.geojson` or `alternative.geojson` artifact when the selector changes. It keeps the MapLibre 3D/top view, layer panel, engineering labels, source and chamber IDs, DN/flow labels, shared trunk highlight, selection details, and strict diagnostics.
+Откройте http://localhost:5173/viewer/. Карта показывает сеть, здания, ограничения, камеры, источник, параметры участков и объяснения для неподключённых точек. Есть 3D и вид сверху. Это локальный viewer; ссылка на GitHub не является запущенным прототипом.
 
-## Verification
+## Два режима правила §2.2
 
-- Java tests: `cd service && ./mvnw test` (requires JDK 11).
-- Viewer typecheck/build: `cd viewer && npm run typecheck && npm run build`.
-- Strict audit: `python results/tools/lct_audit.py --input task/sources/Датасет скорректированный.geojson --output results/final_strict.geojson --terminal-policy strict`.
-- Alternative audit: use `--output results/final_alternative.geojson --terminal-policy any`.
-- Independent validator: `python validator/validator.py task/sources/Датасет скорректированный.geojson results/final_strict.geojson`.
+По умолчанию используется **strict/literal**: финальный участок к зданию проходит через ближайшую к точке подключения границу. На исправленном конкурсном наборе в этом режиме подключаются 14 из 17 точек, S лучшего варианта — 20,589. Точки 2, 5 и 10 остаются неподключёнными и учитываются со штрафом.
 
-Actual release results and any unavailable checks are recorded in `FINAL_VERIFICATION.md`. Team identity fields in the presentation are filled from the supplied team information.
+**Alternative/relaxed** допускает другой свободный выход из контура здания и подключает 17 из 17 точек, S = 13,076. Это отдельная трактовка спорного правила, а не подтверждённый организатором строгий результат. Карта загружает для неё отдельный GeoJSON.
+
+Настройка backend: `HEATNET_TERMINAL_POLICY=literal` (по умолчанию) или `HEATNET_TERMINAL_POLICY=relaxed`. Обоснование и точные метрики — в [решении по правилу §2.2](docs/TERMINAL_POLICY_DECISION.md) и [FINAL_METRICS.json](FINAL_METRICS.json).
+
+## Проверка
+
+```bash
+(cd service && ./mvnw test) # нужен JDK 11
+(cd viewer && npm run test:policy && npm run typecheck && npm run build)
+python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_strict.geojson --terminal-policy strict
+python validator/validator.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
+```
+
+Результаты проведённых проверок — в [FINAL_VERIFICATION.md](FINAL_VERIFICATION.md). Java/Docker запуск в текущем Windows-окружении не подтверждён; необходимые команды для Ubuntu — в [FINAL_BLOCKERS.md](FINAL_BLOCKERS.md).
+
+## Документация и файлы
+
+- [Алгоритм](docs/ALGORITHM.md)
+- [Сценарий демонстрации](docs/DEMO.md)
+- [Решение по спорному правилу §2.2](docs/TERMINAL_POLICY_DECISION.md)
+- [Результаты расчёта](results/)
+- [Официальное задание, разъяснения и набор данных](task/)
+- [Презентация команды Elades](presentation/LCT_Task2_final_presentation.pdf)

@@ -1,9 +1,8 @@
-# LCT network viewer
+# Карта результата LCT
 
-Read-only React, TypeScript, Vite and MapLibre viewer for the final Java service artifacts.
-The initial policy is **strict/literal**. The policy selector loads a separate GeoJSON and KPI set for the alternative interpretation, with disclosure text in the UI.
+Локальный viewer на React, TypeScript, Vite и MapLibre. Он показывает фактические GeoJSON-результаты Java-сервиса.
 
-## Start
+## Запуск
 
 ```powershell
 cd viewer
@@ -13,17 +12,17 @@ npm run build
 npm run dev
 ```
 
-Open `http://localhost:5173/viewer/`.
+Откройте http://localhost:5173/viewer/.
 
-The Spring technical UI remains at `http://localhost:8080/` when the backend is running. The viewer does not invent geometry: `public/data/strict.geojson` and `public/data/alternative.geojson` are copies of the final files under `results/`, while `public/data/input.geojson` is the corrected official dataset.
+Технический интерфейс Spring-сервиса работает на http://localhost:8080/, если запущен backend.
 
-## Policy modes
+## Режимы правила §2.2
 
-- `Строгая трактовка` uses the global nearest boundary terminal ray and is the submission-safe default.
-- `Альтернативная трактовка` uses the disclosed relaxed exit for the affected targets and reads a separate output. Its metrics are never combined with strict metrics.
+- **Строгая трактовка** — режим по умолчанию и вариант для сдачи. Использует глобально ближайшую границу здания.
+- **Альтернативная трактовка** — отдельный output с раскрытым свободным выходом для спорных точек. Его метрики не смешиваются со strict.
 
-The decision and source quotations are in `../docs/TERMINAL_POLICY_DECISION.md`.
+Обоснование и цитаты из документов находятся в [`../docs/TERMINAL_POLICY_DECISION.md`](../docs/TERMINAL_POLICY_DECISION.md).
 
-## Viewer features
+## Что есть на карте
 
-The interface preserves the dark MapLibre presentation view, 3D/top view, pan/zoom/rotate/pitch, layer panel, legend, engineering labels, DN/flow labels, source and chamber IDs, shared trunk highlighting, selected-object details, strict diagnostics, and optimized-vs-comparison mode.
+Карта поддерживает 3D и вид сверху, перемещение, масштабирование, поворот и наклон, слои и легенду, подписи DN и расхода, камеры, источник, ограничения, подсветку общих участков, карточку выбранного объекта и объяснение неподключённых точек.
