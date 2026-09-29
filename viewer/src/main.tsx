@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import maplibregl, { Map, MapMouseEvent } from 'maplibre-gl'
+import * as maplibregl from 'maplibre-gl'
+import { Map, MapMouseEvent } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './styles.css'
-import { adaptScene, asGeoJSON, Collection, Diagnostic, Feature, featureId, ProofRecord, SceneData } from './data'
+import { adaptScene, asGeoJSON, Collection, Diagnostic, Feature, featureId, ProofRecord, SceneData, unconnectedInfo } from './data'
 import { policyCopy, Policy, variantCollection } from './policy'
 
 type LayerKey = 'existingNetwork' | 'newNetwork' | 'existingChambers' | 'newChambers' | 'consumers' | 'oks' | 'restrictions' | 'source' | 'flow' | 'shared' | 'labels'
@@ -28,12 +29,14 @@ const humanChamber = (value: unknown) => value === 'tie-in' ? 'Новая кам
 const humanStatus = (value: unknown) => value === 'connected' ? 'Подключён' : value === 'unconnected' ? 'Не подключён' : 'Статус не определён'
 
 async function fetchJson<T>(url: string, optional = false): Promise<T | null> {
-  const response = await fetch(url)
-  if (!response.ok) {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(`${url} ${response.status}`)
+    return await response.json() as T
+  } catch (error) {
     if (optional) return null
-    throw new Error(`${url} ${response.status}`)
+    throw error
   }
-  return response.json() as Promise<T>
 }
 
 const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
@@ -108,9 +111,12 @@ function App() {
       fetchJson<Collection>(assetPath('/data/input.geojson')),
     ]).then(async ([strict, alternative, input]) => {
       if (!strict || !alternative || !input) throw new Error('Не удалось загрузить основные данные')
-      const proof = (await fetchJson<ProofRecord[]>(assetPath('/data/proof.json'), true)) ?? []
+      const manifest = await fetchJson<{ optional: string[] }>(assetPath('/data/manifest.json'))
+      const available = new Set(manifest?.optional ?? [])
+      const rawProof = available.has('proof.json') ? await fetchJson<ProofRecord[]>(assetPath('/data/proof.json'), true) : []
+      const proof = Array.isArray(rawProof) ? rawProof.filter(record => record && ['string', 'number'].includes(typeof record.target_id)) : []
       const visualEntries = await Promise.all(proof.map(async record => {
-        if (!record.visual_geojson) return [record.visual_geojson ?? '', null] as const
+        if (!record.visual_geojson || !available.has(record.visual_geojson)) return [record.visual_geojson ?? '', null] as const
         return [record.visual_geojson, await fetchJson<Collection>(assetPath(`/data/${record.visual_geojson}`), true)] as const
       }))
       const visuals: Record<string, Collection | null> = Object.fromEntries(visualEntries)
@@ -161,8 +167,11 @@ function App() {
       },
     })
     mapRef.current = map
+    map.on('error', event => console.error('MapLibre:', event.error))
+    window.setTimeout(() => console.info('Map readiness', map.loaded(), map.isStyleLoaded(), map.getCenter(), map.getZoom()), 1500)
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right')
     map.on('load', () => {
+      console.info('Map load event')
       const { output } = sourceData(data)
       const mappedExisting = mappedInput(data)
       map.addSource('output', { type: 'geojson', data: asGeoJSON(output.features) as any })
@@ -270,7 +279,8 @@ function App() {
   const chamberStat = selected?.properties?.object_type === 'heat_chamber' ? data.chamberStats.get(featureId(selected)) : undefined
   const segmentStat = selected?.properties?.object_type === 'heat_network' ? data.segmentStats.get(featureId(selected)) : undefined
   const selectedDiagnostic = selected?.properties?.object_type === 'oks_connection_point' ? data.diagnostics.get(featureId(selected)) : undefined
-  const selectedIsUnconnected = selected?.properties?.object_type === 'oks_connection_point' && !connectedIds.has(featureId(selected))
+  const selectedUnconnected = selected?.properties?.object_type === 'oks_connection_point' ? unconnectedInfo(data.summary, p.id) : null
+  const selectedIsUnconnected = selectedUnconnected !== null
   const restrictionTypes = data.inputSummary.restrictionTypes
   const setLayer = (key: LayerKey, value: boolean) => setLayers(current => ({ ...current, [key]: value }))
   const hoveredProperties = hovered?.properties ?? {}
@@ -339,7 +349,7 @@ function App() {
         <div className="compare"><span>Вариант v2 того же policy</span><b>S {fmtNum(baselineScore, 3)} · {fmtNum(baselineLength / 1000, 3)} км</b><span>Показанный вариант</span><b>S {fmtNum(metrics.score, 3)} · {fmtNum(metrics.length / 1000, 3)} км</b><em>−{fmtNum(scoreImprovement, 1)}% оценки · −{fmtNum(lengthReduction, 3)} км</em></div>
       </>}
     </aside>
-    {selectedIsUnconnected && selectedDiagnostic && <aside className="diagnostic-card"><div><b>Почему ОКС {String(selectedDiagnostic.proof.target_id)} не подключён</b><span>Подтверждённая диагностика</span></div><p>Допустимый терминальный подход по строгому правилу ближайшей границы не найден; применён предусмотренный ТЗ штраф. {diagnosticReason(selectedDiagnostic)}.</p></aside>}
+    {selectedUnconnected && <aside className="diagnostic-card"><div><b>Почему ОКС {String(p.id)} не подключён</b><span>Не подключён · {selectedUnconnected.policy === 'literal' ? 'strict/literal' : selectedUnconnected.policy}</span></div><p>{selectedUnconnected.reason} Применён штраф по §2.5 / §6. Relaxed — отдельная альтернативная трактовка; её результат и метрики не смешиваются со strict.</p>{selectedDiagnostic && <p>{diagnosticReason(selectedDiagnostic)}.</p>}</aside>}
     {hovered && hoverPoint && <div className="map-tooltip" style={{ left: hoverPoint.x, top: hoverPoint.y }}><strong>{hoveredTitle}</strong><span className="tooltip-id">ID {String(hoveredProperties.id ?? '—')}</span>{hoveredType === 'heat_network' && <><span>ДУ {hoveredProperties.diameter ? `${hoveredProperties.diameter} мм` : '—'}{hoveredProperties.flow_tph ? ` · ${Number(hoveredProperties.flow_tph).toFixed(1)} т/ч` : ''}</span>{hoveredProperties.length !== undefined && <span>{Number(hoveredProperties.length).toFixed(1)} м{hoveredSegmentStat?.shared ? ` · ${hoveredSegmentStat.consumers.length} потребит.` : ''}</span>}</>}{hoveredType === 'heat_chamber' && <><span>{hoveredChamberKind ? humanChamber(hoveredChamberKind) : 'Существующая камера'}</span>{hoveredChamberStat && <span>{hoveredChamberStat.incidentCount} примык. · DN {hoveredChamberStat.maxDiameter ?? '—'}</span>}</>}{hoveredType === 'oks_connection_point' && <span>{humanStatus(hoveredProperties.status)}</span>}{hoveredType === 'restriction' && <span>{String(hoveredProperties.restriction_type ?? 'Ограничение')}</span>}{hoveredType === 'source' && <span>{String(hoveredProperties.name ?? '')}</span>}</div>}
   </main>
 }

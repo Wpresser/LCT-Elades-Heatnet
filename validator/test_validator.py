@@ -257,6 +257,17 @@ class ValidatorTest(unittest.TestCase):
         by_id(out, "v1_net_2")["properties"]["end_node_id"] = "11"
         self.assertIn("ref.missing", self.codes(INPUT_B, out))
 
+    def test_target_without_geometry_is_preserved_for_penalty(self):
+        inp, out = copy.deepcopy(INPUT_A), copy.deepcopy(OUTPUT_A)
+        inp["features"].append(feat({"id": "invalid-target", "object_type": "oks_connection_point", "flow_tph": 12.5}, None))
+        s = by_id(out, "v1_summary")["properties"]
+        s["unconnected_oks_ids"] = ["invalid-target"]
+        s["unconnected_penalty"] = 106250000
+        s["calculated_cost"] = s["construction_cost"] + s["unconnected_penalty"]
+        s["score"] = 0.7 * s["calculated_cost"] / 25000000 + 0.3
+        rep, _ = self.run_validator(inp, out)
+        self.assertEqual([], rep.errors())
+
 
 if __name__ == "__main__":
     unittest.main()

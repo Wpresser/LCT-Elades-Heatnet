@@ -127,7 +127,10 @@ export function adaptScene(
   const newChamberKinds = new Map<string, 'tie-in'|'branch'>()
   outputChambers.forEach(f => {
     const point = pointOf(f)
-    newChamberKinds.set(idKey(f.properties.id), point && distanceToInput(point) < 0.00003 ? 'tie-in' : 'branch')
+    const tieIn = typeof f.properties.diag_tie_in === 'boolean'
+      ? f.properties.diag_tie_in
+      : Boolean(point && distanceToInput(point) < 0.00003)
+    newChamberKinds.set(idKey(f.properties.id), tieIn ? 'tie-in' : 'branch')
   })
   const newChamberAliases = new Map<string, string>()
   outputChambers.slice().sort((a,b) => String(a.properties.id).localeCompare(String(b.properties.id))).forEach((feature, index) => newChamberAliases.set(idKey(feature.properties.id), `НК-${index + 1}`))
@@ -195,5 +198,14 @@ export function adaptScene(
 }
 
 export const featureId = (f: Feature) => idKey(f.properties?.id)
+export function unconnectedInfo(summary: Record<string, any>, id: unknown): { policy: string; reason: string } | null {
+  const ids: unknown[] = Array.isArray(summary.unconnected_oks_ids) ? summary.unconnected_oks_ids : []
+  if (!ids.some(value => idKey(value) === idKey(id))) return null
+  const reason = summary.diag_unconnected_reasons?.[String(id)]
+  return {
+    policy: String(summary.diag_terminal_policy ?? 'literal'),
+    reason: typeof reason === 'string' && reason ? reason : 'Допустимый маршрут не найден при соблюдении ограничений.',
+  }
+}
 export const asGeoJSON = (features: Feature[]): Collection => collection(features)
 export { lineLength }

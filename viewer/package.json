@@ -7,10 +7,10 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "typecheck": "tsc --noEmit",
-    "test:policy": "tsc src/policy.ts --target ES2022 --module ESNext --moduleResolution Bundler --outDir .policy-test && node test/policy.test.mjs"
+    "test:policy": "tsc src/policy.ts src/data.ts --strict --target ES2022 --module ESNext --moduleResolution Bundler --outDir .policy-test && node --test test/*.test.mjs"
   },
   "dependencies": {
-    "maplibre-gl": "^5.7.0",
+    "maplibre-gl": "6.4.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

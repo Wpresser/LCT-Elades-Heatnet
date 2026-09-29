@@ -1102,7 +1102,7 @@ def main():
         if it["level"] in ("ERROR", "AMBIGUOUS"):
             print(f"{it['level']:9s} {it['code']:24s} {it['message']}")
     print(f"ERROR {r['errors']}  AMBIGUOUS {r['ambiguous']}  WARNING {r['warnings']}")
-    return 1 if r["errors"] else 0
+    return 1 if r["errors"] or (a.terminal_policy == "strict" and r["ambiguous"]) else 0
 
 
 if __name__ == "__main__":
