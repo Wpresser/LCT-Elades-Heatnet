@@ -6,7 +6,7 @@
 
 ## Текст правила
 
-The current technical appendix, §2.2, states:
+В актуальном техническом приложении, §2.2, сказано:
 
 > Для полигона, содержащего целевую точку подключения ОКС (`oks_connection_point`), допускается один финальный прямой участок от ближайшей к точке границы полигона до самой точки. Требование отступа к собственному полигону на этот участок не распространяется, в том числе на его часть в зоне отступа перед границей. Остальные ограничения продолжают действовать.
 
@@ -16,19 +16,19 @@ The current technical appendix, §2.2, states:
 
 ## Строгий режим
 
-`literal` uses the global nearest boundary point for each containing OKS polygon. On the corrected official dataset, targets 2, 5, and 10 remain unconnected and receive the official penalty. The independent audit reports zero `ERROR` findings under `--terminal-policy strict`.
+`literal` использует глобально ближайшую точку границы полигона ОКС. На исправленном официальном наборе точки 2, 5 и 10 остаются неподключёнными и учитываются со штрафом по правилам задания. Независимый аудит с `--terminal-policy strict` не обнаружил ошибок `ERROR`.
 
-- v1: 14/17, C = 568,862,239.7813864 RUB, L = 1,553.6517006113452 m, S = 20.589097815712854
-- v2: 14/17, C = 595,418,295.9594457 RUB, L = 1,805.6816029830904 m, S = 22.08875709581375
+- v1: 14/17, C = 568 862 239,7813864 ₽, L = 1 553,6517006113452 м, S = 20,589097815712854
+- v2: 14/17, C = 595 418 295,9594457 ₽, L = 1 805,6816029830904 м, S = 22,08875709581375
 
 ## Альтернативный режим
 
-`relaxed` keeps the same obstacle and cost rules but permits an available exterior terminal exit when the literal nearest exit is blocked by the containing OKS geometry. The output records `diag_terminal_policy=relaxed` and `diag_relaxed_final_approach` so the deviation is visible.
+`relaxed` сохраняет те же правила для препятствий и стоимости, но разрешает другой свободный выход из контура, когда ближайший выход заблокирован геометрией ОКС. В результате записаны `diag_terminal_policy=relaxed` и `diag_relaxed_final_approach`, чтобы отличие было видно.
 
-- v1: 17/17, C = 271,516,096.5294552 RUB, L = 1,824.6731652331825 m, S = 13.07647019852429
-- v2: 17/17, C = 289,678,319.56243277 RUB, L = 2,078.298335062663 m, S = 14.345887952936106
+- v1: 17/17, C = 271 516 096,5294552 ₽, L = 1 824,6731652331825 м, S = 13,07647019852429
+- v2: 17/17, C = 289 678 319,56243277 ₽, L = 2 078,298335062663 м, S = 14,345887952936106
 
-The independent audit reports zero structural `ERROR` findings under `--terminal-policy any`, with six `AMBIGUOUS` findings identifying the three relaxed terminal approaches in both variants. The independent Python validator also returns zero errors and marks the relaxed approaches as warnings.
+Независимый аудит с `--terminal-policy any` не обнаружил структурных ошибок `ERROR`. Шесть отметок `AMBIGUOUS` относятся к трём альтернативным конечным участкам в каждом из двух вариантов. Независимый Python-валидатор также не нашёл ошибок и пометил эти участки предупреждениями.
 
 ## Почему по умолчанию выбран строгий режим
 
@@ -36,11 +36,11 @@ The independent audit reports zero structural `ERROR` findings under `--terminal
 
 ## Переключение после официального разъяснения
 
-Set `HEATNET_TERMINAL_POLICY=relaxed` for the alternative implementation, or `literal` for submission-safe strict mode. In the viewer, choose `Строгая трактовка` or `Альтернативная трактовка`; each mode loads its own output and metrics.
+Установите `HEATNET_TERMINAL_POLICY=relaxed` для альтернативной реализации или `literal` для строгого режима отправки. На карте выберите «Строгая трактовка» или «Альтернативная трактовка»: каждый режим загружает свой результат и метрики.
 
 ## Подтверждающие данные
 
-- Corrected dataset SHA-256: `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`.
-- Strict output SHA-256: `f2dbbf86f1d669a8dd30b44d3de63c573bfe9c1bfbb43b02e118998535b17070`.
-- Alternative output SHA-256: `150743451942d7ed895158905de2da815c04c2eb95339f49da5ef3a8cd1b0d80`.
-- Audit logs are kept in `evidence/logs/` in the evidence archive.
+- SHA-256 исправленного набора: `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`.
+- SHA-256 строгого результата: `f2dbbf86f1d669a8dd30b44d3de63c573bfe9c1bfbb43b02e118998535b17070`.
+- SHA-256 альтернативного результата: `150743451942d7ed895158905de2da815c04c2eb95339f49da5ef3a8cd1b0d80`.
+- Логи аудита сохранены в `evidence/logs/` архива доказательств.
