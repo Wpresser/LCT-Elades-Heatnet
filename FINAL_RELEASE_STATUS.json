@@ -1,0 +1,119 @@
+{
+  "release_ready": true,
+  "baseline_commit": "5a5f6b0ef5f799a65fbfc9433e3fb9780f1c7dc2",
+  "validated_commit": "57bd009e28b9b12a65cb93fbfb5a79f285d50340",
+  "ci_url": "https://github.com/Wpresser/LCT-Elades-Heatnet/actions/runs/36634293102",
+  "java_tests": "PASS",
+  "java_test_count": 31,
+  "viewer_tests": "PASS",
+  "viewer_test_count": 7,
+  "python_tests": "PASS",
+  "python_test_count_local": 24,
+  "python_test_count_referenced_ci": 23,
+  "synthetic_scenarios": "PASS",
+  "synthetic_scenario_count": 15,
+  "typecheck": "PASS",
+  "viewer_build": "PASS",
+  "npm_audit": "PASS (0 vulnerabilities)",
+  "docker_config": "PASS",
+  "docker_build": "PASS",
+  "backend_startup": "PASS",
+  "postgresql_startup": "PASS",
+  "api_e2e": "PASS",
+  "restart_persistence": "PASS",
+  "api_result_byte_identical": true,
+  "strict_validation": "PASS (ERROR 0, AMBIGUOUS 0, contract ERROR 0)",
+  "viewer_clean_clone": "PASS",
+  "viewer_assets": "PASS",
+  "metrics": "PASS",
+  "ci": "PASS",
+  "default_policy": "literal",
+  "strict": {
+    "policy": "literal",
+    "rank": 1,
+    "coverage": "14/17",
+    "construction_cost": 229867239.7813864,
+    "unconnected_penalty": 338995000,
+    "calculated_cost": 568862239.7813864,
+    "length_m": 1553.6517006113452,
+    "score": 20.589097815712854,
+    "unconnected_ids": [
+      2,
+      5,
+      10
+    ],
+    "sha256": "f2dbbf86f1d669a8dd30b44d3de63c573bfe9c1bfbb43b02e118998535b17070",
+    "variants": {
+      "v1": {
+        "rank": 1,
+        "coverage": "14/17",
+        "construction_cost": 229867239.7813864,
+        "unconnected_penalty": 338995000,
+        "calculated_cost": 568862239.7813864,
+        "length_m": 1553.6517006113452,
+        "score": 20.589097815712854,
+        "unconnected_ids": [
+          2,
+          5,
+          10
+        ]
+      },
+      "v2": {
+        "rank": 2,
+        "coverage": "14/17",
+        "construction_cost": 256423295.95944566,
+        "unconnected_penalty": 338995000,
+        "calculated_cost": 595418295.9594457,
+        "length_m": 1805.6816029830904,
+        "score": 22.08875709581375,
+        "unconnected_ids": [
+          2,
+          5,
+          10
+        ]
+      }
+    }
+  },
+  "alternative": {
+    "policy": "relaxed",
+    "rank": 1,
+    "coverage": "17/17",
+    "construction_cost": 271516096.5294552,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 271516096.5294552,
+    "length_m": 1824.6731652331825,
+    "score": 13.07647019852429,
+    "unconnected_ids": [],
+    "sha256": "150743451942d7ed895158905de2da815c04c2eb95339f49da5ef3a8cd1b0d80",
+    "variants": {
+      "v1": {
+        "rank": 1,
+        "coverage": "17/17",
+        "construction_cost": 271516096.5294552,
+        "unconnected_penalty": 0.0,
+        "calculated_cost": 271516096.5294552,
+        "length_m": 1824.6731652331825,
+        "score": 13.07647019852429,
+        "unconnected_ids": []
+      },
+      "v2": {
+        "rank": 2,
+        "coverage": "17/17",
+        "construction_cost": 289678319.56243277,
+        "unconnected_penalty": 0.0,
+        "calculated_cost": 289678319.56243277,
+        "length_m": 2078.298335062663,
+        "score": 14.345887952936106,
+        "unconnected_ids": []
+      }
+    }
+  },
+  "remaining_blockers": [],
+  "remaining_warnings": [
+    "Strict audit: 6 ZIGZAG warnings retained under champion freeze; individual deletion evidence in zigzag_review.json",
+    "Python validator: 2 special.set_change warnings on v2_net_39",
+    "Vite: chunk exceeds 500 kB; production build succeeds",
+    "Alternative: 6 AMBIGUOUS final approach findings, 7 audit warnings; separate disclosed mode",
+    "Historical load figures in presentation are not current release benchmark evidence"
+  ]
+}

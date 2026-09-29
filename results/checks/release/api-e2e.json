@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "job_id": "cbe5d747-b665-4865-a7a4-ea975c4118b9",
+  "terminal_policy": "literal",
+  "byte_identical": true,
+  "semantic_match": true,
+  "sha256": "f2dbbf86f1d669a8dd30b44d3de63c573bfe9c1bfbb43b02e118998535b17070",
+  "variants": [
+    {
+      "id": "v1_summary",
+      "object_type": "variant_summary",
+      "variant_id": "v1",
+      "rank": 1,
+      "construction_cost": 229867239.7813864,
+      "chamber_construction_cost": 50000000,
+      "existing_chamber_tie_in_count": 0,
+      "existing_chamber_tie_in_cost": 0.0,
+      "unconnected_penalty": 338995000,
+      "calculated_cost": 568862239.7813864,
+      "new_network_length": 1553.6517006113452,
+      "score": 20.589097815712854,
+      "unconnected_oks_ids": [
+        2,
+        5,
+        10
+      ],
+      "diag_description": "совместное подключение: цели присоединяются к существующей или уже построенной новой сети; порядок целей: больший расход — раньше",
+      "diag_terminal_policy": "literal",
+      "diag_search_truncated": false,
+      "diag_relaxed_final_approach": [],
+      "diag_unconnected_reasons": {
+        "10": "строгий финальный подход недоступен (§2.2) (ДУ 125)",
+        "5": "строгий финальный подход недоступен (§2.2) (ДУ 125)",
+        "2": "строгий финальный подход недоступен (§2.2) (ДУ 100)"
+      }
+    },
+    {
+      "id": "v2_summary",
+      "object_type": "variant_summary",
+      "variant_id": "v2",
+      "rank": 2,
+      "construction_cost": 256423295.95944566,
+      "chamber_construction_cost": 47000000,
+      "existing_chamber_tie_in_count": 0,
+      "existing_chamber_tie_in_cost": 0.0,
+      "unconnected_penalty": 338995000,
+      "calculated_cost": 595418295.9594457,
+      "new_network_length": 1805.6816029830904,
+      "score": 22.08875709581375,
+      "unconnected_oks_ids": [
+        2,
+        5,
+        10
+      ],
+      "diag_description": "совместное подключение с минимумом присоединений к существующей сети; порядок целей: ближе к сети — раньше",
+      "diag_terminal_policy": "literal",
+      "diag_search_truncated": false,
+      "diag_relaxed_final_approach": [],
+      "diag_unconnected_reasons": {
+        "10": "строгий финальный подход недоступен (§2.2) (ДУ 125)",
+        "5": "строгий финальный подход недоступен (§2.2) (ДУ 125)",
+        "2": "строгий финальный подход недоступен (§2.2) (ДУ 100)"
+      }
+    }
+  ]
+}

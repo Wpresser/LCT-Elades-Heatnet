@@ -34,3 +34,16 @@ def test_contract_errors_have_nonzero_exit(tmp_path):
                              str(ROOT / sync.SOURCES["input.geojson"]), str(invalid)], capture_output=True)
     assert b"ERROR" in result.stdout
     assert result.returncode == 1
+
+
+def test_ci_preserves_authoritative_dataset_path_and_fails_closed():
+    import yaml
+    workflow = (ROOT / ".github/workflows/release-check.yml").read_text(encoding="utf-8")
+    assert Path(sync.SOURCES["input.geojson"]).name in workflow
+    jobs = yaml.safe_load(workflow)["jobs"]
+    steps = jobs["release"]["steps"]
+    assert jobs["release"]["env"]["HEATNET_TERMINAL_POLICY"] == "literal"
+    assert not any(step.get("continue-on-error") or "|| true" in step.get("run", "") for step in steps)
+    upload = next(step for step in steps if step.get("uses", "").startswith("actions/upload-artifact@"))
+    assert upload["with"]["include-hidden-files"] is True
+    assert upload["with"]["if-no-files-found"] == "error"

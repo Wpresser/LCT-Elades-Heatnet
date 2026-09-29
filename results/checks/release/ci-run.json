@@ -1,0 +1,103 @@
+{
+  "run_id": 36634293102,
+  "head_sha": "57bd009e28b9b12a65cb93fbfb5a79f285d50340",
+  "url": "https://github.com/Wpresser/LCT-Elades-Heatnet/actions/runs/36634293102",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "release",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Java 11 tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Viewer clean install, tests, types and production build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Python dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Asset consistency, validator tests and synthetic scenarios",
+          "conclusion": "success"
+        },
+        {
+          "name": "Strict release validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Compose config and image build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Production startup and PostgreSQL readiness",
+          "conclusion": "success"
+        },
+        {
+          "name": "Real API E2E and generated-output validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "PostgreSQL and application restart persistence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Compose diagnostics",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Stop test deployment",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}

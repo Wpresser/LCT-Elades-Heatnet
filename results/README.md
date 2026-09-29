@@ -16,3 +16,11 @@ python results/tools/lct_audit.py --input "task/sources/Датасет скор�
 python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_alternative.geojson --terminal-policy any
 python results/tools/output_contract_check.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
 ```
+
+Здесь C обозначает `calculated_cost`, то есть строительство плюс штраф. Strict v1:
+`construction_cost = 229867239.7813864`, `unconnected_penalty = 338995000`,
+`calculated_cost = 568862239.7813864`. Все компоненты и ranked variants — в `../FINAL_METRICS.json`.
+
+Актуальные отдельные проверки strict/alternative и browser evidence — `checks/release/`.
+`checks/validator_result_2d_competition.txt` и `checks/output_contract_check.txt` — ранее сохранённые
+проверки alternative, не доказательство strict. Реальное production API воспроизводится `../scripts/api_e2e.py`.
