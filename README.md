@@ -28,9 +28,11 @@ docker-compose logs -f app
 
 ```bash
 curl -F "file=@task/sources/Датасет скорректированный.geojson" http://localhost:8080/api/jobs
-curl http://localhost:8080/api/jobs/<id>
-curl -o result.geojson http://localhost:8080/api/jobs/<id>/result
+curl http://localhost:8080/api/jobs/ID_ЗАДАЧИ
+curl -o result.geojson http://localhost:8080/api/jobs/ID_ЗАДАЧИ/result
 ```
+
+Замените `ID_ЗАДАЧИ` на идентификатор из ответа на первую команду. Скачивайте результат после перехода задачи в состояние `DONE`.
 
 SHA-256 исправленного конкурсного набора: `cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4be87f2a21914130`.
 
