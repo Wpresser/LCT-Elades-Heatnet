@@ -21,4 +21,4 @@
 | Hardcode scan | PASS | No dataset coordinates or routing exceptions found in Java solver; numeric constants are rule tables and geometry tolerances |
 | Secrets scan | PASS | No credential files, private keys, tokens, or `.env` files in the staged release |
 
-The default release policy is strict/literal. The alternative output remains available as a separately disclosed interpretation. The only release blocker is the unavailable JDK 11/Docker execution gate described in `FINAL_BLOCKERS.md`.
+The default release policy is strict/literal. The alternative output remains available as a separately disclosed interpretation. Team identity and contact fields in the presentation are filled from the supplied team information. The only release blocker is the unavailable JDK 11/Docker execution gate described in `FINAL_BLOCKERS.md`.

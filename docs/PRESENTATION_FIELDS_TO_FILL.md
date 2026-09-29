@@ -1,13 +1,5 @@
-# Presentation fields to fill
+# Presentation data
 
-Before sending the deck, replace only the visible placeholders with the team's own data:
+The team identity fields, school, city, Telegram handles, phone numbers, team history, and participant photos have been filled in the current deck.
 
-- team name;
-- captain name and participant roles;
-- phone numbers or messenger handles;
-- school or workplace;
-- city and region;
-- short team history and previous projects;
-- team photo, if required by the event form.
-
-Do not change the strict KPI block unless the organizers issue a new clarification. The deck labels the relaxed result as an alternative interpretation.
+The strict KPI block remains the submission default. The relaxed result is labelled as an alternative interpretation.

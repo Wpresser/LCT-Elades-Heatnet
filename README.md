@@ -52,4 +52,4 @@ Open `http://localhost:5173/viewer/`. The viewer defaults to strict and loads th
 - Alternative audit: use `--output results/final_alternative.geojson --terminal-policy any`.
 - Independent validator: `python validator/validator.py task/sources/Датасет скорректированный.geojson results/final_strict.geojson`.
 
-Actual release results and any unavailable checks are recorded in `FINAL_VERIFICATION.md`. Unknown team identity fields remain in `docs/PRESENTATION_FIELDS_TO_FILL.md` and are not invented.
+Actual release results and any unavailable checks are recorded in `FINAL_VERIFICATION.md`. Team identity fields in the presentation are filled from the supplied team information.
