@@ -21,4 +21,4 @@
 | Проверка зашитых исключений | ПРОЙДЕНО | В Java-решателе нет координат набора или исключений маршрутизации; числовые константы относятся к таблицам правил и допускам геометрии |
 | Проверка секретов | ПРОЙДЕНО | В подготовленной версии нет файлов с учётными данными, ключей, токенов или `.env` |
 
-The default release policy is strict/literal. The alternative output remains available as a separately disclosed interpretation. Team identity and contact fields in the presentation are filled from the supplied team information. The only release blocker is the unavailable JDK 11/Docker execution gate described in `FINAL_BLOCKERS.md`.
+По умолчанию в релизе используется strict/literal. Альтернативный результат доступен отдельно с пояснением трактовки. Данные команды и контакты в презентации заполнены по сведениям участников. Оставшееся ограничение проверки — отсутствие JDK 11 и Docker на текущем компьютере; детали приведены в `FINAL_BLOCKERS.md`.
