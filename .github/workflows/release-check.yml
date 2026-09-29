@@ -55,9 +55,9 @@ jobs:
       - name: Strict release validation
         run: |
           mkdir -p .release-check
-          python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_strict.geojson --terminal-policy strict --json .release-check/strict-audit.json
-          python validator/validator.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
-          python results/tools/output_contract_check.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
+          python results/tools/lct_audit.py --input "task/sources/Р”Р°С‚Р°СЃРµС‚ СЃРєРѕСЂСЂРµРєС‚РёСЂРѕРІР°РЅРЅС‹Р№.geojson" --output results/final_strict.geojson --terminal-policy strict --json .release-check/strict-audit.json
+          python validator/validator.py "task/sources/Р”Р°С‚Р°СЃРµС‚ СЃРєРѕСЂСЂРµРєС‚РёСЂРѕРІР°РЅРЅС‹Р№.geojson" results/final_strict.geojson
+          python results/tools/output_contract_check.py "task/sources/Р”Р°С‚Р°СЃРµС‚ СЃРєРѕСЂСЂРµРєС‚РёСЂРѕРІР°РЅРЅС‹Р№.geojson" results/final_strict.geojson
       - name: Compose config and image build
         run: |
           docker compose config --quiet
@@ -89,6 +89,7 @@ jobs:
             service/target/surefire-reports/
             service/target/scenarios/
           if-no-files-found: error
+          include-hidden-files: true
       - name: Stop test deployment
         if: always()
         run: docker compose down
