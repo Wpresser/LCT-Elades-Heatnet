@@ -1,3 +1,4 @@
+# ИСТОРИЯ: состав архива сдачи 30.09.2026 (commit 08ee21f); после неё не обновлялся. Актуальное — docs/EXPERT_FEEDBACK.md
 .gitattributes
 .github/workflows/release-check.yml
 .gitignore

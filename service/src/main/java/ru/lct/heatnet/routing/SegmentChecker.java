@@ -8,6 +8,8 @@ import org.locationtech.jts.geom.LineSegment;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.operation.distance.DistanceOp;
+import org.locationtech.jts.operation.overlayng.OverlayNG;
+import org.locationtech.jts.operation.overlayng.OverlayNGRobust;
 import ru.lct.heatnet.model.InputModel;
 import ru.lct.heatnet.model.InputObjects.Restriction;
 import ru.lct.heatnet.rules.RestrictionRule;
@@ -78,7 +80,7 @@ public final class SegmentChecker {
                 continue;
             }
             if (tieIn != null && z.pipe != null && z.pipe.line.distance(f.gf.createPoint(tieIn)) <= InputModel.TOPO_TOL) {
-                Geometry rest = seg.intersection(z.zone).difference(f.gf.createPoint(tieIn).buffer(2 * z.need, 8));
+                Geometry rest = intersect(seg, z.zone).difference(f.gf.createPoint(tieIn).buffer(2 * z.need, 8));
                 if (!rest.isEmpty() && rest.getLength() > 1e-6) {
                     return null; // подход к своей врезке слишком пологий: идём вдоль трубы в зоне отступа
                 }
@@ -100,7 +102,10 @@ public final class SegmentChecker {
     private SpecialSpan crossing(LineString seg, double len, ObstacleField.Zone z, Coordinate tieIn) {
         Coordinate a = seg.getCoordinateN(0);
         Coordinate b = seg.getCoordinateN(1);
-        Geometry core = seg.intersection(z.core);
+        Geometry core = intersect(seg, z.core);
+        if (core.isEmpty()) {
+            return null; // зашли в зону отступа, не пересекая сам объект: прохождение рядом ближе отступа
+        }
         double s0;
         double s1;
         boolean endsInside = false;
@@ -134,8 +139,11 @@ public final class SegmentChecker {
         }
         double from = s0 - z.rule.specialMargin;
         double to = endsInside ? len : s1 + z.rule.specialMargin;
-        // зона отступа, содержащая пересечение, целиком входит в спецучасток (режим «продлить», DECISIONS №17, №25)
-        Geometry inZone = seg.intersection(z.zone);
+        // Заход в зону отступа — один прямой проход через пересечение. У дороги и трамвая зона, если она шире
+        // полигона + 3 м, целиком входит в спецучасток (DECISIONS №17, №25). У газа, кабеля и существующей теплосети
+        // граница спецучастка — ровно ±2 м вдоль оси новой сети, половина габарита не добавляется: отступ действует
+        // только при прохождении рядом вне пересечения (дополнительные разъяснения 29.09, №14)
+        Geometry inZone = intersect(seg, z.zone);
         for (int i = 0; i < inZone.getNumGeometries(); i++) {
             Coordinate[] cs = inZone.getGeometryN(i).getCoordinates();
             if (cs.length == 0) {
@@ -144,8 +152,10 @@ public final class SegmentChecker {
             double p0 = Math.min(a.distance(cs[0]), a.distance(cs[cs.length - 1]));
             double p1 = Math.max(a.distance(cs[0]), a.distance(cs[cs.length - 1]));
             if (p0 <= s0 + 1e-6 && p1 >= s1 - 1e-6) {
-                from = Math.min(from, p0);
-                to = Math.max(to, p1);
+                if (z.isAreal()) {
+                    from = Math.min(from, p0);
+                    to = Math.max(to, p1);
+                }
             } else {
                 return null; // второй заход в зону отступа без пересечения
             }
@@ -154,6 +164,21 @@ public final class SegmentChecker {
             return null; // спецучасток не помещается в прямой отрезок
         }
         return new SpecialSpan(Math.max(0, from), Math.min(len, to), z.rule, z.id);
+    }
+
+    /** Крупный объект (полигон дорожной сети на тысячи вершин): пересекаем через OverlayNG. */
+    static final int LARGE_GEOMETRY_POINTS = 64;
+
+    /**
+     * Пересечение отрезка с объектом. Для крупных объектов — OverlayNG: он отсекает рёбра вне общего охвата и узлует
+     * только локальные, а прежний оверлей каждый раз строит граф всего полигона (профиль набора с дорогами OSM: почти
+     * всё время расчёта уходило сюда). Малые объекты — прежним способом, их результат не меняется.
+     */
+    static Geometry intersect(LineString seg, Geometry g) {
+        if (g.getNumPoints() > LARGE_GEOMETRY_POINTS) {
+            return OverlayNGRobust.overlay(seg, g, OverlayNG.INTERSECTION);
+        }
+        return seg.intersection(g);
     }
 
     /** Угол пересечения [0°, 90°] с границей полигона или линией в точке. */

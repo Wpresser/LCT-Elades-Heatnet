@@ -1,4 +1,6 @@
 {
+  "superseded": true,
+  "superseded_note": "История: статус сдачи 30.09.2026 (commit 08ee21f, default literal 14/17). После неё не обновлялся. Актуальная версия и её проверки — docs/EXPERT_FEEDBACK.md, метрики — FINAL_METRICS.json.",
   "release_ready": true,
   "baseline_commit": "5a5f6b0ef5f799a65fbfc9433e3fb9780f1c7dc2",
   "validated_commit": "57bd009e28b9b12a65cb93fbfb5a79f285d50340",

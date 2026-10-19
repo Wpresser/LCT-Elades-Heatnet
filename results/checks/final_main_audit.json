@@ -1,11 +1,11 @@
 {
- "input": "C:\\Users\\i\\OneDrive\\Документы\\LCT_Task2_Codex_Lean\\LCT_FINAL_MERGE_WORK\\release\\task\\sources\\Датасет скорректированный.geojson",
- "output": "results/final_alternative.geojson",
- "terminal_policy": "any",
+ "input": "task/sources/Датасет скорректированный.geojson",
+ "output": "results/final_main.geojson",
+ "terminal_policy": "exterior-fallback",
  "errors": 0,
- "ambiguous": 6,
+ "ambiguous": 0,
  "input_problems": 0,
- "warnings": 7,
+ "warnings": 3,
  "variants": [
   {
    "variant_id": "v1",
@@ -15,12 +15,12 @@
      "own_oks": [
       96
      ],
-     "final_len_m": 9.905074250793241,
-     "inside_len_m": 2.1550742509280125,
+     "final_len_m": 9.90507425049866,
+     "inside_len_m": 2.155074250820058,
      "strict": true,
-     "strict_nearest_m": 2.1550742509280125,
+     "strict_nearest_m": 2.155074250712103,
      "exterior": true,
-     "exterior_nearest_m": 2.1550742509280125,
+     "exterior_nearest_m": 2.1550742507848075,
      "any": true
     },
     "4": {
@@ -29,11 +29,11 @@
       71
      ],
      "final_len_m": 10.586861520297578,
-     "inside_len_m": 4.586861519753697,
+     "inside_len_m": 4.586861518759349,
      "strict": true,
-     "strict_nearest_m": 4.586861519775478,
+     "strict_nearest_m": 4.58686151878113,
      "exterior": true,
-     "exterior_nearest_m": 4.586861519775478,
+     "exterior_nearest_m": 4.586861519148807,
      "any": true
     },
     "1": {
@@ -41,12 +41,12 @@
      "own_oks": [
       75
      ],
-     "final_len_m": 14.311169004169196,
-     "inside_len_m": 8.311169003854385,
+     "final_len_m": 14.311169003305517,
+     "inside_len_m": 8.311169004914069,
      "strict": true,
-     "strict_nearest_m": 8.311169003897941,
+     "strict_nearest_m": 8.31116900489229,
      "exterior": true,
-     "exterior_nearest_m": 8.311169003897941,
+     "exterior_nearest_m": 8.311169004906251,
      "any": true
     },
     "2": {
@@ -54,25 +54,26 @@
      "own_oks": [
       77
      ],
-     "final_len_m": 14.840333499989358,
-     "inside_len_m": 8.84033350023999,
+     "final_len_m": 14.840333500874141,
+     "inside_len_m": 8.840333500174285,
      "strict": false,
-     "strict_nearest_m": 5.799401572059233,
+     "strict_nearest_m": 5.799401572179269,
      "exterior": false,
-     "exterior_nearest_m": 5.799401572059233,
-     "any": true
+     "exterior_nearest_m": 5.799401572179269,
+     "any": true,
+     "exterior_fallback_extra_m": 3.0409319279950164
     },
     "11": {
      "target": 11,
      "own_oks": [
       90
      ],
-     "final_len_m": 12.2691307185486,
-     "inside_len_m": 6.269130718603466,
+     "final_len_m": 12.269130718200024,
+     "inside_len_m": 6.269130718765397,
      "strict": true,
      "strict_nearest_m": 6.2691307184955125,
      "exterior": true,
-     "exterior_nearest_m": 6.2691307184955125,
+     "exterior_nearest_m": 6.26913071858671,
      "any": true
     },
     "3": {
@@ -81,11 +82,11 @@
       74
      ],
      "final_len_m": 10.69805141583727,
-     "inside_len_m": 4.948051415546704,
+     "inside_len_m": 4.948051415330803,
      "strict": true,
-     "strict_nearest_m": 4.94805141560068,
+     "strict_nearest_m": 4.948051415330803,
      "exterior": true,
-     "exterior_nearest_m": 4.94805141560068,
+     "exterior_nearest_m": 4.9480514154048825,
      "any": true
     },
     "8": {
@@ -93,12 +94,12 @@
      "own_oks": [
       81
      ],
-     "final_len_m": 9.02664681785377,
-     "inside_len_m": 2.52664681774065,
+     "final_len_m": 9.026646817504611,
+     "inside_len_m": 2.526646817794612,
      "strict": true,
-     "strict_nearest_m": 2.52664681774065,
+     "strict_nearest_m": 2.5266468175787633,
      "exterior": true,
-     "exterior_nearest_m": 2.52664681774065,
+     "exterior_nearest_m": 2.5266468176636074,
      "any": true
     },
     "6": {
@@ -106,12 +107,12 @@
      "own_oks": [
       82
      ],
-     "final_len_m": 8.552022319683976,
-     "inside_len_m": 2.5520223191676927,
+     "final_len_m": 8.552022318843443,
+     "inside_len_m": 2.552022319211615,
      "strict": true,
-     "strict_nearest_m": 2.5520223191457316,
+     "strict_nearest_m": 2.55202231912377,
      "exterior": true,
-     "exterior_nearest_m": 2.5520223191457316,
+     "exterior_nearest_m": 2.5520223193463716,
      "any": true
     },
     "5": {
@@ -119,12 +120,12 @@
      "own_oks": [
       72
      ],
-     "final_len_m": 16.393939966685785,
-     "inside_len_m": 10.39393996754161,
+     "final_len_m": 16.393939967549443,
+     "inside_len_m": 10.393939967454482,
      "strict": false,
      "strict_nearest_m": 7.1566981411203585,
      "exterior": true,
-     "exterior_nearest_m": 10.393939967498047,
+     "exterior_nearest_m": 10.393939967314504,
      "any": true
     },
     "12": {
@@ -132,12 +133,12 @@
      "own_oks": [
       92
      ],
-     "final_len_m": 7.521366439111903,
-     "inside_len_m": 1.5213664387943227,
+     "final_len_m": 7.521366439165882,
+     "inside_len_m": 1.521366439172175,
      "strict": true,
-     "strict_nearest_m": 1.5213664389022805,
+     "strict_nearest_m": 1.5213664392261539,
      "exterior": true,
-     "exterior_nearest_m": 1.5213664389022805,
+     "exterior_nearest_m": 1.5213664392340422,
      "any": true
     },
     "15": {
@@ -145,12 +146,12 @@
      "own_oks": [
       92
      ],
-     "final_len_m": 8.170406653858654,
-     "inside_len_m": 2.1704066543535006,
+     "final_len_m": 8.170406652994325,
+     "inside_len_m": 2.1704066534458173,
      "strict": true,
-     "strict_nearest_m": 2.1704066540066607,
+     "strict_nearest_m": 2.170406653402462,
      "exterior": true,
-     "exterior_nearest_m": 2.1704066540066607,
+     "exterior_nearest_m": 2.170406653732382,
      "any": true
     },
     "13": {
@@ -163,7 +164,7 @@
      "strict": true,
      "strict_nearest_m": 3.213559490256963,
      "exterior": true,
-     "exterior_nearest_m": 3.213559490256963,
+     "exterior_nearest_m": 3.213559490331682,
      "any": true
     },
     "14": {
@@ -171,12 +172,12 @@
      "own_oks": [
       89
      ],
-     "final_len_m": 6.057679557230093,
+     "final_len_m": 6.0576795563666685,
      "inside_len_m": 0.05767955560545929,
      "strict": true,
      "strict_nearest_m": 0.057679555649094466,
      "exterior": true,
-     "exterior_nearest_m": 0.057679555649094466,
+     "exterior_nearest_m": 0.057679555347899286,
      "any": true
     },
     "9": {
@@ -184,12 +185,12 @@
      "own_oks": [
       87
      ],
-     "final_len_m": 13.353166867367515,
-     "inside_len_m": 7.353166867504493,
+     "final_len_m": 13.353166867345806,
+     "inside_len_m": 7.353166867417657,
      "strict": true,
-     "strict_nearest_m": 7.353166867482783,
+     "strict_nearest_m": 7.35316686754791,
      "exterior": true,
-     "exterior_nearest_m": 7.353166867482783,
+     "exterior_nearest_m": 7.353166867219733,
      "any": true
     },
     "10": {
@@ -197,25 +198,26 @@
      "own_oks": [
       88
      ],
-     "final_len_m": 34.00352883927977,
-     "inside_len_m": 7.253528839462481,
+     "final_len_m": 16.296021942315782,
+     "inside_len_m": 8.796021942162415,
      "strict": false,
-     "strict_nearest_m": 6.535781990557818,
+     "strict_nearest_m": 6.535781990233281,
      "exterior": false,
-     "exterior_nearest_m": 6.535781990557818,
-     "any": true
+     "exterior_nearest_m": 6.535781990145804,
+     "any": true,
+     "exterior_fallback_extra_m": 2.2602399520166117
     },
     "7": {
      "target": 7,
      "own_oks": [
       83
      ],
-     "final_len_m": 11.19366736866653,
-     "inside_len_m": 5.193667368948671,
+     "final_len_m": 11.193667366939245,
+     "inside_len_m": 5.193667368085028,
      "strict": true,
-     "strict_nearest_m": 5.193667369035807,
+     "strict_nearest_m": 5.19366736804146,
      "exterior": true,
-     "exterior_nearest_m": 5.193667369035807,
+     "exterior_nearest_m": 5.193667368455254,
      "any": true
     },
     "17": {
@@ -223,12 +225,12 @@
      "own_oks": [
       97
      ],
-     "final_len_m": 11.37451072713419,
-     "inside_len_m": 5.374510727692428,
+     "final_len_m": 11.374510727998553,
+     "inside_len_m": 5.374510728600134,
      "strict": true,
-     "strict_nearest_m": 5.374510727627411,
+     "strict_nearest_m": 5.374510728621806,
      "exterior": true,
-     "exterior_nearest_m": 5.374510727627411,
+     "exterior_nearest_m": 5.374510728742383,
      "any": true
     }
    },
@@ -403,17 +405,17 @@
     }
    ],
    "recomputed": {
-    "segment_cost_from_geometry": 211516096.52958205,
-    "segment_cost_from_properties": 211516096.52945518,
+    "segment_cost_from_geometry": 213561967.97192922,
+    "segment_cost_from_properties": 213561967.972127,
     "chamber_construction_cost": 60000000.0,
     "chamber_cost_from_properties": 60000000.0,
     "existing_chamber_tie_in_count": 0,
     "existing_chamber_tie_in_cost": 0,
-    "construction_cost": 271516096.529582,
+    "construction_cost": 273561967.9719292,
     "unconnected_penalty": 0,
-    "calculated_cost": 271516096.529582,
-    "new_network_length": 1824.6731652339085,
-    "score": 13.076470198530021,
+    "calculated_cost": 273561967.9719292,
+    "new_network_length": 1845.7049970758474,
+    "score": 13.196850094441558,
     "unconnected_oks_ids": [],
     "connected": 17,
     "targets": 17,
@@ -433,25 +435,25 @@
    },
    "claimed": {
     "rank": 1,
-    "construction_cost": 271516096.5294552,
+    "construction_cost": 273561967.97212696,
     "chamber_construction_cost": 60000000,
     "existing_chamber_tie_in_count": 0,
     "existing_chamber_tie_in_cost": 0.0,
     "unconnected_penalty": 0.0,
-    "calculated_cost": 271516096.5294552,
-    "new_network_length": 1824.6731652331825,
-    "score": 13.07647019852429,
+    "calculated_cost": 273561967.97212696,
+    "new_network_length": 1845.7049970776632,
+    "score": 13.196850094452543,
     "unconnected_oks_ids": []
    },
    "summary_minus_recomputed": {
-    "construction_cost": -0.00012683868408203125,
+    "construction_cost": 0.0001977682113647461,
     "chamber_construction_cost": 0.0,
     "existing_chamber_tie_in_count": 0.0,
     "existing_chamber_tie_in_cost": 0.0,
     "unconnected_penalty": 0.0,
-    "calculated_cost": -0.00012683868408203125,
-    "new_network_length": -7.2600414569024e-10,
-    "score": -5.730527163905208e-12
+    "calculated_cost": 0.0001977682113647461,
+    "new_network_length": 1.8158061720896512e-09,
+    "score": 1.0984990694851149e-11
    },
    "tightest_clearances": [
     {
@@ -524,12 +526,12 @@
      "own_oks": [
       96
      ],
-     "final_len_m": 9.905074250793241,
-     "inside_len_m": 2.1550742509280125,
+     "final_len_m": 9.90507425049866,
+     "inside_len_m": 2.155074250820058,
      "strict": true,
-     "strict_nearest_m": 2.1550742509280125,
+     "strict_nearest_m": 2.155074250712103,
      "exterior": true,
-     "exterior_nearest_m": 2.1550742509280125,
+     "exterior_nearest_m": 2.1550742507848075,
      "any": true
     },
     "7": {
@@ -537,12 +539,12 @@
      "own_oks": [
       83
      ],
-     "final_len_m": 11.19366736866653,
-     "inside_len_m": 5.193667368948671,
+     "final_len_m": 11.193667366939245,
+     "inside_len_m": 5.193667368085028,
      "strict": true,
-     "strict_nearest_m": 5.193667369035807,
+     "strict_nearest_m": 5.19366736804146,
      "exterior": true,
-     "exterior_nearest_m": 5.193667369035807,
+     "exterior_nearest_m": 5.193667368455254,
      "any": true
     },
     "17": {
@@ -550,12 +552,12 @@
      "own_oks": [
       97
      ],
-     "final_len_m": 11.37451072713419,
-     "inside_len_m": 5.374510727692428,
+     "final_len_m": 11.374510727998553,
+     "inside_len_m": 5.374510728600134,
      "strict": true,
-     "strict_nearest_m": 5.374510727627411,
+     "strict_nearest_m": 5.374510728621806,
      "exterior": true,
-     "exterior_nearest_m": 5.374510727627411,
+     "exterior_nearest_m": 5.374510728742383,
      "any": true
     },
     "10": {
@@ -563,25 +565,26 @@
      "own_oks": [
       88
      ],
-     "final_len_m": 15.901495037894446,
-     "inside_len_m": 9.651495037735742,
+     "final_len_m": 15.901495038396797,
+     "inside_len_m": 9.65149503823809,
      "strict": false,
-     "strict_nearest_m": 6.535781990557818,
+     "strict_nearest_m": 6.535781990233281,
      "exterior": false,
-     "exterior_nearest_m": 6.535781990557818,
-     "any": true
+     "exterior_nearest_m": 6.535781990145804,
+     "any": true,
+     "exterior_fallback_extra_m": 3.115713048092287
     },
     "9": {
      "target": 9,
      "own_oks": [
       87
      ],
-     "final_len_m": 13.353166867367515,
-     "inside_len_m": 7.353166867504493,
+     "final_len_m": 13.353166867345806,
+     "inside_len_m": 7.353166867417657,
      "strict": true,
-     "strict_nearest_m": 7.353166867482783,
+     "strict_nearest_m": 7.35316686754791,
      "exterior": true,
-     "exterior_nearest_m": 7.353166867482783,
+     "exterior_nearest_m": 7.353166867219733,
      "any": true
     },
     "14": {
@@ -589,12 +592,12 @@
      "own_oks": [
       89
      ],
-     "final_len_m": 6.057679557230093,
+     "final_len_m": 6.0576795563666685,
      "inside_len_m": 0.05767955560545929,
      "strict": true,
      "strict_nearest_m": 0.057679555649094466,
      "exterior": true,
-     "exterior_nearest_m": 0.057679555649094466,
+     "exterior_nearest_m": 0.057679555347899286,
      "any": true
     },
     "13": {
@@ -607,7 +610,7 @@
      "strict": true,
      "strict_nearest_m": 3.213559490256963,
      "exterior": true,
-     "exterior_nearest_m": 3.213559490256963,
+     "exterior_nearest_m": 3.213559490331682,
      "any": true
     },
     "15": {
@@ -615,12 +618,12 @@
      "own_oks": [
       92
      ],
-     "final_len_m": 8.170406653858654,
-     "inside_len_m": 2.1704066543535006,
+     "final_len_m": 8.170406652994325,
+     "inside_len_m": 2.1704066534458173,
      "strict": true,
-     "strict_nearest_m": 2.1704066540066607,
+     "strict_nearest_m": 2.170406653402462,
      "exterior": true,
-     "exterior_nearest_m": 2.1704066540066607,
+     "exterior_nearest_m": 2.170406653732382,
      "any": true
     },
     "5": {
@@ -628,12 +631,12 @@
      "own_oks": [
       72
      ],
-     "final_len_m": 16.393939966685785,
-     "inside_len_m": 10.39393996754161,
+     "final_len_m": 16.393939967549443,
+     "inside_len_m": 10.393939967454482,
      "strict": false,
      "strict_nearest_m": 7.1566981411203585,
      "exterior": true,
-     "exterior_nearest_m": 10.393939967498047,
+     "exterior_nearest_m": 10.393939967314504,
      "any": true
     },
     "12": {
@@ -641,12 +644,12 @@
      "own_oks": [
       92
      ],
-     "final_len_m": 7.521366439111903,
-     "inside_len_m": 1.5213664387943227,
+     "final_len_m": 7.521366439165882,
+     "inside_len_m": 1.521366439172175,
      "strict": true,
-     "strict_nearest_m": 1.5213664389022805,
+     "strict_nearest_m": 1.5213664392261539,
      "exterior": true,
-     "exterior_nearest_m": 1.5213664389022805,
+     "exterior_nearest_m": 1.5213664392340422,
      "any": true
     },
     "11": {
@@ -654,12 +657,12 @@
      "own_oks": [
       90
      ],
-     "final_len_m": 12.2691307185486,
-     "inside_len_m": 6.269130718603466,
+     "final_len_m": 12.269130718200024,
+     "inside_len_m": 6.269130718765397,
      "strict": true,
      "strict_nearest_m": 6.2691307184955125,
      "exterior": true,
-     "exterior_nearest_m": 6.2691307184955125,
+     "exterior_nearest_m": 6.26913071858671,
      "any": true
     },
     "3": {
@@ -668,11 +671,11 @@
       74
      ],
      "final_len_m": 10.69805141583727,
-     "inside_len_m": 4.948051415546704,
+     "inside_len_m": 4.948051415330803,
      "strict": true,
-     "strict_nearest_m": 4.94805141560068,
+     "strict_nearest_m": 4.948051415330803,
      "exterior": true,
-     "exterior_nearest_m": 4.94805141560068,
+     "exterior_nearest_m": 4.9480514154048825,
      "any": true
     },
     "6": {
@@ -680,12 +683,12 @@
      "own_oks": [
       82
      ],
-     "final_len_m": 8.552022319683976,
-     "inside_len_m": 2.5520223191676927,
+     "final_len_m": 8.552022318843443,
+     "inside_len_m": 2.552022319211615,
      "strict": true,
-     "strict_nearest_m": 2.5520223191457316,
+     "strict_nearest_m": 2.55202231912377,
      "exterior": true,
-     "exterior_nearest_m": 2.5520223191457316,
+     "exterior_nearest_m": 2.5520223193463716,
      "any": true
     },
     "8": {
@@ -693,12 +696,12 @@
      "own_oks": [
       81
      ],
-     "final_len_m": 9.02664681785377,
-     "inside_len_m": 2.52664681774065,
+     "final_len_m": 9.026646817504611,
+     "inside_len_m": 2.526646817794612,
      "strict": true,
-     "strict_nearest_m": 2.52664681774065,
+     "strict_nearest_m": 2.5266468175787633,
      "exterior": true,
-     "exterior_nearest_m": 2.52664681774065,
+     "exterior_nearest_m": 2.5266468176636074,
      "any": true
     },
     "4": {
@@ -707,11 +710,11 @@
       71
      ],
      "final_len_m": 10.586861520297578,
-     "inside_len_m": 4.586861519753697,
+     "inside_len_m": 4.586861518759349,
      "strict": true,
-     "strict_nearest_m": 4.586861519775478,
+     "strict_nearest_m": 4.58686151878113,
      "exterior": true,
-     "exterior_nearest_m": 4.586861519775478,
+     "exterior_nearest_m": 4.586861519148807,
      "any": true
     },
     "1": {
@@ -719,12 +722,12 @@
      "own_oks": [
       75
      ],
-     "final_len_m": 14.311169004169196,
-     "inside_len_m": 8.311169003854385,
+     "final_len_m": 14.311169003305517,
+     "inside_len_m": 8.311169004914069,
      "strict": true,
-     "strict_nearest_m": 8.311169003897941,
+     "strict_nearest_m": 8.31116900489229,
      "exterior": true,
-     "exterior_nearest_m": 8.311169003897941,
+     "exterior_nearest_m": 8.311169004906251,
      "any": true
     },
     "2": {
@@ -732,13 +735,14 @@
      "own_oks": [
       77
      ],
-     "final_len_m": 15.309969120128923,
-     "inside_len_m": 9.059969121282073,
+     "final_len_m": 15.309969120138394,
+     "inside_len_m": 9.059969121291543,
      "strict": false,
-     "strict_nearest_m": 5.799401572059233,
+     "strict_nearest_m": 5.799401572179269,
      "exterior": false,
-     "exterior_nearest_m": 5.799401572059233,
-     "any": true
+     "exterior_nearest_m": 5.799401572179269,
+     "any": true,
+     "exterior_fallback_extra_m": 3.260567549112274
     }
    },
    "chambers": [
@@ -924,17 +928,17 @@
     }
    ],
    "recomputed": {
-    "segment_cost_from_geometry": 232678319.5623857,
-    "segment_cost_from_properties": 232678319.56243274,
+    "segment_cost_from_geometry": 232662746.2232991,
+    "segment_cost_from_properties": 232662746.22315645,
     "chamber_construction_cost": 57000000.0,
     "chamber_cost_from_properties": 57000000.0,
     "existing_chamber_tie_in_count": 0,
     "existing_chamber_tie_in_cost": 0,
-    "construction_cost": 289678319.5623857,
+    "construction_cost": 289662746.2232991,
     "unconnected_penalty": 0,
-    "calculated_cost": 289678319.5623857,
-    "new_network_length": 2078.2983350627164,
-    "score": 14.345887952934946,
+    "calculated_cost": 289662746.2232991,
+    "new_network_length": 2078.3122040851017,
+    "score": 14.34549350650768,
     "unconnected_oks_ids": [],
     "connected": 17,
     "targets": 17,
@@ -954,27 +958,39 @@
    },
    "claimed": {
     "rank": 2,
-    "construction_cost": 289678319.56243277,
+    "construction_cost": 289662746.22315645,
     "chamber_construction_cost": 57000000,
     "existing_chamber_tie_in_count": 0,
     "existing_chamber_tie_in_cost": 0.0,
     "unconnected_penalty": 0.0,
-    "calculated_cost": 289678319.56243277,
-    "new_network_length": 2078.298335062663,
-    "score": 14.345887952936106,
+    "calculated_cost": 289662746.22315645,
+    "new_network_length": 2078.3122040839266,
+    "score": 14.345493506500162,
     "unconnected_oks_ids": []
    },
    "summary_minus_recomputed": {
-    "construction_cost": 4.7087669372558594e-05,
+    "construction_cost": -0.00014263391494750977,
     "chamber_construction_cost": 0.0,
     "existing_chamber_tie_in_count": 0.0,
     "existing_chamber_tie_in_cost": 0.0,
     "unconnected_penalty": 0.0,
-    "calculated_cost": 4.7087669372558594e-05,
-    "new_network_length": -5.32054400537163e-11,
-    "score": 1.1599610161283636e-12
+    "calculated_cost": -0.00014263391494750977,
+    "new_network_length": -1.1750671546906233e-09,
+    "score": -7.51754214434186e-12
    },
    "tightest_clearances": [
+    {
+     "margin_m": -0.6668,
+     "segment": "\"v2_net_49\"",
+     "type": "heat_network",
+     "restriction": "128"
+    },
+    {
+     "margin_m": -0.6668,
+     "segment": "\"v2_net_51\"",
+     "type": "heat_network",
+     "restriction": "128"
+    },
     {
      "margin_m": 0.0676,
      "segment": "\"v2_net_60\"",
@@ -1022,64 +1038,22 @@
      "segment": "\"v2_net_48\"",
      "type": "oks",
      "restriction": "105"
-    },
-    {
-     "margin_m": 0.425,
-     "segment": "\"v2_net_47\"",
-     "type": "oks",
-     "restriction": "83"
-    },
-    {
-     "margin_m": 0.425,
-     "segment": "\"v2_net_6\"",
-     "type": "oks",
-     "restriction": "83"
     }
    ]
   }
  ],
  "items": [
   {
-   "level": "WARNING",
-   "code": "ZIGZAG",
-   "message": "heat_network \"v1_net_14\": 13.9 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
+   "level": "INFO",
+   "code": "FINAL_EXTERIOR_FALLBACK",
+   "message": "final straight section to target 2 uses another exterior boundary point: 8.8 m inside own OKS vs 5.8 m to the nearest exterior point (+3.0 m) (clarifications 29.09 No. 15)",
    "variant": "v1"
   },
   {
-   "level": "WARNING",
-   "code": "ZIGZAG",
-   "message": "heat_network \"v1_net_14\": 7.4 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
+   "level": "INFO",
+   "code": "FINAL_EXTERIOR_FALLBACK",
+   "message": "final straight section to target 10 uses another exterior boundary point: 8.8 m inside own OKS vs 6.5 m to the nearest exterior point (+2.3 m) (clarifications 29.09 No. 15)",
    "variant": "v1"
-  },
-  {
-   "level": "AMBIGUOUS",
-   "code": "FINAL_NOT_STRICT_NEAREST",
-   "message": "final straight section to target 2 passes the nearest boundary only under the relaxed policy 'any', not under the literal global-nearest reading (§2.2)",
-   "variant": "v1"
-  },
-  {
-   "level": "AMBIGUOUS",
-   "code": "FINAL_NOT_STRICT_NEAREST",
-   "message": "final straight section to target 5 passes the nearest boundary only under the relaxed policy 'any', not under the literal global-nearest reading (§2.2)",
-   "variant": "v1"
-  },
-  {
-   "level": "AMBIGUOUS",
-   "code": "FINAL_NOT_STRICT_NEAREST",
-   "message": "final straight section to target 10 passes the nearest boundary only under the relaxed policy 'any', not under the literal global-nearest reading (§2.2)",
-   "variant": "v1"
-  },
-  {
-   "level": "WARNING",
-   "code": "ZIGZAG",
-   "message": "heat_network \"v2_net_30\": 13.9 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
-   "variant": "v2"
-  },
-  {
-   "level": "WARNING",
-   "code": "ZIGZAG",
-   "message": "heat_network \"v2_net_30\": 7.4 deg turn next to a 0.87 m sub-segment (possible unjustified small break)",
-   "variant": "v2"
   },
   {
    "level": "WARNING",
@@ -1100,21 +1074,15 @@
    "variant": "v2"
   },
   {
-   "level": "AMBIGUOUS",
-   "code": "FINAL_NOT_STRICT_NEAREST",
-   "message": "final straight section to target 10 passes the nearest boundary only under the relaxed policy 'any', not under the literal global-nearest reading (§2.2)",
+   "level": "INFO",
+   "code": "FINAL_EXTERIOR_FALLBACK",
+   "message": "final straight section to target 10 uses another exterior boundary point: 9.7 m inside own OKS vs 6.5 m to the nearest exterior point (+3.1 m) (clarifications 29.09 No. 15)",
    "variant": "v2"
   },
   {
-   "level": "AMBIGUOUS",
-   "code": "FINAL_NOT_STRICT_NEAREST",
-   "message": "final straight section to target 5 passes the nearest boundary only under the relaxed policy 'any', not under the literal global-nearest reading (§2.2)",
-   "variant": "v2"
-  },
-  {
-   "level": "AMBIGUOUS",
-   "code": "FINAL_NOT_STRICT_NEAREST",
-   "message": "final straight section to target 2 passes the nearest boundary only under the relaxed policy 'any', not under the literal global-nearest reading (§2.2)",
+   "level": "INFO",
+   "code": "FINAL_EXTERIOR_FALLBACK",
+   "message": "final straight section to target 2 uses another exterior boundary point: 9.1 m inside own OKS vs 5.8 m to the nearest exterior point (+3.3 m) (clarifications 29.09 No. 15)",
    "variant": "v2"
   }
  ]

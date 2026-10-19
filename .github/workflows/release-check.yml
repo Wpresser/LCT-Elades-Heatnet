@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 35
     env:
-      HEATNET_TERMINAL_POLICY: literal
+      HEATNET_TERMINAL_POLICY: relaxed
       PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v4
@@ -52,9 +52,14 @@ jobs:
           python scripts/check_release_metrics.py
           python -m pytest validator/test_validator.py scripts/test_release_checks.py -q
           python scenarios/check_scenarios.py service/target/scenarios
-      - name: Strict release validation
+      - name: Release validation (main result, clarifications 29.09 No. 15)
         run: |
           mkdir -p .release-check
+          python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_main.geojson --terminal-policy exterior-fallback --json .release-check/main-audit.json
+          python validator/validator.py "task/sources/Датасет скорректированный.geojson" results/final_main.geojson
+          python results/tools/output_contract_check.py "task/sources/Датасет скорректированный.geojson" results/final_main.geojson
+      - name: Strict §2.2 comparison result validation
+        run: |
           python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_strict.geojson --terminal-policy strict --json .release-check/strict-audit.json
           python validator/validator.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
           python results/tools/output_contract_check.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson

@@ -100,8 +100,8 @@ for i, f in enumerate(feats):
 for k, n in seen_ids.items():
     if n > 1: err("DUPID", f"id {k!r} appears {n} times")
     if k in in_ids: err("IDCLASH", f"output id {k!r} equals input id of {in_ids[k]}")
-for ot, c in extras.items():
-    note("EXTRA", f"{ot}: extra properties {dict(c)} (allowed by §7 but visible)")
+for ot, c in sorted(extras.items()):
+    note("EXTRA", f"{ot}: extra properties {dict(sorted(c.items()))} (allowed by §7 but visible)")
 
 # ---------- per-variant semantics
 summ_rows = []

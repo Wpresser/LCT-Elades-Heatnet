@@ -1,3 +1,5 @@
+> **История: сдача 30.09.2026 (commit `08ee21f`), режим по умолчанию тогда — `literal` (14/17).** Документ сохранён как доказательство той сдачи и после неё не обновлялся. Актуальная версия — доработка по обратной связи экспертов: что сделано и какие проверки выполнены — [docs/EXPERT_FEEDBACK.md](docs/EXPERT_FEEDBACK.md), метрики — [FINAL_METRICS.json](FINAL_METRICS.json).
+
 # Итоговая матрица проверки
 
 Подтверждённый production commit: `57bd009e28b9b12a65cb93fbfb5a79f285d50340`. [Ubuntu CI run](https://github.com/Wpresser/LCT-Elades-Heatnet/actions/runs/36634293102) завершился `success`.

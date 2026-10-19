@@ -2,19 +2,19 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { policyCopy, variantCollection } from '../.policy-test/policy.js'
 
-test('strict is the submission-safe default policy copy', () => {
-  assert.deepEqual(policyCopy('strict'), {
-    label: 'Строгая трактовка',
+test('main is the default policy copy without disclosure', () => {
+  assert.deepEqual(policyCopy('main'), {
+    label: 'Основной режим',
     disclosure: '',
-    outputPath: '/data/strict.geojson',
+    outputPath: '/data/main.geojson',
   })
 })
 
-test('alternative policy copy carries an explicit disclosure', () => {
-  const copy = policyCopy('alternative')
-  assert.equal(copy.label, 'Альтернативная трактовка')
-  assert.equal(copy.outputPath, '/data/alternative.geojson')
-  assert.match(copy.disclosure, /альтернативн/i)
+test('strict comparison copy carries an explicit disclosure', () => {
+  const copy = policyCopy('strict')
+  assert.equal(copy.label, 'Строгое прочтение §2.2')
+  assert.equal(copy.outputPath, '/data/strict.geojson')
+  assert.match(copy.disclosure, /сравнени/i)
 })
 
 test('variant selection never mixes v1 and v2 geometry or summaries', () => {

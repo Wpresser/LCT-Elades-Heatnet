@@ -15,10 +15,11 @@ class TerminalPolicyTest {
     }
 
     @Test
-    void defaultIsLiteralAndValuesParse() {
+    void defaultIsRelaxedAndValuesParse() {
         System.clearProperty("heatnet.terminal-policy");
         if (System.getenv("HEATNET_TERMINAL_POLICY") == null) {
-            assertEquals(TerminalPolicy.LITERAL, TerminalPolicy.current());
+            // разъяснения 29.09 №15: ближайшая внешняя граница, затем другая подходящая точка внешней границы
+            assertEquals(TerminalPolicy.RELAXED, TerminalPolicy.current());
         }
         System.setProperty("heatnet.terminal-policy", "literal");
         assertEquals(TerminalPolicy.LITERAL, TerminalPolicy.current());

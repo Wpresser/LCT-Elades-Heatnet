@@ -9,6 +9,8 @@ import ru.lct.heatnet.io.InputLoader;
 import ru.lct.heatnet.io.ResultWriter;
 import ru.lct.heatnet.model.Diagnostics;
 import ru.lct.heatnet.model.InputModel;
+import ru.lct.heatnet.model.InputObjects.Target;
+import ru.lct.heatnet.routing.Router;
 import ru.lct.heatnet.solver.SolveService;
 import ru.lct.heatnet.solver.VariantSummary;
 
@@ -38,9 +40,10 @@ public class HeatNetJobProcessor implements JobProcessor {
         long t1 = System.nanoTime();
         List<VariantSummary> variants = new SolveService().solve(model);
         double windowScale = 1.0;
-        // есть неподключённые — повторяем с расширенными окнами поиска (ограничения догружаются), берём лучшее
-        // точки без корректного flow_tph маршрута не получат ни при каком окне — ради них повтор не нужен
-        if (variants.get(0).unconnected.size() > model.invalidTargets.size()) {
+        // есть неподключённые — повторяем с расширенными окнами поиска (ограничения догружаются), берём лучшее.
+        // Точки без корректного flow_tph и точки с закрытым по входным данным строгим выходом (§2.2) маршрута
+        // не получат ни при каком окне — ради них повтор не нужен
+        if (retryMayHelp(variants.get(0), model)) {
             InputModel wide = loader.load(input, WIDE_WINDOW_SCALE);
             List<VariantSummary> retry = new SolveService().solve(wide);
             if (better(retry.get(0), variants.get(0))) {
@@ -83,6 +86,21 @@ public class HeatNetJobProcessor implements JobProcessor {
 
     /** Во сколько раз расширяются окна поиска при повторе. */
     static final double WIDE_WINDOW_SCALE = 2.5;
+
+    static boolean retryMayHelp(VariantSummary best, InputModel model) {
+        if (best.unconnected.size() <= model.invalidTargets.size()) {
+            return false;
+        }
+        for (Map.Entry<Target, String> e : best.net.unconnected.entrySet()) {
+            if (model.invalidTargets.containsKey(e.getKey())) {
+                continue;
+            }
+            if (e.getValue() == null || !e.getValue().contains(Router.STRICT_EXIT_CLOSED)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private static boolean better(VariantSummary a, VariantSummary b) {
         if (a.unconnected.size() != b.unconnected.size()) {

@@ -288,11 +288,25 @@ public final class TreeSolver {
                 break;
             }
         }
+        // поворот потока ≤ 90° на обоих концах новой цепочки (§2.1, разъяснение №5): вверху — от участка выше
+        // по потоку, внизу — в уже примыкающие участки ниже по потоку
+        Net.Line above = upper.tieIn ? null : tree.lineAbove.get(upper);
+        Coordinate inflow = above == null ? null : neighbour(above, upper);
+        List<Coordinate> startOut = new ArrayList<>();
+        for (Net.Line l : adj.getOrDefault(lower, java.util.Collections.emptyList())) {
+            if (!chain.contains(l)) {
+                Coordinate q = neighbour(l, lower);
+                if (q != null) {
+                    startOut.add(q);
+                }
+            }
+        }
         net.lines.removeAll(chain);
         net.nodes.removeAll(inner);
         NetworkState state = new NetworkState(m.gf, net);
         ru.lct.heatnet.routing.DynamicObstacles dyn = state.dynamicFor(dn);
-        Router.Goal goal = new Router.Goal(upper.xy, 0, upper.tieIn ? upper.xy : null, null, TieInGoals.SHARED_NODE_RADIUS);
+        Router.Goal goal = new Router.Goal(upper.xy, 0, upper.tieIn ? upper.xy : null, null, TieInGoals.SHARED_NODE_RADIUS,
+                inflow);
         Router.GoalProvider single = new Router.GoalProvider() {
             @Override
             public List<Router.Goal> near(Coordinate c) {
@@ -320,7 +334,7 @@ public final class TreeSolver {
         } else {
             Target pseudo = new Target(ru.lct.heatnet.model.FeatureId.of("chain"), 0, lower.xy,
                     m.gf.createPoint(lower.xy));
-            res = router.routeFromNode(pseudo, dyn, single, TieInGoals.SHARED_NODE_RADIUS);
+            res = router.routeFromNode(pseudo, dyn, single, TieInGoals.SHARED_NODE_RADIUS, startOut);
         }
         if (res.route == null) {
             return false;
@@ -329,6 +343,22 @@ public final class TreeSolver {
             certify(net, l, wideDn);
         }
         return true;
+    }
+
+    /** Ближайшая к узлу n несовпадающая с ним вершина участка l или null. */
+    private static Coordinate neighbour(Net.Line l, Net.Node n) {
+        List<Coordinate> c = l.coords;
+        boolean fromA = l.a == n;
+        if (!fromA && l.b != n) {
+            return null;
+        }
+        for (int k = 1; k < c.size(); k++) {
+            Coordinate q = c.get(fromA ? k : c.size() - 1 - k);
+            if (q.distance(n.xy) > 1e-9) {
+                return q;
+            }
+        }
+        return null;
     }
 
     private static boolean passThrough(Net.Node n, java.util.Map<Net.Node, List<Net.Line>> adj) {

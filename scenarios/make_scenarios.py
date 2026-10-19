@@ -71,7 +71,7 @@ SCENARIOS = {
                       {"connected": [100], "special_types": ["road"]}),
     "tram_crossing": (base([restriction(21, "tram_tracks", rect(-300, 40, 300, 50))]),
                       {"connected": [100], "special_types": ["tram_tracks"]}),
-    # газопровод и кабель — линии: спецпроход ± 2 м (+ зона отступа, DECISIONS №28)
+    # газопровод и кабель — линии: спецпроход ровно ± 2 м вдоль оси новой сети (доп. разъяснения 29.09, №14)
     "gas_crossing": (base([restriction(22, "gas_pipeline", line((-300, 45), (300, 45)))]),
                      {"connected": [100], "special_types": ["gas_pipeline"]}),
     "cable_crossing": (base([restriction(23, "power_cable", line((-300, 45), (300, 45)))]),

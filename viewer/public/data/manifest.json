@@ -1,7 +1,7 @@
 {
   "sha256": {
-    "strict.geojson": "f2dbbf86f1d669a8dd30b44d3de63c573bfe9c1bfbb43b02e118998535b17070",
-    "alternative.geojson": "150743451942d7ed895158905de2da815c04c2eb95339f49da5ef3a8cd1b0d80",
+    "main.geojson": "bd5ce35f9c5df8980959a2426f845b2e0ad752753dfe1f62618ccec1db984079",
+    "strict.geojson": "e670942c8879748df86544b5d05b606b438332fd5a8f716cfb803454dab4592d",
     "input.geojson": "cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4befe87f2a21914130"
   },
   "optional": []

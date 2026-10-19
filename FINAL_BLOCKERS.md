@@ -1,3 +1,5 @@
+> **История: сдача 30.09.2026 (commit `08ee21f`), режим по умолчанию тогда — `literal` (14/17).** Документ сохранён как доказательство той сдачи и после неё не обновлялся. Актуальная версия — доработка по обратной связи экспертов: что сделано и какие проверки выполнены — [docs/EXPERT_FEEDBACK.md](docs/EXPERT_FEEDBACK.md), метрики — [FINAL_METRICS.json](FINAL_METRICS.json).
+
 # Release blockers
 
 No known release blockers.

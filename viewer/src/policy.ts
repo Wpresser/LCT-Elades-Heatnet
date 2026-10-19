@@ -1,4 +1,4 @@
-export type Policy = 'strict' | 'alternative'
+export type Policy = 'main' | 'strict'
 
 export type PolicyCopy = {
   label: string
@@ -7,17 +7,17 @@ export type PolicyCopy = {
 }
 
 export function policyCopy(policy: Policy): PolicyCopy {
-  if (policy === 'alternative') {
+  if (policy === 'strict') {
     return {
-      label: 'Альтернативная трактовка',
-      disclosure: 'Использует альтернативную трактовку терминального выхода; см. TERMINAL_POLICY_DECISION.md.',
-      outputPath: '/data/alternative.geojson',
+      label: 'Строгое прочтение §2.2',
+      disclosure: 'Для сравнения: ближайшая точка всей границы здания, включая стены дворов; точки с закрытым выходом остаются неподключёнными.',
+      outputPath: '/data/strict.geojson',
     }
   }
   return {
-    label: 'Строгая трактовка',
+    label: 'Основной режим',
     disclosure: '',
-    outputPath: '/data/strict.geojson',
+    outputPath: '/data/main.geojson',
   }
 }
 
