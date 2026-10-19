@@ -80,6 +80,12 @@ final class TreeCalc {
 
     /** Назначить расходы и ДУ. @return null или описание проблемы. */
     static String assign(Net net) {
+        org.locationtech.jts.geom.GeometryFactory gf = new org.locationtech.jts.geom.GeometryFactory();
+        for (Net.Line line : net.lines) {
+            if (line.coords.size() < 2 || !gf.createLineString(line.coords.toArray(new Coordinate[0])).isSimple()) {
+                return "самопересечение или вырожденная геометрия участка " + line.id;
+            }
+        }
         Tree t = orient(net);
         if (t.down.size() != net.lines.size()) {
             return "часть участков не связана с присоединением или образует цикл";

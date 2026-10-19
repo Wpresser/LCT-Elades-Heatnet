@@ -39,7 +39,7 @@ public final class TreeSolver {
      *                    остальные сначала пробуют только ветки новой сети
      */
     public Net solve(String variantId, List<Target> order, boolean singleEntry) {
-        Net net = new Net(variantId);
+        Net net = new Net(variantId, m.reservedGeneratedIds);
         net.description = singleEntry
                 ? "совместное подключение с минимумом присоединений к существующей сети"
                 : "совместное подключение: цели присоединяются к существующей или уже построенной новой сети";

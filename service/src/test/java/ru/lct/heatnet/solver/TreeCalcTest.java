@@ -112,6 +112,16 @@ class TreeCalcTest {
     }
 
     @Test
+    void selfCrossingPolylineCannotBeAcceptedAsTreeEdge() {
+        Net net = new Net("t");
+        Net.Node r = root(net);
+        Net.Node leaf = net.target(target(1, 20, 20, 0));
+        net.addLine(r, leaf, Arrays.asList(r.xy, new Coordinate(10,0), new Coordinate(10,10),
+                new Coordinate(0,10), r.xy, leaf.xy), false, 1, java.util.Collections.emptyList());
+        assertThat(TreeCalc.assign(net)).contains("самопересеч");
+    }
+
+    @Test
     void cycleIsReported() {
         Net net = new Net("t");
         Net.Node r = root(net);

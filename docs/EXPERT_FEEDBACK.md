@@ -43,7 +43,7 @@
 - **Ubuntu 22.** Сборка и запуск этой версии проверены на macOS (Docker Desktop); сдача 30.09 — в CI на Ubuntu 22.04. Эту версию на Ubuntu 22 проверит CI в pull request (`.github/workflows/release-check.yml`).
 - **Глубина** — необязательный режим, не реализован.
 
-## Проверки этой версии (19.10.2026, MacBook Air Intel, 4 логических ядра, 8 ГБ)
+## Проверки автора полученной v3 (19.10.2026, MacBook Air Intel, 4 логических ядра, 8 ГБ)
 
 | Проверка | Результат |
 |---|---|
@@ -68,3 +68,7 @@ python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 .venv/bin/python results/tools/geometry_metrics.py "task/sources/Датасет скорректированный.geojson" results/final_main.geojson
 # набор с дорогами: загрузить scenarios/osm_roads/enriched.geojson в API и сравнить с results/scenario_osm_roads.geojson
 ```
+
+## Дополнительное строгое ревью и окончательные исправления
+
+После получения v3 исправлены коллизии входных/выходных ID, петля при поиске трассы и audit зависимости; сохранённые три результата воспроизводятся побайтно. Подробности, новые нагрузочные проверки, состав подтверждённой среды и границы заявлений — [FINAL_COMPLETION_REPORT.md](FINAL_COMPLETION_REPORT.md). Последние организационные правила — [FINAL_SUBMISSION_RULES.md](FINAL_SUBMISSION_RULES.md).

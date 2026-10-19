@@ -37,7 +37,7 @@ public final class IndividualSolver {
     /** @return null, если не уложились в бюджет времени (вариант не выдаётся). */
     public Net solve(String variantId, List<Target> order, long budgetMs) {
         long t0 = System.nanoTime();
-        Net net = new Net(variantId);
+        Net net = new Net(variantId, m.reservedGeneratedIds);
         net.description = "каждая точка подключения присоединяется отдельно";
         for (Target t : order) {
             if ((System.nanoTime() - t0) / 1_000_000 > budgetMs) {

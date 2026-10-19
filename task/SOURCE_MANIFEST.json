@@ -37,9 +37,10 @@
       "file": "sources/Дополнительные разъяснения 29.09.2026.docx",
       "bytes": 17564,
       "sha256": "c0125cadb537ea58a750dc9587ccdf075717c1d028357381bc2b79c0abbdf84c",
-      "source_url": "передано участнику команды 29.09.2026 (публичная ссылка организатора не установлена)",
-      "retrieved_date": "2026-09-29",
-      "status": "Original bytes preserved; provenance: received by a team member 29.09.2026, official publication not independently confirmed"
+      "source_url": "Оригинал предоставлен участником команды; публичная ссылка организатора не установлена",
+      "retrieved_date": null,
+      "status": "Original bytes preserved; receipt date/channel and official publication not independently confirmed",
+      "document_date": "2026-09-29"
     }
   ]
 }

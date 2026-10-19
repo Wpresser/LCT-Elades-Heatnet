@@ -30,6 +30,8 @@ public final class InputModel {
     /** Точки подключения без корректного flow_tph: маршрут не строится, в выгрузке они среди неподключённых с причиной. */
     public final Map<Target, String> invalidTargets = new java.util.LinkedHashMap<>();
     public final List<Restriction> restrictions = new ArrayList<>();
+    /** Input strings in the generated-ID namespace, including restrictions outside search windows. */
+    public final java.util.Set<String> reservedGeneratedIds = new java.util.HashSet<>();
     /** Окна поиска вокруг целей; ограничения вне окон не загружаются. */
     public final List<Envelope> windows = new ArrayList<>();
     /** Полигоны ОКС, содержащие цель (для финального подхода, §2.2). */

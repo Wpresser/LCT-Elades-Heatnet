@@ -309,10 +309,17 @@ public final class Router {
             }
             s.closed = true;
             if (goalNodes.containsKey(s.cur)) {
-                Route r = smooth(reconstruct(s, nodes, goalNodes.get(s.cur)), dyn, !portals.isEmpty(), startExemptRadius,
+                Route raw = reconstruct(s, nodes, goalNodes.get(s.cur));
+                if (!simple(raw.points)) {
+                    continue;
+                }
+                Route r = smooth(raw, dyn, !portals.isEmpty(), startExemptRadius,
                         startOut);
                 r = align(r, dyn, !portals.isEmpty(), startExemptRadius, startOut);
                 r = mergeShortBends(r, dyn, !portals.isEmpty(), startExemptRadius);
+                if (!simple(r.points)) {
+                    r = raw;
+                }
                 r.relaxedApproach = relaxed;
                 return new Result(r, null, expansions);
             }
@@ -326,6 +333,9 @@ public final class Router {
             for (Goal g : goals.near(c)) {
                 if (p != null && !turnOk(p, c, g.point) || !g.branchTurnOk(c)
                         || s.parent == null && portals.isEmpty() && !startTurnOk(g.point, c, startOut)) {
+                    continue;
+                }
+                if (!pathExtensionSimple(s, g.point, nodes)) {
                     continue;
                 }
                 SegmentChecker.Ok ok = checker.check(c, g.point, Collections.emptySet(), g.exemptPoint);
@@ -357,6 +367,9 @@ public final class Router {
                 if (old != null && old.g <= g) {
                     continue;
                 }
+                if (!pathExtensionSimple(s, n, nodes)) {
+                    continue;
+                }
                 State ns = new State(s.cur, e.to, g, s, e.ok);
                 ns.f = g + heuristic(n, goals);
                 states.put(k, ns);
@@ -365,6 +378,35 @@ public final class Router {
         }
         return new Result(null, "допустимая трасса до существующей сети не найдена (поиск в окне вокруг цели; окно "
                 + "расширялось)", expansions);
+    }
+
+    /** No loop or crossing with the already traversed path; short buffer-rounding chords remain legal. */
+    private static boolean pathExtensionSimple(State state, Coordinate next, List<Coordinate> nodes) {
+        Coordinate from = nodes.get(state.cur);
+        org.locationtech.jts.algorithm.RobustLineIntersector intersection = null;
+        // The immediate incoming edge shares 'from' and is already constrained by turnOk.
+        for (State ancestor = state.parent; ancestor != null; ancestor = ancestor.parent) {
+            if (ancestor.prev < 0) {
+                continue;
+            }
+            Coordinate a = nodes.get(ancestor.prev);
+            Coordinate b = nodes.get(ancestor.cur);
+            if (!Envelope.intersects(from, next, a, b)) {
+                continue;
+            }
+            if (intersection == null) {
+                intersection = new org.locationtech.jts.algorithm.RobustLineIntersector();
+            }
+            intersection.computeIntersection(from, next, a, b);
+            if (intersection.hasIntersection()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean simple(List<Coordinate> points) {
+        return field.gf.createLineString(points.toArray(new Coordinate[0])).isSimple();
     }
 
     /**
@@ -849,6 +891,9 @@ public final class Router {
         for (SegmentChecker.Ok ok : oks) {
             length += ok.length;
             cost += costOf(ok);
+        }
+        if (!simple(out)) {
+            return r;
         }
         Route s = new Route(out, spans, r.goal, length, cost);
         return s;
