@@ -46,8 +46,8 @@
 
 ## Task 4: final delivery
 
-- [x] Commit final changes, make a clean source ZIP and full handoff with manifest; verify extraction and patch applicability.
-- [x] Publish the reviewable branch/PR if authenticated access permits; verify remote CI and handle failures.
-- [x] Record what is actually submitted and what remains dependent on platform/moderator access; never equate a local ZIP with platform submission.
+- [ ] Make the final source ZIP and handoff with manifest after remote verification; verify extraction and patch applicability.
+- [ ] Complete remote CI and handle any failures on the published branch/PR.
+- [ ] Record final delivered commit and package manifest; do not equate repository delivery with moderator messages or festival registration.
 
 Execution record: local implementation and fresh independent review complete. Remote CI and actual delivery status are recorded in the task handoff; checkboxes describe completion of the work steps, not a fabricated external-submission receipt.
