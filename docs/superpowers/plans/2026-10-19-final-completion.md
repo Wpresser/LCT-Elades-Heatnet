@@ -29,23 +29,25 @@
 ## Task 1: reproducible candidate and dependency gate
 
 - [x] Import v3 on an isolated branch rooted at 08ee21f; preserve its commit as the comparison base.
-- [ ] Apply the reproduced source-map-js update only; run clean install, audit, viewer tests, typecheck and build.
-- [ ] Audit technical requirements independently and fix reproduced important defects with failing-then-passing regressions.
+- [x] Apply the reproduced source-map-js update only; run clean install, audit, viewer tests, typecheck and build.
+- [x] Audit technical requirements independently and fix reproduced important defects with failing-then-passing regressions.
 
 ## Task 2: release claims and regulator-facing materials
 
-- [ ] Remove unsupported provenance dates and blanket +10 m guarantees. Record the latest organizer rules.
-- [ ] Fill mandatory slide fields from confirmed facts or explicit user answers, preserving template geometry and styling.
-- [ ] Export both PDF/PPTX pairs; visually inspect every page, verify slide ordering and final metrics.
+- [x] Remove unsupported provenance dates and blanket +10 m guarantees. Record the latest organizer rules.
+- [x] Fill mandatory slide fields from confirmed facts or explicit user answers, preserving template geometry and styling.
+- [x] Export both PDF/PPTX pairs; visually inspect every page, verify slide ordering and final metrics.
 
 ## Task 3: execution and hostile review
 
-- [ ] Run Java/Python/scenarios, main/strict/OSM audits and output contract, generated result equality, viewer checks.
-- [ ] Build and run the service; test HTTP and persistence on available real runtimes. Record exact platform limitations without claiming unrun Docker/Ubuntu checks.
-- [ ] Obtain fresh review against source rules and final diff; reproduce and resolve material findings.
+- [x] Run Java/Python/scenarios, main/strict/OSM audits and output contract, generated result equality, viewer checks.
+- [x] Build and run the service; test HTTP and persistence on available real runtimes. Record exact platform limitations without claiming unrun Docker/Ubuntu checks.
+- [x] Obtain fresh review against source rules and final diff; reproduce and resolve material findings.
 
 ## Task 4: final delivery
 
-- [ ] Commit final changes, make a clean source ZIP and full handoff with manifest; verify extraction and patch applicability.
-- [ ] Publish the reviewable branch/PR if authenticated access permits; verify remote CI and handle failures.
-- [ ] Record what is actually submitted and what remains dependent on platform/moderator access; never equate a local ZIP with platform submission.
+- [x] Commit final changes, make a clean source ZIP and full handoff with manifest; verify extraction and patch applicability.
+- [x] Publish the reviewable branch/PR if authenticated access permits; verify remote CI and handle failures.
+- [x] Record what is actually submitted and what remains dependent on platform/moderator access; never equate a local ZIP with platform submission.
+
+Execution record: local implementation and fresh independent review complete. Remote CI and actual delivery status are recorded in the task handoff; checkboxes describe completion of the work steps, not a fabricated external-submission receipt.
