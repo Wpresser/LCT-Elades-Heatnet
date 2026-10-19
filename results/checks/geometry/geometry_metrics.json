@@ -1,0 +1,163 @@
+{
+ "description": "Геометрия новой сети (results/tools/geometry_metrics.py). submission_0930_relaxed — выгрузка сдачи 30.09 в той же трактовке (git show 08ee21f:results/final_alternative.geojson), её видели эксперты; competition_before_align — текущий код с HEATNET_ALIGN=false; competition_after_align — results/final_main.geojson; osm_roads_after_align — results/scenario_osm_roads.geojson на scenarios/osm_roads/enriched.geojson. aligned_share — доля длины вдоль локальных осей застройки (±10°, радиус 60 м) без финальных участков к целям; turns — повороты больше 0,5° в вершинах и при проходе через узлы; parallel_12m/30m — доля длины параллельно другой новой линии того же варианта ближе 12/30 м.",
+ "submission_0930_relaxed": {
+  "metrics": {
+   "v1": {
+    "length_m": 1824.7,
+    "aligned_share": 0.53,
+    "turns": 52,
+    "small_turns": 25,
+    "short_segments": 11,
+    "parallel_12m": 0.0,
+    "parallel_30m": 0.018
+   },
+   "v2": {
+    "length_m": 2078.3,
+    "aligned_share": 0.45,
+    "turns": 70,
+    "small_turns": 30,
+    "short_segments": 15,
+    "parallel_12m": 0.0,
+    "parallel_30m": 0.014
+   }
+  },
+  "summary": {
+   "v1": {
+    "new_network_length": 1824.6731652331825,
+    "construction_cost": 271516096.5294552,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 271516096.5294552,
+    "score": 13.07647019852429,
+    "connected": 17
+   },
+   "v2": {
+    "new_network_length": 2078.298335062663,
+    "construction_cost": 289678319.56243277,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 289678319.56243277,
+    "score": 14.345887952936106,
+    "connected": 17
+   }
+  }
+ },
+ "competition_before_align": {
+  "metrics": {
+   "v1": {
+    "length_m": 1826.4,
+    "aligned_share": 0.57,
+    "turns": 53,
+    "small_turns": 24,
+    "short_segments": 9,
+    "parallel_12m": 0.0,
+    "parallel_30m": 0.018
+   },
+   "v2": {
+    "length_m": 2078.3,
+    "aligned_share": 0.45,
+    "turns": 69,
+    "small_turns": 28,
+    "short_segments": 13,
+    "parallel_12m": 0.0,
+    "parallel_30m": 0.014
+   }
+  },
+  "summary": {
+   "v1": {
+    "new_network_length": 1826.4412677586731,
+    "construction_cost": 271688088.70262223,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 271688088.70262223,
+    "score": 13.086590286949441,
+    "connected": 17
+   },
+   "v2": {
+    "new_network_length": 2078.3122040839266,
+    "construction_cost": 289662746.22315645,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 289662746.22315645,
+    "score": 14.345493506500162,
+    "connected": 17
+   }
+  }
+ },
+ "competition_after_align": {
+  "metrics": {
+   "v1": {
+    "length_m": 1845.7,
+    "aligned_share": 0.642,
+    "turns": 53,
+    "small_turns": 25,
+    "short_segments": 9,
+    "parallel_12m": 0.0,
+    "parallel_30m": 0.018
+   },
+   "v2": {
+    "length_m": 2078.3,
+    "aligned_share": 0.45,
+    "turns": 69,
+    "small_turns": 28,
+    "short_segments": 13,
+    "parallel_12m": 0.0,
+    "parallel_30m": 0.014
+   }
+  },
+  "summary": {
+   "v1": {
+    "new_network_length": 1845.7049970776632,
+    "construction_cost": 273561967.97212696,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 273561967.97212696,
+    "score": 13.196850094452543,
+    "connected": 17
+   },
+   "v2": {
+    "new_network_length": 2078.3122040839266,
+    "construction_cost": 289662746.22315645,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 289662746.22315645,
+    "score": 14.345493506500162,
+    "connected": 17
+   }
+  }
+ },
+ "osm_roads_after_align": {
+  "metrics": {
+   "v1": {
+    "length_m": 2041.0,
+    "aligned_share": 0.643,
+    "turns": 64,
+    "small_turns": 29,
+    "short_segments": 9,
+    "parallel_12m": 0.006,
+    "parallel_30m": 0.017
+   },
+   "v2": {
+    "length_m": 2055.2,
+    "aligned_share": 0.599,
+    "turns": 67,
+    "small_turns": 29,
+    "short_segments": 9,
+    "parallel_12m": 0.006,
+    "parallel_30m": 0.042
+   }
+  },
+  "summary": {
+   "v1": {
+    "new_network_length": 2040.9882017095629,
+    "construction_cost": 292945280.6904708,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 292945280.6904708,
+    "score": 14.325432464461873,
+    "connected": 17
+   },
+   "v2": {
+    "new_network_length": 2055.2187107349578,
+    "construction_cost": 301814749.20633256,
+    "unconnected_penalty": 0.0,
+    "calculated_cost": 301814749.20633256,
+    "score": 14.616469109982184,
+    "connected": 17
+   }
+  }
+ }
+}

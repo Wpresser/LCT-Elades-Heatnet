@@ -1,0 +1,20 @@
+{
+  "source": "Direct confirmation by team captain in this chat,19.10.2026",
+  "captain": {
+    "name": "Зиновьев Сергей Николаевич",
+    "education": "11 класс, профиль «Цифровая экономика»",
+    "role": "Капитан, разработка, ревью и правки кода"
+  },
+  "members": [
+    {
+      "name": "Овсянников Данила",
+      "role": "Ведущий разработчик, архитектура, основная часть кода"
+    },
+    {
+      "name": "Клыков Андрей",
+      "role": "Анализ ТЗ, поиск ошибок, подготовка презентации и рекомендации"
+    }
+  ],
+  "clarification_receipt_date": null,
+  "clarification_receipt_channel": null
+}

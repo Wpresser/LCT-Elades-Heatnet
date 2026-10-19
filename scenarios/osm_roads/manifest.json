@@ -1,0 +1,51 @@
+{
+  "purpose": "competition dataset + OSM road polygons (expert feedback: corridors between buildings and roads, speed on a dataset with roads); the original file is unchanged",
+  "base_dataset": {
+    "file": "Датасет скорректированный.geojson",
+    "sha256": "cffb7133419d93fe364a53015a7d3ead289f671cbfaf6f4befe87f2a21914130"
+  },
+  "osm": {
+    "source_url": "https://overpass.kumi.systems/api/interpreter",
+    "fetched_at": "2026-10-18T18:58:47+0300",
+    "timestamp_osm_base": "2026-07-28T02:16:18Z",
+    "query": "[out:json][timeout:60];(way[\"highway\"~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|living_street|service|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link)$\"](55.6900,37.6250,55.7066,37.6595);way[\"area:highway\"](55.6900,37.6250,55.7066,37.6595);way[\"railway\"=\"tram\"](55.6900,37.6250,55.7066,37.6595););out geom tags;",
+    "raw_sha256": "530478d5ba28acb9be7521d89373b309728d0eaabdd27cd00e701e44a450bfa1",
+    "ways_used": 407,
+    "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+  },
+  "conversion": {
+    "width_source_counts": {
+      "width": 6,
+      "lanes": 155,
+      "class": 246
+    },
+    "lane_m": 3.5,
+    "width_by_class": {
+      "motorway": 21.0,
+      "trunk": 17.5,
+      "primary": 14.0,
+      "secondary": 10.5,
+      "tertiary": 7.0,
+      "unclassified": 6.0,
+      "residential": 6.0,
+      "living_street": 5.0,
+      "service": 4.5,
+      "motorway_link": 5.0,
+      "trunk_link": 5.0,
+      "primary_link": 5.0,
+      "secondary_link": 5.0,
+      "tertiary_link": 5.0
+    },
+    "width_by_service": {
+      "driveway": 3.5,
+      "alley": 3.5,
+      "parking_aisle": 5.0
+    },
+    "subtracted": "all polygon restrictions of the base dataset",
+    "min_area_m2": 20.0,
+    "assumption": "road polygon = highway centre line buffered by half width"
+  },
+  "road_polygons": 20,
+  "road_area_m2": 263680.7,
+  "output_sha256": "81c4235721a48705f2c20631ec8ee7c505ba10160f7bae953834cbca7021eb27"
+}

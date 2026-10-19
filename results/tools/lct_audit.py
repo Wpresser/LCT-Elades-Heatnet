@@ -7,7 +7,12 @@ OFFICIAL_RULES.json: every constant below is transcribed from the appendix and
 cited. Usage:
 
     python lct_audit.py --input DATASET.geojson --output RESULT.geojson \
-        [--json report.json] [--md report.md] [--terminal-policy strict|exterior|any]
+        [--json report.json] [--md report.md] [--terminal-policy strict|exterior|exterior-fallback|any]
+
+Terminal policy exterior-fallback follows the additional clarifications of 29.09.2026, No. 15-17
+(task/sources/Дополнительные разъяснения 29.09.2026.docx, received by a team member): the nearest point
+of the exterior boundary first; another point of the exterior boundary is allowed when the nearest one gives
+no admissible route. Entering through a courtyard ring is an ERROR under this policy.
 
 Exit code 0 = no ERROR findings (and no AMBIGUOUS findings under strict policy).
 Exit code 1 = at least one ERROR, or AMBIGUOUS under strict policy.
@@ -257,6 +262,73 @@ def nearest_boundary_points(target, poly_geom, policy):
         b, _ = nearest_points(poly_geom.boundary, target)
         cands.append(b)
     return cands
+
+
+def _dist_to_infinite_line(p, seg):
+    (x0, y0), (x1, y1) = seg.coords[0], seg.coords[-1]
+    L = math.hypot(x1 - x0, y1 - y0)
+    if L < 1e-9:
+        return p.distance(Point(x0, y0))
+    return abs((x1 - x0) * (y0 - p.y) - (x0 - p.x) * (y1 - y0)) / L
+
+
+# heuristic for clarification No. 15 "do not run the final section through a significant part of the OKS":
+# extra length inside own OKS compared with the nearest exterior point
+FALLBACK_EXTRA_WARN_M = 10.0
+CLEAN_EXIT_TOL_M = 0.05  # m: a fallback final straight may not come closer to its own OKS again by more than this
+
+
+def audit_exterior_fallback(t, og, final, inside, info, rep, vid):
+    """Clarifications 29.09 No. 15: exterior boundary only; the nearest exterior point first, otherwise another one."""
+    tid = fmt_id(t["id"])
+    parts = list(og.geoms) if og.geom_type == "MultiPolygon" else [og]
+    part = next((q for q in parts if q.buffer(OWN_TOL).covers(t["pt"])), None)
+    if part is None:
+        return
+    pieces = [pc for pc in getattr(inside, "geoms", [inside]) if pc.length > 1e-6]
+    piece = min(pieces, key=lambda pc: pc.distance(t["pt"])) if pieces else None
+    if piece is None or part.exterior.distance(t["pt"]) <= OWN_TOL:
+        return  # target on the facade: no final section inside the OKS
+    a, b = Point(piece.coords[0]), Point(piece.coords[-1])
+    exit_pt = a if a.distance(t["pt"]) > b.distance(t["pt"]) else b
+    ext_nearest = part.exterior.distance(t["pt"])
+    info["exterior_nearest_m"] = ext_nearest
+    if part.exterior.distance(exit_pt) > NODE_TOL:
+        rep.add("ERROR", "FINAL_NOT_EXTERIOR",
+                f"final straight section to target {tid} leaves own OKS not through its exterior boundary "
+                f"(courtyard ring?) (clarifications 29.09 No. 15)", variant=vid)
+        return
+    if info.get("exterior"):
+        return
+    extra = piece.length - ext_nearest
+    info["exterior_fallback_extra_m"] = extra
+    rep.add("INFO", "FINAL_EXTERIOR_FALLBACK",
+            f"final straight section to target {tid} uses another exterior boundary point: {piece.length:.1f} m inside "
+            f"own OKS vs {ext_nearest:.1f} m to the nearest exterior point (+{extra:.1f} m) (clarifications 29.09 No. 15)",
+            variant=vid)
+    if extra > FALLBACK_EXTRA_WARN_M:
+        rep.add("WARNING", "FINAL_LONG_INSIDE",
+                f"final straight section to target {tid} runs +{extra:.1f} m longer inside own OKS than via the nearest "
+                f"exterior point (> {FALLBACK_EXTRA_WARN_M:.0f} m, clarifications 29.09 No. 15)", variant=vid)
+    # outside the OKS the fallback straight should move away from its own building, not run along another wing
+    outside = final.difference(og)
+    segs = [sg for sg in getattr(outside, "geoms", [outside]) if sg.length > 1e-6]
+    seg = min(segs, key=lambda sg: sg.distance(exit_pt)) if segs else None
+    if seg is not None:
+        p0, p1 = Point(seg.coords[0]), Point(seg.coords[-1])
+        start, far = (p0, p1) if p0.distance(exit_pt) <= p1.distance(exit_pt) else (p1, p0)
+        ray = LineString([start, far])
+        best, worst = 0.0, None
+        steps = max(2, int(ray.length / 0.25))
+        for i in range(1, steps + 1):
+            d = ray.interpolate(ray.length * i / steps).distance(og)
+            if d < best - CLEAN_EXIT_TOL_M:
+                worst = d if worst is None else min(worst, d)
+            best = max(best, d)
+        if worst is not None:
+            rep.add("WARNING", "FINAL_ALONG_OWN_WALL",
+                    f"final straight section to target {tid} approaches its own OKS again outside it (down to {worst:.2f} m): "
+                    f"runs along another wing within its setback zone", variant=vid)
 
 
 # --------------------------------------------------------------------------
@@ -538,6 +610,19 @@ def audit_variant(inp: InputModel, vid, feats, rep: Report, policy: str):
         if not is_flow_node and kids and kids[0]["dn"] != e["dn"]:
             rep.add("ERROR", "DN_CHANGE_NO_FLOW_CHANGE",
                     f"DN changes {kids[0]['dn']} -> {e['dn']} at {nodes.get(v, ('', None, v))[0]} {fmt_id(nodes.get(v, ('', None, v))[2])} where flow does not change (§2.3: DN kept between flow-change nodes; no DN change only to restart the length counter)", variant=vid)
+    # flow turn at every node of the new network: from the upstream edge into each downstream edge <= 90 deg
+    # (§2.1, Q&A 5, add. clarifications 29.09 No.19) — branch chambers included, not only vertices inside one line
+    def near_end(e, n):
+        cs = list(e["g"].coords)
+        return (cs[-1], cs[-2]) if e["e"] == n else (cs[0], cs[1])
+    for e in order:
+        u, v = down[id(e)]
+        at, a = near_end(e, v)
+        for c in children.get(v, []):
+            b = near_end(c, v)[1]
+            d = deflection_deg(a, at, b)
+            if d is not None and d > MAX_TURN_DEG + 1e-6:
+                rep.add("ERROR", "FLOW_TURN", f"node {fmt_id(nodes.get(v, ('', None, v))[2])}: flow from {fmt_id(e['id'])} into {fmt_id(c['id'])} turns {d:.3f} deg > 90 (§2.1)", variant=vid)
     # continuous length per path
     leaves = [n for n in seen_nodes if nodes.get(n, ("",))[0] == "target" and deg[n] >= 1]
     worst = []
@@ -709,16 +794,23 @@ def audit_variant(inp: InputModel, vid, feats, rep: Report, policy: str):
                 continue
             min_clear.append((dist - req, eid, r["type"], fmt_id(r["id"])))
             if dist + 1e-6 < req:
-                # adjacent to a special section of the same restriction? then literal ±2 m / +3 m zone conflict
+                # straight continuation of an adjacent special section through the same linear object inside its
+                # clearance zone is part of that crossing, not "passing beside" (clarifications 29.09 No. 14)
                 level = "ERROR"
                 code = "CLEARANCE"
+                in_zone = g.intersection(rg.buffer(req))
                 for other in edges:
                     if other is e or other["lay"] != "special":
                         continue
                     if other["s"] in (e["s"], e["e"]) or other["e"] in (e["s"], e["e"]):
                         if not other["g"].intersection(rg).is_empty:
-                            level, code = "AMBIGUOUS", "SPECIAL_ZONE_CLEARANCE"
-                rep.add(level, code, f"heat_network {eid} (DN {dn}): {dist:.3f} m to {r['type']} {fmt_id(r['id'])} < required {req:.3f} m (table 2 + §3.1)", variant=vid, actual_m=dist, required_m=req)
+                            oc = list(other["g"].coords)
+                            axis = LineString([oc[0], oc[-1]])
+                            pts = [c for part in getattr(in_zone, "geoms", [in_zone]) for c in part.coords]
+                            if zkind == "point" and pts and all(_dist_to_infinite_line(Point(c), axis) <= 0.01 for c in pts):
+                                level = None
+                if level:
+                    rep.add(level, code, f"heat_network {eid} (DN {dn}): {dist:.3f} m to {r['type']} {fmt_id(r['id'])} < required {req:.3f} m (table 2 + §3.1)", variant=vid, actual_m=dist, required_m=req)
         if e["lay"] == "special":
             e["crossed"] = crossed  # checked per special RUN below (pieces joined by technical nodes)
         else:
@@ -793,6 +885,13 @@ def audit_variant(inp: InputModel, vid, feats, rep: Report, policy: str):
                 short0, short1 = -a0 if a0 < 0 else 0.0, b0 - L if b0 > L else 0.0
                 for side, short in (("start", short0), ("end", short1)):
                     if short > 0.05:
+                        side_pt = Point(mc[0] if side == "start" else mc[-1])
+                        side_kind = next((v[0] for v in ends.values() if hasattr(v[1], "distance")
+                                          and v[1].distance(side_pt) <= NODE_TOL), None)
+                        if zkind == "polygon" and side_kind in ("new_chamber", "existing_chamber"):
+                            # chamber inside a road / tram polygon: no +3 m on the chamber side (clarifications 29.09 No. 13)
+                            rep.add("INFO", "SPECIAL_ZONE_CHAMBER", f"special run {run_ids} starts in a chamber inside {r['type']} {fmt_id(r['id'])}: no {zlen} m extension on the chamber side (clarifications 29.09 No. 13)", variant=vid)
+                            continue
                         lvl = "AMBIGUOUS" if any(kd in ("new_chamber", "existing_chamber", "target") for kd in end_kinds) else "ERROR"
                         rep.add(lvl, "SPECIAL_ZONE", f"special run {run_ids}: zone of {r['type']} {fmt_id(r['id'])} ({zlen} m beyond the {'boundary' if zkind == 'polygon' else 'crossing'}) is short by {short:.2f} m at the run {side} (table 2)", variant=vid)
             if ang is not None:
@@ -820,6 +919,13 @@ def audit_variant(inp: InputModel, vid, feats, rep: Report, policy: str):
             xc = list(x["g"].coords)
             s0, s1 = sorted((merged.project(Point(xc[0])), merged.project(Point(xc[-1]))))
             ks = [k for a0, b0, k, _r in zones if min(b0, s1) - max(a0, s0) > 1e-6]
+            # a special piece longer than its zones: K applied beyond ±2 m of a linear crossing (clarifications 29.09 No. 14)
+            over = [(a0, b0, _r) for a0, b0, k, _r in zones if min(b0, s1) - max(a0, s0) > 1e-6]
+            if over and all(SPECIAL[_r["type"]][2] == "point" for _a, _b, _r in over):
+                lo, hi = min(a0 for a0, _b, _r in over), max(b0 for _a, b0, _r in over)
+                beyond = max(0.0, lo - s0) + max(0.0, s1 - hi)
+                if beyond > 0.05:
+                    rep.add("ERROR", "SPECIAL_BEYOND_2M", f"special piece {fmt_id(x['id'])} extends {beyond:.2f} m beyond ±2 m of the crossing along the new axis (clarifications 29.09 No. 14)", variant=vid)
             if not ks:
                 ks = [max(k for _r, k in crossed_run.values())]
                 rep.add("AMBIGUOUS", "SPECIAL_EXTENSION", f"special piece {fmt_id(x['id'])} lies outside every table-2 zone of its run (special section extended through the clearance zone; K of the run applied)", variant=vid)
@@ -860,10 +966,12 @@ def audit_variant(inp: InputModel, vid, feats, rep: Report, policy: str):
                     continue
                 info[pol] = any(final.distance(b) <= NODE_TOL for b in cands)
                 info[pol + "_nearest_m"] = min(t["pt"].distance(b) for b in cands)
-            if not info.get(policy, True):
+            if policy == "exterior-fallback" and r is primary:
+                audit_exterior_fallback(t, og, final, inside, info, rep, vid)
+            elif not info.get(policy, True):
                 rep.add("ERROR" if policy == "strict" else "AMBIGUOUS", "FINAL_NOT_NEAREST",
                         f"final straight section to target {fmt_id(t['id'])} does not pass the nearest boundary point of own OKS {fmt_id(r['id'])} under policy '{policy}' (§2.2)", variant=vid)
-            elif not info.get("strict", True):
+            elif not info.get("strict", True) and policy != "exterior-fallback":
                 rep.add("AMBIGUOUS", "FINAL_NOT_STRICT_NEAREST",
                         f"final straight section to target {fmt_id(t['id'])} passes the nearest boundary only under the relaxed policy '{policy}', not under the literal global-nearest reading (§2.2)", variant=vid)
         term[fmt_id(t["id"])] = info
@@ -1088,7 +1196,7 @@ def main():
     ap.add_argument("--output", required=True)
     ap.add_argument("--json")
     ap.add_argument("--md")
-    ap.add_argument("--terminal-policy", default="strict", choices=["strict", "exterior", "any"])
+    ap.add_argument("--terminal-policy", default="strict", choices=["strict", "exterior", "exterior-fallback", "any"])
     a = ap.parse_args()
     r = run(a.input, a.output, a.terminal_policy)
     if a.json:

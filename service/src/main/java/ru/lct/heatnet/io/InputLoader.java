@@ -60,6 +60,8 @@ public final class InputLoader {
     private final java.util.Map<Target, String> legacyPending = new java.util.LinkedHashMap<>();
     /** Сколько раз встретился id среди узловых объектов (точки подключения, камеры, источники). */
     private final java.util.Map<FeatureId, Integer> nodeIds = new java.util.HashMap<>();
+    private static final java.util.regex.Pattern GENERATED_ID = java.util.regex.Pattern.compile(
+            "v[123]_(?:(?:ch|tn|net)_[1-9][0-9]*|summary(?:_[1-9][0-9]*)?)");
 
     public InputLoader(ObjectMapper mapper, AppProperties.Limits limits) {
         this.mapper = mapper;
@@ -100,6 +102,12 @@ public final class InputLoader {
 
             @Override
             public void onFeature(JsonNode f, long index) {
+                JsonNode inputId = f.path("properties").path("id");
+                if (inputId.isTextual() && GENERATED_ID.matcher(inputId.textValue()).matches()) {
+                    // First pass sees every feature, even restrictions discarded by spatial filtering.
+                    // Other strings/numeric IDs cannot collide with the fixed output namespace.
+                    m.reservedGeneratedIds.add(inputId.textValue());
+                }
                 readCore(f, index, m, geo);
                 if (m.sources.size() + m.pipes.size() + m.chambers.size() + m.targets.size() > limits.getMaxCoreObjects()) {
                     throw new InputFormatException("Слишком много объектов сети и целей (> "

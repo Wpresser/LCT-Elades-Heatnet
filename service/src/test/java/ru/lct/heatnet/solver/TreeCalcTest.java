@@ -90,6 +90,38 @@ class TreeCalcTest {
     }
 
     @Test
+    void flowTurnOverNinetyDegreesInChamberIsReported() {
+        Net net = new Net("t");
+        Net.Node r = root(net);
+        Net.Node b = net.newChamber(new Coordinate(0, 30));
+        line(net, r, b);
+        line(net, b, net.target(target(1, 20, 30, 30)));            // 90° — допустимо
+        line(net, b, net.target(target(2, 20, -30, 0)));            // поток разворачивается на 135°
+        assertThat(TreeCalc.assign(net)).contains("больше 90°");
+    }
+
+    @Test
+    void flowTurnIsCheckedFromInnerVertexOfLineAbove() {
+        Net net = new Net("t");
+        Net.Node r = root(net);
+        Net.Node b = net.newChamber(new Coordinate(30, 30));
+        // участок выше приходит в камеру с запада (последний отрезок вдоль x), ветка уходит на юго-запад
+        net.addLine(r, b, Arrays.asList(r.xy, new Coordinate(0, 30), b.xy), false, 1.0, java.util.Collections.emptyList());
+        line(net, b, net.target(target(1, 20, 0, 0)));
+        assertThat(TreeCalc.assign(net)).contains("больше 90°");
+    }
+
+    @Test
+    void selfCrossingPolylineCannotBeAcceptedAsTreeEdge() {
+        Net net = new Net("t");
+        Net.Node r = root(net);
+        Net.Node leaf = net.target(target(1, 20, 20, 0));
+        net.addLine(r, leaf, Arrays.asList(r.xy, new Coordinate(10,0), new Coordinate(10,10),
+                new Coordinate(0,10), r.xy, leaf.xy), false, 1, java.util.Collections.emptyList());
+        assertThat(TreeCalc.assign(net)).contains("самопересеч");
+    }
+
+    @Test
     void cycleIsReported() {
         Net net = new Net("t");
         Net.Node r = root(net);

@@ -2,6 +2,7 @@ package ru.lct.heatnet.routing;
 
 import org.locationtech.jts.algorithm.Orientation;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.operation.distance.DistanceOp;
@@ -219,17 +220,37 @@ public final class Router {
             }
             return direct;
         }
-        if (!allowRelaxed) {
-            return strictResult != null ? strictResult : new Result(null, "строгий финальный подход недоступен (§2.2)", 0);
-        }
         // нестрогий подход — только если строгий невозможен и без наших построенных линий
         DynamicObstacles none = new DynamicObstacles(field.gf);
         Router probe = strictProbe != null ? strictProbe : this;
+        if (!allowRelaxed) {
+            if (strictResult != null) {
+                return strictResult;
+            }
+            // выход закрыт уже по входным данным при наименьшем ДУ, а весь луч лежит в окнах поиска: расширение
+            // окон добавляет только ограничения и его не откроет (HeatNetJobProcessor не повторяет расчёт ради таких
+            // целей). Действует в literal/exterior; в relaxed причина перезаписывается нестрогой попыткой
+            boolean closed = probe.portals(t, ownOks, none, true).isEmpty() && probe.strictRayInsideRoi(t, ownOks);
+            return new Result(null, closed ? STRICT_EXIT_CLOSED : "строгий финальный подход недоступен (§2.2)", 0);
+        }
         List<Coordinate> staticStrict = probe.portals(t, ownOks, none, true);
         if (!staticStrict.isEmpty() && probe.search(target, ownOks, staticStrict, false, none, goals, 0).route != null) {
             return new Result(null, "строгий финальный подход перекрыт уже построенными линиями (§2.2)", 0);
         }
-        // строгий выход закрыт или из него нет трассы — пробуем несколько нестрогих выходов сразу
+        // строгий выход закрыт или из него нет трассы — пробуем несколько нестрогих выходов сразу: сначала те, у которых
+        // участок внутри своего ОКС не больше чем на RELAXED_PREFERRED_EXTRA длиннее ближайшего, — финальный участок
+        // не ведётся через значительную часть ОКС ради сокращения внешней трассы (доп. разъяснения 29.09, №15)
+        // Среди них сначала «чистые» выходы: снаружи луч только удаляется от своего здания и не идёт вдоль его
+        // других крыльев внутри зоны отступа
+        for (boolean clean : new boolean[]{true, false}) {
+            List<Coordinate> near = relaxedPortals(t, ownOks, dyn, RELAXED_PREFERRED_EXTRA, clean);
+            if (!near.isEmpty()) {
+                Result rn = search(target, ownOks, near, true, dyn, goals, 0);
+                if (rn.route != null) {
+                    return rn;
+                }
+            }
+        }
         List<Coordinate> relaxed = portals(t, ownOks, dyn, false);
         if (relaxed.isEmpty()) {
             return strictResult != null ? strictResult : new Result(null, "финальный подход к цели заблокирован: ни от одной "
@@ -242,6 +263,16 @@ public final class Router {
     /** @param startExemptRadius радиус ослабления проверки построенных линий у старта (перестройка от камеры), 0 — нет */
     private Result search(Target target, List<Restriction> ownOks, List<Coordinate> portals, boolean relaxed,
                           DynamicObstacles dyn, GoalProvider goals, double startExemptRadius) {
+        return search(target, ownOks, portals, relaxed, dyn, goals, startExemptRadius, Collections.emptyList());
+    }
+
+    /**
+     * @param startOut у старта-камеры — соседние вершины уже примыкающих участков ниже по потоку: поток приходит
+     *                 в старт по первому отрезку трассы и в каждый из них поворачивает не больше чем на 90°
+     *                 (§2.1, разъяснение №5; перестройка цепочки от камеры разветвления)
+     */
+    private Result search(Target target, List<Restriction> ownOks, List<Coordinate> portals, boolean relaxed,
+                          DynamicObstacles dyn, GoalProvider goals, double startExemptRadius, List<Coordinate> startOut) {
         List<Coordinate> nodes = new ArrayList<>(field.vertices);
         int v = nodes.size();
         Coordinate t = target.point.getCoordinate();
@@ -278,7 +309,17 @@ public final class Router {
             }
             s.closed = true;
             if (goalNodes.containsKey(s.cur)) {
-                Route r = smooth(reconstruct(s, nodes, goalNodes.get(s.cur)), dyn, !portals.isEmpty(), startExemptRadius);
+                Route raw = reconstruct(s, nodes, goalNodes.get(s.cur));
+                if (!simple(raw.points)) {
+                    continue;
+                }
+                Route r = smooth(raw, dyn, !portals.isEmpty(), startExemptRadius,
+                        startOut);
+                r = align(r, dyn, !portals.isEmpty(), startExemptRadius, startOut);
+                r = mergeShortBends(r, dyn, !portals.isEmpty(), startExemptRadius);
+                if (!simple(r.points)) {
+                    r = raw;
+                }
                 r.relaxedApproach = relaxed;
                 return new Result(r, null, expansions);
             }
@@ -290,7 +331,11 @@ public final class Router {
             boolean fromStart = s.parent == null && portals.isEmpty() && startExemptRadius > 0;
             // окончание трассы
             for (Goal g : goals.near(c)) {
-                if (p != null && !turnOk(p, c, g.point) || !g.branchTurnOk(c)) {
+                if (p != null && !turnOk(p, c, g.point) || !g.branchTurnOk(c)
+                        || s.parent == null && portals.isEmpty() && !startTurnOk(g.point, c, startOut)) {
+                    continue;
+                }
+                if (!pathExtensionSimple(s, g.point, nodes)) {
                     continue;
                 }
                 SegmentChecker.Ok ok = checker.check(c, g.point, Collections.emptySet(), g.exemptPoint);
@@ -310,7 +355,7 @@ public final class Router {
             // переходы по графу видимости
             for (Edge e : edgesFrom(s.cur, c, staticCount)) {
                 Coordinate n = nodes.get(e.to);
-                if (p != null && !turnOk(p, c, n)) {
+                if (p != null && !turnOk(p, c, n) || s.parent == null && portals.isEmpty() && !startTurnOk(n, c, startOut)) {
                     continue;
                 }
                 if (fromStart ? !dyn.free(field.segment(c, n), c, startExemptRadius) : !dyn.free(field.segment(c, n))) {
@@ -320,6 +365,9 @@ public final class Router {
                 long k = key(s.cur, e.to);
                 State old = states.get(k);
                 if (old != null && old.g <= g) {
+                    continue;
+                }
+                if (!pathExtensionSimple(s, n, nodes)) {
                     continue;
                 }
                 State ns = new State(s.cur, e.to, g, s, e.ok);
@@ -332,12 +380,57 @@ public final class Router {
                 + "расширялось)", expansions);
     }
 
+    /** No loop or crossing with the already traversed path; short buffer-rounding chords remain legal. */
+    private static boolean pathExtensionSimple(State state, Coordinate next, List<Coordinate> nodes) {
+        Coordinate from = nodes.get(state.cur);
+        org.locationtech.jts.algorithm.RobustLineIntersector intersection = null;
+        // The immediate incoming edge shares 'from' and is already constrained by turnOk.
+        for (State ancestor = state.parent; ancestor != null; ancestor = ancestor.parent) {
+            if (ancestor.prev < 0) {
+                continue;
+            }
+            Coordinate a = nodes.get(ancestor.prev);
+            Coordinate b = nodes.get(ancestor.cur);
+            if (!Envelope.intersects(from, next, a, b)) {
+                continue;
+            }
+            if (intersection == null) {
+                intersection = new org.locationtech.jts.algorithm.RobustLineIntersector();
+            }
+            intersection.computeIntersection(from, next, a, b);
+            if (intersection.hasIntersection()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean simple(List<Coordinate> points) {
+        return field.gf.createLineString(points.toArray(new Coordinate[0])).isSimple();
+    }
+
     /**
      * Трасса от точки (камеры, без финального подхода) до цели поиска; у старта ослаблена проверка построенных линий,
      * т. к. к этой камере уже примыкают другие участки.
      */
     public Result routeFromNode(Target pseudo, DynamicObstacles dyn, GoalProvider goals, double exemptRadius) {
-        return search(pseudo, Collections.emptyList(), Collections.emptyList(), false, dyn, goals, exemptRadius);
+        return routeFromNode(pseudo, dyn, goals, exemptRadius, Collections.emptyList());
+    }
+
+    /** @param startOut соседние вершины участков ниже по потоку, уже примыкающих к стартовой камере (поворот ≤ 90°) */
+    public Result routeFromNode(Target pseudo, DynamicObstacles dyn, GoalProvider goals, double exemptRadius,
+                                List<Coordinate> startOut) {
+        return search(pseudo, Collections.emptyList(), Collections.emptyList(), false, dyn, goals, exemptRadius, startOut);
+    }
+
+    /** Поток приходит в старт b из a и в каждую ветку из out поворачивает не больше чем на 90°. */
+    private static boolean startTurnOk(Coordinate a, Coordinate b, List<Coordinate> out) {
+        for (Coordinate o : out) {
+            if (!turnOk(a, b, o)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** Диагностика старта поиска: точка выхода из ОКС и причины отказа рёбер из неё. */
@@ -422,6 +515,13 @@ public final class Router {
      * идёт внутри своего ОКС, а наружу есть свободный прямой выход. @return {точка выхода} или null.
      */
     static final int MAX_RELAXED_PORTALS = 16;
+    /** Нестрогий выход: участок внутри своего ОКС длиннее ближайшего не больше чем на столько, м. */
+    static final double RELAXED_MAX_EXTRA = 60.0;
+    /** Сначала пробуются выходы, у которых участок внутри своего ОКС длиннее ближайшего не больше чем на столько, м. */
+    static final double RELAXED_PREFERRED_EXTRA = 10.0;
+
+    /** Причина неподключения: строгий выход закрыт по входным данным (зависит только от своего ОКС и соседей). */
+    public static final String STRICT_EXIT_CLOSED = "строгий финальный подход закрыт по входным данным (§2.2)";
 
     /** Финальный участок по строгому лучу прямо до места присоединения на нём (одна прямая «цель → камера»). */
     private Result directOnRay(Target target, List<Restriction> own, DynamicObstacles dyn, GoalProvider goals) {
@@ -487,16 +587,23 @@ public final class Router {
     }
 
     private Coordinate[] portal(Coordinate t, List<Restriction> own, DynamicObstacles dyn, boolean strict) {
-        List<Coordinate> out = portalsImpl(t, own, dyn, strict, 1);
+        List<Coordinate> out = portalsImpl(t, own, dyn, strict, 1, RELAXED_MAX_EXTRA, false);
         return out.isEmpty() ? null : new Coordinate[]{out.get(0)};
     }
 
     private List<Coordinate> relaxedPortals(Coordinate t, List<Restriction> own, DynamicObstacles dyn) {
-        return portalsImpl(t, own, dyn, false, MAX_RELAXED_PORTALS);
+        return relaxedPortals(t, own, dyn, RELAXED_MAX_EXTRA, false);
+    }
+
+    /** @param clean только выходы, после которых луч снаружи не приближается к своему зданию (см. ray) */
+    private List<Coordinate> relaxedPortals(Coordinate t, List<Restriction> own, DynamicObstacles dyn, double maxExtra,
+                                            boolean clean) {
+        return portalsImpl(t, own, dyn, false, MAX_RELAXED_PORTALS, maxExtra, clean);
     }
 
     /** Нестрогие выходы берутся по возрастанию расстояния, направления различаются хотя бы на 10°. */
-    private List<Coordinate> portalsImpl(Coordinate t, List<Restriction> own, DynamicObstacles dyn, boolean strict, int limit) {
+    private List<Coordinate> portalsImpl(Coordinate t, List<Restriction> own, DynamicObstacles dyn, boolean strict, int limit,
+                                         double maxExtra, boolean clean) {
         List<Coordinate> found = new ArrayList<>();
         List<Geometry> shells = new ArrayList<>();
         List<Geometry> parts = new ArrayList<>();
@@ -525,7 +632,7 @@ public final class Router {
         Set<Restriction> ignored = new HashSet<>(own);
         Coordinate pb = strict ? strictBoundaryPoint(tp, own, exterior) : DistanceOp.nearestPoints(exterior, tp)[0];
         if (strict) {
-            Coordinate[] a = ray(t, pb, ignored, ownUnion, dyn);
+            Coordinate[] a = ray(t, pb, ignored, ownUnion, dyn, false);
             if (a != null) {
                 found.add(a[0]);
             }
@@ -549,7 +656,7 @@ public final class Router {
         List<Double> angles = new ArrayList<>();
         Geometry containingBuf = containingUnion.buffer(1e-6);
         for (Coordinate c : candidates) {
-            if (c.distance(t) > nearest + 60 || ++tries > 1500 || found.size() >= limit) {
+            if (c.distance(t) > nearest + maxExtra || ++tries > 1500 || found.size() >= limit) {
                 break;
             }
             double ang = Math.toDegrees(Math.atan2(c.y - t.y, c.x - t.x));
@@ -564,7 +671,7 @@ public final class Router {
             if (similar || c.distance(t) < 1e-6 || !containingBuf.covers(field.segment(t, c))) {
                 continue;
             }
-            Coordinate[] a = ray(t, c, ignored, ownUnion, dyn);
+            Coordinate[] a = ray(t, c, ignored, ownUnion, dyn, clean);
             if (a != null) {
                 found.add(a[0]);
                 angles.add(ang);
@@ -617,8 +724,40 @@ public final class Router {
         return DistanceOp.nearestPoints(bounds.isEmpty() ? exterior : UnaryUnionOp.union(bounds), tp)[0];
     }
 
+    /** Строгий луч целиком (до {@link #MAX_APPROACH} за границей) внутри окон поиска: точки луча не пропускались. */
+    boolean strictRayInsideRoi(Coordinate t, List<Restriction> own) {
+        org.locationtech.jts.geom.Point tp = field.gf.createPoint(t);
+        List<Geometry> shells = new ArrayList<>();
+        for (Restriction r : own) {
+            for (int i = 0; i < r.geometry.getNumGeometries(); i++) {
+                Geometry g = r.geometry.getGeometryN(i);
+                if (g instanceof org.locationtech.jts.geom.Polygon && g.covers(tp)) {
+                    shells.add(((org.locationtech.jts.geom.Polygon) g).getExteriorRing());
+                }
+            }
+        }
+        if (shells.isEmpty()) {
+            return false;
+        }
+        Coordinate pb = strictBoundaryPoint(tp, own, UnaryUnionOp.union(shells));
+        double d = pb.distance(t);
+        if (d < 1e-6) {
+            return false;
+        }
+        Coordinate far = new Coordinate(pb.x + (pb.x - t.x) / d * MAX_APPROACH, pb.y + (pb.y - t.y) / d * MAX_APPROACH);
+        return field.insideRoi(field.segment(t, far));
+    }
+
     /** Точка на луче «цель → точка контура» за пределами зон запрета, до которой отрезок от цели допустим. */
-    private Coordinate[] ray(Coordinate t, Coordinate pb, Set<Restriction> ignored, Geometry ownUnion, DynamicObstacles dyn) {
+    /** Насколько луч снаружи может снова приблизиться к своему зданию в «чистом» выходе (погрешность), м. */
+    static final double CLEAN_EXIT_TOL = 0.05;
+
+    /**
+     * @param clean «чистый» выход: снаружи расстояние от луча до своего здания не уменьшается — финальный участок
+     *              не идёт вдоль другого крыла того же здания внутри его зоны отступа
+     */
+    private Coordinate[] ray(Coordinate t, Coordinate pb, Set<Restriction> ignored, Geometry ownUnion, DynamicObstacles dyn,
+                             boolean clean) {
         double dx = pb.x - t.x;
         double dy = pb.y - t.y;
         double d = Math.hypot(dx, dy);
@@ -638,6 +777,7 @@ public final class Router {
         Coordinate out = new Coordinate(pb.x + dx * 0.01, pb.y + dy * 0.01);
         // идём по лучу, пока отрезок «цель → точка» не станет допустимым (дорога перед домом пересекается целиком)
         boolean debug = Boolean.getBoolean("heatnet.debug");
+        double ownDist = 0;
         for (double s = APPROACH_STEP; s <= MAX_APPROACH; s += APPROACH_STEP) {
             Coordinate a = new Coordinate(pb.x + dx * s, pb.y + dy * s);
             if (ownPrepared.intersects(field.segment(out, a))) {
@@ -645,6 +785,13 @@ public final class Router {
                     log.info("  луч: на {} м снова входит в свой ОКС", s);
                 }
                 return null; // снаружи луч снова заходит в свой ОКС: финальный участок пересекал бы его дважды
+            }
+            if (clean) {
+                double dOwn = ownUnion.distance(field.gf.createPoint(a));
+                if (dOwn < ownDist - CLEAN_EXIT_TOL) {
+                    return null; // луч снова приближается к своему зданию: идёт вдоль другого крыла
+                }
+                ownDist = Math.max(ownDist, dOwn);
             }
             if (field.blocked(a) || !field.insideRoi(a)) {
                 continue;
@@ -676,7 +823,8 @@ public final class Router {
      * остаются ≤ 90° — это снимает мелкие изломы на скруглениях буферов (§2.1: без необоснованных изломов).
      * Точка выхода из своего ОКС (второй узел) сохраняется: через неё идёт финальный прямой участок.
      */
-    private Route smooth(Route r, DynamicObstacles dyn, boolean hasPortal, double startExemptRadius) {
+    private Route smooth(Route r, DynamicObstacles dyn, boolean hasPortal, double startExemptRadius,
+                         List<Coordinate> startOut) {
         List<Coordinate> pts = r.points;
         int n = pts.size();
         int fixed = hasPortal ? 2 : 1;
@@ -706,6 +854,9 @@ public final class Router {
                     continue;
                 }
                 if (last && r.goal != null && !r.goal.branchTurnOk(anchor)) {
+                    continue;
+                }
+                if (!hasPortal && out.size() == 1 && !startTurnOk(q, anchor, startOut)) {
                     continue;
                 }
                 SegmentChecker.Ok ok = checker.check(anchor, q, Collections.emptySet(), last ? r.goal.exemptPoint : null);
@@ -741,8 +892,493 @@ public final class Router {
             length += ok.length;
             cost += costOf(ok);
         }
+        if (!simple(out)) {
+            return r;
+        }
         Route s = new Route(out, spans, r.goal, length, cost);
         return s;
+    }
+
+    /* ---------------- выравнивание по локальным осям застройки ---------------- */
+
+    /** Отрезки короче не выравниваются, м. */
+    static final double ALIGN_MIN_SEGMENT = 15.0;
+    /** Катеты короче не строятся: без мелких изломов и ступенек (разъяснения 29.09, №18), м. */
+    static final double ALIGN_MIN_LEG = 5.0;
+    /** Выравниваются только явные диагонали; малое отклонение через Г дало бы ступеньку, град. */
+    static final double ALIGN_TOLERANCE_DEG = 10.0;
+    /** Между соседними поворотами в разные стороны — не короче, иначе это пила, м. */
+    static final double ALIGN_MIN_JOG = 15.0;
+    /** Зигзаг по маршруту: повороты в разные стороны с отрезком между ними короче, м. */
+    static final double ALIGN_ZIGZAG_LEG = 30.0;
+    /** Насколько Г может увеличить сумму поворотов: один прямой угол и половина второго, град. */
+    static final double ALIGN_MAX_ADDED_TURN = 135.0;
+    /** Угол Г не дальше этого от здания или дороги: трасса идёт вдоль фасада, а не крюком по пустому месту, м. */
+    static final double ALIGN_SUPPORT = 30.0;
+    /** На сколько можно удлинить маршрут ради выравнивания, доля его длины. */
+    static final double ALIGN_MAX_EXTRA = 0.25;
+    /** Радиус, в котором стены зданий и границы дорог задают локальные оси, м. */
+    static final double AXIS_RADIUS = 60.0;
+    private static final double AXIS_CELL = 25.0;
+    private final Map<Long, Double> axisCache = new HashMap<>();
+
+    /**
+     * Включено ли выравнивание: {@code heatnet.align} или {@code HEATNET_ALIGN} = true | false (по умолчанию true).
+     * false — прежняя геометрия (кратчайшие допустимые трассы), для сравнения.
+     */
+    public static boolean alignEnabled() {
+        String v = System.getProperty("heatnet.align");
+        if (v == null || v.trim().isEmpty()) {
+            v = System.getenv("HEATNET_ALIGN");
+        }
+        return v == null || v.trim().isEmpty() || !"false".equalsIgnoreCase(v.trim());
+    }
+
+    /**
+     * Трассы вдоль застройки (замечание экспертов): диагональный отрезок (от {@link #ALIGN_MIN_SEGMENT} м, отклонение
+     * от локальной оси от {@link #ALIGN_TOLERANCE_DEG}°) заменяется ломаной вдоль локальных осей зданий и дорог —
+     * «Г» или «Z» с перескоком посередине двора. Замена принимается, только если все новые отрезки проходят те же
+     * проверки, что и найденная трасса (ограничения и отступы, уже построенные линии, повороты ≤ 90°, подход к месту
+     * присоединения), не пересекают объекты спецпрохода, катеты не короче {@link #ALIGN_MIN_LEG} м, угол ломаной рядом
+     * со зданием или дорогой, нет «пилы» и «горбов», а маршрут удлиняется не больше чем на {@link #ALIGN_MAX_EXTRA}.
+     * Если по всему маршруту зигзагов стало больше, остаётся исходная трасса. Финальный прямой участок к цели (§2.2)
+     * не меняется. Формула S не меняется: выровненная трасса просто длиннее и дороже, это видно в показателях.
+     */
+    Route align(Route r, DynamicObstacles dyn, boolean hasPortal, double startExemptRadius) {
+        return align(r, dyn, hasPortal, startExemptRadius, Collections.emptyList());
+    }
+
+    /** @param startOut см. {@link #routeFromNode(Target, DynamicObstacles, GoalProvider, double, List)} */
+    Route align(Route r, DynamicObstacles dyn, boolean hasPortal, double startExemptRadius, List<Coordinate> startOut) {
+        if (r.goal == null || !alignEnabled()) {
+            return r;
+        }
+        List<Coordinate> pts = new ArrayList<>(r.points);
+        List<List<SpecialSpan>> spans = new ArrayList<>(r.spans);
+        double budget = ALIGN_MAX_EXTRA * r.length;
+        double extra = 0;
+        boolean changed = false;
+        for (int i = hasPortal ? 1 : 0; i + 1 < pts.size(); i++) {
+            Coordinate a = pts.get(i);
+            Coordinate b = pts.get(i + 1);
+            double len = a.distance(b);
+            if (len < ALIGN_MIN_SEGMENT || !spans.get(i).isEmpty()) {
+                continue;
+            }
+            double axis = localAxisDeg(new Coordinate((a.x + b.x) / 2, (a.y + b.y) / 2));
+            if (Double.isNaN(axis)) {
+                continue;
+            }
+            double dir = Math.toDegrees(Math.atan2(b.y - a.y, b.x - a.x));
+            double dev = ((dir - axis) % 90 + 90) % 90;
+            if (Math.min(dev, 90 - dev) < ALIGN_TOLERANCE_DEG) {
+                continue;
+            }
+            boolean last = i + 2 == pts.size();
+            Coordinate prev = i > 0 ? pts.get(i - 1) : null;
+            Coordinate next = last ? null : pts.get(i + 2);
+            double ux = Math.cos(Math.toRadians(axis));
+            double uy = Math.sin(Math.toRadians(axis));
+            double dx = b.x - a.x;
+            double dy = b.y - a.y;
+            double pu = dx * ux + dy * uy;
+            double pv = -dx * uy + dy * ux;
+            // кандидаты: Г (сначала вдоль одной оси, потом вдоль другой) и Z с перескоком посередине двора
+            List<Coordinate[]> shapes = new ArrayList<>();
+            shapes.add(new Coordinate[]{new Coordinate(a.x + pu * ux, a.y + pu * uy)});
+            shapes.add(new Coordinate[]{new Coordinate(a.x - pv * uy, a.y + pv * ux)});
+            for (double t : new double[]{0.5, 0.25, 0.75}) {
+                Coordinate u1 = new Coordinate(a.x + t * pu * ux, a.y + t * pu * uy);
+                shapes.add(new Coordinate[]{u1, new Coordinate(u1.x - pv * uy, u1.y + pv * ux)});
+                Coordinate v1 = new Coordinate(a.x - t * pv * uy, a.y + t * pv * ux);
+                shapes.add(new Coordinate[]{v1, new Coordinate(v1.x + pu * ux, v1.y + pu * uy)});
+            }
+            Coordinate[] best = null;
+            List<SegmentChecker.Ok> bestOks = null;
+            double bestAdd = 0;
+            for (Coordinate[] corners : shapes) {
+                if (!hasPortal && i == 0 && !startTurnOk(corners[0], a, startOut)) {
+                    continue; // новый первый отрезок развернул бы поток в уже примыкающие ветки больше чем на 90°
+                }
+                List<SegmentChecker.Ok> oks = alignShape(r, dyn, a, b, corners, prev, next, last,
+                        !hasPortal && i == 0 && startExemptRadius > 0, startExemptRadius);
+                if (oks == null) {
+                    continue;
+                }
+                double add = -len;
+                for (SegmentChecker.Ok ok : oks) {
+                    add += ok.length;
+                }
+                if (extra + add > budget) {
+                    continue;
+                }
+                List<Coordinate> trial = new ArrayList<>(pts);
+                for (int k = 0; k < corners.length; k++) {
+                    trial.add(i + 1 + k, corners[k]);
+                }
+                if (!selfClear(trial, i, i + corners.length)) {
+                    continue; // новые отрезки пересекли бы или задели свою же трассу
+                }
+                best = corners;
+                bestOks = oks;
+                bestAdd = add;
+                break; // Г раньше Z, Z с перескоком посередине раньше остальных
+            }
+            if (best == null) {
+                continue;
+            }
+            for (int k = 0; k < best.length; k++) {
+                pts.add(i + 1 + k, best[k]);
+            }
+            spans.set(i, bestOks.get(0).spans);
+            for (int k = 1; k < bestOks.size(); k++) {
+                spans.add(i + k, bestOks.get(k).spans);
+            }
+            extra += bestAdd;
+            changed = true;
+            i += best.length; // новые отрезки уже вдоль осей
+        }
+        if (!changed) {
+            return r;
+        }
+        // по всему маршруту зигзагов не больше, чем было, и маршрут без самопересечений: иначе исходная трасса
+        if (zigzags(pts) > zigzags(r.points) || !field.gf.createLineString(pts.toArray(new Coordinate[0])).isSimple()) {
+            return r;
+        }
+        double length = 0;
+        double cost = 0.7 * r.goal.cost / 25_000_000.0;
+        for (int i = 0; i + 1 < pts.size(); i++) {
+            double l = pts.get(i).distance(pts.get(i + 1));
+            length += l;
+            cost += costOf(new SegmentChecker.Ok(l, spans.get(i)));
+        }
+        Route out = new Route(pts, spans, r.goal, length, cost);
+        out.relaxedApproach = r.relaxedApproach;
+        return out;
+    }
+
+    /**
+     * Проверка ломаной a → corners → b вместо отрезка a → b теми же правилами, что и найденная трасса.
+     * @return допустимости новых отрезков по порядку или null
+     */
+    private List<SegmentChecker.Ok> alignShape(Route r, DynamicObstacles dyn, Coordinate a, Coordinate b, Coordinate[] corners,
+                                               Coordinate prev, Coordinate next, boolean last, boolean atStart,
+                                               double startExemptRadius) {
+        List<Coordinate> path = new ArrayList<>();
+        path.add(a);
+        Collections.addAll(path, corners);
+        path.add(b);
+        for (int k = 0; k + 1 < path.size(); k++) {
+            if (path.get(k).distance(path.get(k + 1)) < ALIGN_MIN_LEG) {
+                return null;
+            }
+        }
+        double before = (prev != null ? turn(prev, a, b) : 0) + (next != null ? turn(a, b, next) : 0);
+        double after = 0;
+        List<Coordinate> wide = new ArrayList<>();
+        if (prev != null) {
+            wide.add(prev);
+        }
+        wide.addAll(path);
+        if (next != null) {
+            wide.add(next);
+        }
+        for (int k = 0; k + 2 < wide.size(); k++) {
+            double t = turn(wide.get(k), wide.get(k + 1), wide.get(k + 2));
+            if (t > MAX_TURN_DEG + 1e-9) {
+                return null;
+            }
+            after += t;
+        }
+        // без пилы: соседние повороты в разные стороны с коротким отрезком между ними (разъяснения 29.09, №18)
+        for (int k = 0; k + 3 < wide.size(); k++) {
+            double s1 = cross(wide.get(k), wide.get(k + 1), wide.get(k + 2));
+            double s2 = cross(wide.get(k + 1), wide.get(k + 2), wide.get(k + 3));
+            boolean bent1 = turn(wide.get(k), wide.get(k + 1), wide.get(k + 2)) > 5;
+            boolean bent2 = turn(wide.get(k + 1), wide.get(k + 2), wide.get(k + 3)) > 5;
+            if (bent1 && bent2 && s1 * s2 < 0 && wide.get(k + 1).distance(wide.get(k + 2)) < ALIGN_MIN_JOG) {
+                return null;
+            }
+        }
+        // каждый новый угол добавляет прямой угол; если сверх этого растут соседние повороты — это «горб»
+        if (after - before > corners.length * MAX_TURN_DEG + ALIGN_MAX_ADDED_TURN - MAX_TURN_DEG + 1e-6) {
+            return null;
+        }
+        if (last && !r.goal.branchTurnOk(corners[corners.length - 1])) {
+            return null;
+        }
+        for (Coordinate c : corners) {
+            if (!supported(c)) {
+                return null;
+            }
+        }
+        List<SegmentChecker.Ok> oks = new ArrayList<>();
+        for (int k = 0; k + 1 < path.size(); k++) {
+            boolean end = last && k + 2 == path.size();
+            Coordinate p = path.get(k);
+            Coordinate q = path.get(k + 1);
+            SegmentChecker.Ok ok = checker.check(p, q, Collections.emptySet(), end ? r.goal.exemptPoint : null);
+            if (ok == null || !ok.spans.isEmpty()) {
+                return null;
+            }
+            boolean first = k == 0 && atStart;
+            if (!dyn.free(field.segment(p, q), end ? q : null, end ? r.goal.dynExemptRadius : 0,
+                    first ? p : null, first ? startExemptRadius : 0)) {
+                return null;
+            }
+            oks.add(ok);
+        }
+        return oks;
+    }
+
+    /** Отрезок между двумя поворотами короче — мелкий излом (разъяснения №5; доп. разъяснения 29.09, №18), м. */
+    static final double MIN_BEND_SEGMENT = 1.0;
+    /** Насколько далеко от исходных вершин может оказаться объединённая вершина, м. */
+    static final double BEND_MERGE_REACH = 3.0;
+
+    /**
+     * Мелкие изломы на скруглениях обхода — две вершины с поворотами в одну сторону и отрезком короче
+     * {@link #MIN_BEND_SEGMENT} между ними — заменяются одной вершиной на пересечении продолжений соседних отрезков.
+     * Направления соседних отрезков не меняются, поэтому повороты на концах трассы, в камерах и у цели те же;
+     * новая вершина лежит снаружи скругления, дальше от обходимого препятствия. Замена проверяется теми же правилами,
+     * что и трасса (ограничения и отступы, построенные линии, поворот ≤ 90°, без самопересечений); иначе — как было.
+     * Финальный участок к цели (§2.2) и спецучастки не меняются.
+     */
+    Route mergeShortBends(Route r, DynamicObstacles dyn, boolean hasPortal, double startExemptRadius) {
+        if (r.goal == null) {
+            return r;
+        }
+        List<Coordinate> pts = new ArrayList<>(r.points);
+        List<List<SpecialSpan>> spans = new ArrayList<>(r.spans);
+        boolean changed = false;
+        for (int k = hasPortal ? 1 : 0; k + 3 < pts.size(); k++) {
+            Coordinate a = pts.get(k);
+            Coordinate b = pts.get(k + 1);
+            Coordinate c = pts.get(k + 2);
+            Coordinate d = pts.get(k + 3);
+            if (b.distance(c) >= MIN_BEND_SEGMENT
+                    || !spans.get(k).isEmpty() || !spans.get(k + 1).isEmpty() || !spans.get(k + 2).isEmpty()) {
+                continue;
+            }
+            if (cross(a, b, c) * cross(b, c, d) <= 0) {
+                continue; // повороты в разные стороны — это не скругление
+            }
+            Coordinate x = lineIntersection(a, b, c, d);
+            if (x == null || x.distance(b) > BEND_MERGE_REACH || x.distance(c) > BEND_MERGE_REACH
+                    || (b.x - a.x) * (x.x - b.x) + (b.y - a.y) * (x.y - b.y) < 0
+                    || (c.x - d.x) * (x.x - c.x) + (c.y - d.y) * (x.y - c.y) < 0
+                    || turn(a, x, d) > MAX_TURN_DEG + 1e-9) {
+                continue;
+            }
+            boolean last = k + 3 == pts.size() - 1;
+            boolean atStart = !hasPortal && k == 0 && startExemptRadius > 0;
+            SegmentChecker.Ok ok1 = checker.check(a, x, Collections.emptySet(), null);
+            SegmentChecker.Ok ok2 = checker.check(x, d, Collections.emptySet(), last ? r.goal.exemptPoint : null);
+            if (ok1 == null || ok2 == null || !ok1.spans.isEmpty() || !ok2.spans.isEmpty()
+                    || !dyn.free(field.segment(a, x), null, 0, atStart ? a : null, atStart ? startExemptRadius : 0)
+                    || !dyn.free(field.segment(x, d), last ? d : null, last ? r.goal.dynExemptRadius : 0, null, 0)) {
+                continue;
+            }
+            List<Coordinate> trial = new ArrayList<>(pts);
+            trial.set(k + 1, x);
+            trial.remove(k + 2);
+            if (!selfClear(trial, k, k + 1)) {
+                continue; // объединённая вершина свела бы трассу саму с собой
+            }
+            pts = trial;
+            spans.set(k, ok1.spans);
+            spans.set(k + 1, ok2.spans);
+            spans.remove(k + 2);
+            changed = true;
+        }
+        if (!changed) {
+            return r;
+        }
+        double length = 0;
+        double cost = 0.7 * r.goal.cost / 25_000_000.0;
+        for (int i = 0; i + 1 < pts.size(); i++) {
+            double l = pts.get(i).distance(pts.get(i + 1));
+            length += l;
+            cost += costOf(new SegmentChecker.Ok(l, spans.get(i)));
+        }
+        Route out = new Route(pts, spans, r.goal, length, cost);
+        out.relaxedApproach = r.relaxedApproach;
+        return out;
+    }
+
+    /** Пересечение прямых ab и cd или null, если они параллельны. */
+    static Coordinate lineIntersection(Coordinate a, Coordinate b, Coordinate c, Coordinate d) {
+        double x1 = b.x - a.x;
+        double y1 = b.y - a.y;
+        double x2 = d.x - c.x;
+        double y2 = d.y - c.y;
+        double den = x1 * y2 - y1 * x2;
+        if (Math.abs(den) < 1e-12 * Math.hypot(x1, y1) * Math.hypot(x2, y2)) {
+            return null;
+        }
+        double t = ((c.x - a.x) * y2 - (c.y - a.y) * x2) / den;
+        return new Coordinate(a.x + t * x1, a.y + t * y1);
+    }
+
+    /** Зазор между габаритами двух частей одной трассы — как между двумя новыми линиями, м. */
+    static final double SELF_GAP = 0.05;
+
+    /**
+     * Маршрут pts без самопересечений, а отрезки first..last (новые) не ближе ширины пары труб плюс зазор к
+     * несоседним отрезкам того же маршрута: выравнивание не должно сводить трассу саму с собой.
+     */
+    boolean selfClear(List<Coordinate> pts, int first, int last) {
+        if (!field.gf.createLineString(pts.toArray(new Coordinate[0])).isSimple()) {
+            return false;
+        }
+        double need = 2 * field.halfWidth + SELF_GAP;
+        for (int k = first; k <= last && k + 1 < pts.size(); k++) {
+            LineString seg = field.segment(pts.get(k), pts.get(k + 1));
+            for (int j = 0; j + 1 < pts.size(); j++) {
+                if (Math.abs(j - k) <= 1) {
+                    continue; // соседние отрезки сходятся в общей вершине
+                }
+                if (seg.distance(field.segment(pts.get(j), pts.get(j + 1))) < need) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /** Пары соседних поворотов больше 20° в разные стороны с отрезком между ними короче {@link #ALIGN_ZIGZAG_LEG}. */
+    static int zigzags(List<Coordinate> pts) {
+        int n = 0;
+        for (int k = 0; k + 3 < pts.size(); k++) {
+            Coordinate p0 = pts.get(k);
+            Coordinate p1 = pts.get(k + 1);
+            Coordinate p2 = pts.get(k + 2);
+            Coordinate p3 = pts.get(k + 3);
+            if (turn(p0, p1, p2) > 20 && turn(p1, p2, p3) > 20 && cross(p0, p1, p2) * cross(p1, p2, p3) < 0
+                    && p1.distance(p2) < ALIGN_ZIGZAG_LEG) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    private static double cross(Coordinate a, Coordinate b, Coordinate c) {
+        return (b.x - a.x) * (c.y - b.y) - (b.y - a.y) * (c.x - b.x);
+    }
+
+    /** Рядом с углом Г (не дальше {@link #ALIGN_SUPPORT}) есть здание или дорога. */
+    private boolean supported(Coordinate c) {
+        Envelope env = new Envelope(c);
+        env.expandBy(ALIGN_SUPPORT);
+        org.locationtech.jts.geom.Point pt = field.gf.createPoint(c);
+        for (Object o : field.blockIndex.query(env)) {
+            ObstacleField.Block blk = (ObstacleField.Block) o;
+            if (blk.restriction.rule == ru.lct.heatnet.rules.RestrictionRule.OKS
+                    && blk.restriction.geometry.distance(pt) <= ALIGN_SUPPORT) {
+                return true;
+            }
+        }
+        for (Object o : field.zoneIndex.query(env)) {
+            ObstacleField.Zone z = (ObstacleField.Zone) o;
+            if (z.isAreal() && z.core.distance(pt) <= ALIGN_SUPPORT) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Локальная ось застройки, град. [0, 90): преобладающее направление стен зданий и границ дорог в радиусе
+     * {@link #AXIS_RADIUS} (по модулю 90°, вес — длина ребра, ближние сильнее). NaN — опорных стен мало или
+     * направления разные.
+     */
+    double localAxisDeg(Coordinate p) {
+        long key = ((long) Math.floor(p.x / AXIS_CELL) << 32) ^ ((long) Math.floor(p.y / AXIS_CELL) & 0xffffffffL);
+        Double cached = axisCache.get(key);
+        if (cached != null) {
+            return cached;
+        }
+        Coordinate center = new Coordinate((Math.floor(p.x / AXIS_CELL) + 0.5) * AXIS_CELL,
+                (Math.floor(p.y / AXIS_CELL) + 0.5) * AXIS_CELL);
+        Envelope env = new Envelope(center);
+        env.expandBy(AXIS_RADIUS);
+        double[] hist = new double[90];
+        Set<Object> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+        List<Geometry> shapes = new ArrayList<>();
+        for (Object o : field.blockIndex.query(env)) {
+            ObstacleField.Block blk = (ObstacleField.Block) o;
+            if (blk.restriction.rule == ru.lct.heatnet.rules.RestrictionRule.OKS && seen.add(blk.restriction)) {
+                shapes.add(blk.restriction.geometry);
+            }
+        }
+        for (Object o : field.zoneIndex.query(env)) {
+            ObstacleField.Zone z = (ObstacleField.Zone) o;
+            if (z.isAreal() && seen.add(z)) {
+                shapes.add(z.core);
+            }
+        }
+        double total = 0;
+        // каждое кольцо (внешнее и дворы) каждой части отдельно: между кольцами и частями рёбер нет
+        List<Coordinate[]> rings = new ArrayList<>();
+        for (Geometry g : shapes) {
+            for (int gi = 0; gi < g.getNumGeometries(); gi++) {
+                Geometry part = g.getGeometryN(gi);
+                if (part instanceof org.locationtech.jts.geom.Polygon) {
+                    org.locationtech.jts.geom.Polygon poly = (org.locationtech.jts.geom.Polygon) part;
+                    rings.add(poly.getExteriorRing().getCoordinates());
+                    for (int h = 0; h < poly.getNumInteriorRing(); h++) {
+                        rings.add(poly.getInteriorRingN(h).getCoordinates());
+                    }
+                } else if (part instanceof LineString) {
+                    rings.add(part.getCoordinates());
+                }
+            }
+        }
+        for (Coordinate[] cs : rings) {
+            for (int i = 0; i + 1 < cs.length; i++) {
+                double l = cs[i].distance(cs[i + 1]);
+                if (l < 1e-6) {
+                    continue;
+                }
+                double d = center.distance(new Coordinate((cs[i].x + cs[i + 1].x) / 2, (cs[i].y + cs[i + 1].y) / 2));
+                if (d > AXIS_RADIUS) {
+                    continue;
+                }
+                double w = l / (1 + d / 20.0);
+                double ang = ((Math.toDegrees(Math.atan2(cs[i + 1].y - cs[i].y, cs[i + 1].x - cs[i].x)) % 90) + 90) % 90;
+                hist[(int) Math.floor(ang) % 90] += w;
+                total += w;
+            }
+        }
+        double axis = Double.NaN;
+        if (total >= 20) {
+            int best = -1;
+            double bestW = 0;
+            for (int i = 0; i < 90; i++) {
+                double w = 0;
+                for (int k = -2; k <= 2; k++) {
+                    w += hist[(i + k + 90) % 90];
+                }
+                if (w > bestW) {
+                    bestW = w;
+                    best = i;
+                }
+            }
+            // ось должна собирать заметную долю стен: иначе направления в округе разные
+            if (bestW >= 0.25 * total) {
+                double sx = 0;
+                double sw = 0;
+                for (int k = -2; k <= 2; k++) {
+                    int bin = (best + k + 90) % 90;
+                    double angle = best + k + 0.5;
+                    sx += hist[bin] * angle;
+                    sw += hist[bin];
+                }
+                axis = ((sx / sw) % 90 + 90) % 90;
+            }
+        }
+        axisCache.put(key, axis);
+        return axis;
     }
 
     private Route reconstruct(State end, List<Coordinate> nodes, Goal goal) {

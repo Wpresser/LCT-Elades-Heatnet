@@ -59,7 +59,7 @@ def compare(expected, actual, path="root"):
 def validate(output):
     env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
     for args in [
-        ["results/tools/lct_audit.py", "--input", str(DATASET), "--output", str(output), "--terminal-policy", "strict", "--json", str(output.with_suffix(".audit.json"))],
+        ["results/tools/lct_audit.py", "--input", str(DATASET), "--output", str(output), "--terminal-policy", "exterior-fallback", "--json", str(output.with_suffix(".audit.json"))],
         ["validator/validator.py", str(DATASET), str(output), "--json", str(output.with_suffix(".validator.json"))],
         ["results/tools/output_contract_check.py", str(DATASET), str(output)],
     ]:
@@ -98,12 +98,12 @@ def main():
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(response.content)
     actual = response.json()
-    reference = ROOT / "results/final_strict.geojson"
+    reference = ROOT / "results/final_main.geojson"
     compare(json.loads(reference.read_text(encoding="utf-8")), actual)
     rows = [f["properties"] for f in actual["features"] if f["properties"].get("object_type") == "variant_summary"]
-    assert rows and all(p["diag_terminal_policy"] == "literal" and not p.get("diag_search_truncated") for p in rows)
+    assert rows and all(p["diag_terminal_policy"] == "relaxed" and not p.get("diag_search_truncated") for p in rows)
     validate(args.output)
-    report = {"status": "PASS", "job_id": job_id, "terminal_policy": "literal",
+    report = {"status": "PASS", "job_id": job_id, "terminal_policy": "relaxed",
               "byte_identical": reference.read_bytes() == response.content, "semantic_match": True,
               "sha256": hashlib.sha256(response.content).hexdigest(), "variants": rows}
     args.report.parent.mkdir(parents=True, exist_ok=True)

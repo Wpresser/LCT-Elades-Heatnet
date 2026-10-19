@@ -18,6 +18,8 @@ docker-compose up --build -d
 docker-compose logs -f app
 ```
 
+Если стенд уже поднимался и `docker-compose up` пишет `Network … needs to be recreated` (так бывает у docker-compose 1.29.2 с новым Docker Engine), выполните `docker-compose down` — задания и база сохраняются в томах — и повторите `docker-compose up --build -d`.
+
 После запуска доступны:
 
 - Технический интерфейс: http://localhost:8080/
@@ -47,34 +49,44 @@ npm run build
 npm run dev
 ```
 
-Откройте http://localhost:5173/viewer/. Карта показывает сеть, здания, ограничения, камеры, источник, параметры участков и объяснения для неподключённых точек. Есть 3D и вид сверху. Это локальный viewer; ссылка на GitHub не является запущенным прототипом.
+Нужен Node.js 22 (≥ 22.12) или 20 (≥ 20.19). Откройте http://localhost:5173/viewer/. Карта показывает сохранённые результаты конкурсного набора (`viewer/public/data/`): сеть, здания, ограничения, камеры, источник, параметры участков и объяснения для неподключённых точек, в основном и строгом режимах. Есть 3D и вид сверху. Свой файл рассчитывается и показывается в техническом интерфейсе сервиса (http://localhost:8080/).
 
-## Два режима правила §2.2
+## Доработка после обратной связи экспертов
 
-По умолчанию используется **strict/literal**: финальный участок к зданию проходит через ближайшую к точке подключения границу. На исправленном конкурсном наборе в этом режиме подключаются 14 из 17 точек, S лучшего варианта — 20,589. Точки 2, 5 и 10 остаются неподключёнными и учитываются со штрафом.
+Все 17 точек подключены в основном режиме. Трассы выравниваются вдоль локальных осей застройки (`HEATNET_ALIGN`): 64 % длины v1 вдоль осей против 53 % в сдаче 30.09; поток в камерах поворачивает не больше чем на 90°. Спецпроход через газ, кабель и теплосеть — ровно ±2 м. На наборе с дорогами из OpenStreetMap (`scenarios/osm_roads`) расчёт шёл больше 16 минут, теперь — около 2 минут, и исправлено падение. Что, как и чем проверено — в [docs/EXPERT_FEEDBACK.md](docs/EXPERT_FEEDBACK.md).
 
-**Alternative/relaxed** допускает другой свободный выход из контура здания и подключает 17 из 17 точек, S = 13,076. Это отдельная трактовка спорного правила, а не подтверждённый организатором строгий результат. Карта загружает для неё отдельный GeoJSON.
+## Ввод в здание (§2.2) и режимы
 
-Настройка backend: `HEATNET_TERMINAL_POLICY=literal` (по умолчанию) или `HEATNET_TERMINAL_POLICY=relaxed`. Обоснование и точные метрики — в [решении по правилу §2.2](docs/TERMINAL_POLICY_DECISION.md) и [FINAL_METRICS.json](FINAL_METRICS.json).
+По умолчанию (`relaxed`) финальный прямой участок идёт от ближайшей точки **внешнего** контура здания. Если прямой выход оттуда закрыт по входным данным (своим зданием, двором или соседним объектом) или из него нет допустимой трассы, берётся другая точка внешнего контура со свободным выходом — сначала такая, где участок внутри здания длиннее ближайшего не больше чем на 10 м, а снаружи трасса удаляется от здания: финальный участок не ведётся через значительную часть здания и не идёт вдоль его другого крыла. Предел +10 м — эвристика предпочтения, а не число из правил. Если такие выходы не подходят, поиск пробует вводы без требования чистоты и с удлинением до +60 м; это раскрывается диагностикой и предупреждениями аудитора. Приоритет ближайшего внешнего контура и возможность обоснованного альтернативного ввода описаны в дополнительных разъяснениях от 29.09.2026, №15–17 ([`task/sources/Дополнительные разъяснения 29.09.2026.docx`](task/sources/Дополнительные%20разъяснения%2029.09.2026.docx); документ передан участнику команды, независимая публикация организатором не подтверждена). На конкурсном наборе подключаются 17 из 17 точек, S лучшего варианта — 13,197. Для точек 2 и 10 участок внутри здания длиннее ближайшего пути на 3,0 и 2,3 м, точка 5 входит через ближайший внешний контур, а не через стену двора.
+
+Строгое прочтение §2.2 (`literal`: ближайшая точка всей границы, включая стены дворов) оставлено для сравнения: 14 из 17, точки 2, 5 и 10 со штрафом, S = 20,589. Переключение — `HEATNET_TERMINAL_POLICY=literal`. Метрики обоих режимов — в [FINAL_METRICS.json](FINAL_METRICS.json), обоснование — в [решении по правилу §2.2](docs/TERMINAL_POLICY_DECISION.md).
 
 ## Проверка
 
-Публичные данные viewer — проверяемые копии authoritative файлов. После изменения результатов выполните `python scripts/sync_viewer_data.py` и `python scripts/check_release_metrics.py --write`; CI проверяет совпадение байтов и метрик.
+Данные карты — побайтные копии эталонных файлов из `results/` и `task/sources/`. После изменения результатов выполните `python3 scripts/sync_viewer_data.py` и `python3 scripts/check_release_metrics.py --write`; CI проверяет совпадение байтов и метрик.
 
 ```bash
-(cd service && ./mvnw test) # нужен JDK 11
-(cd viewer && npm run test:policy && npm run typecheck && npm run build)
-python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_strict.geojson --terminal-policy strict
-python validator/validator.py "task/sources/Датасет скорректированный.geojson" results/final_strict.geojson
+python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt   # Ubuntu: sudo apt install python3-venv
+(cd service && ./mvnw test)   # JDK 11; локаль UTF-8 (export LANG=C.UTF-8) — в пути набора кириллица
+(cd viewer && npm ci && npm run test:policy && npm run typecheck && npm run build)
+.venv/bin/python results/tools/lct_audit.py --input "task/sources/Датасет скорректированный.geojson" --output results/final_main.geojson --terminal-policy exterior-fallback
+.venv/bin/python validator/validator.py "task/sources/Датасет скорректированный.geojson" results/final_main.geojson
 ```
 
-Java 11, Docker, PostgreSQL и полный API E2E фактически проверены на Ubuntu runner. Команды, результаты и ограничения — в [FINAL_RELEASE_REPORT.md](FINAL_RELEASE_REPORT.md) и [FINAL_VERIFICATION.md](FINAL_VERIFICATION.md). CI повторяет проверки на push/main, pull request и workflow_dispatch без игнорирования ошибок.
+Режим аудитора `exterior-fallback` соответствует режиму сервиса `relaxed` (правило №15): вход через стену двора — ошибка, участок внутри здания длиннее ближайшего больше чем на 10 м — предупреждение. Что строгий выход действительно закрыт, проверяет валидатор. Для карт «до/после» (`results/tools/render_compare.py`, `presentation/tools/render_map.py`) дополнительно нужен `matplotlib`.
+
+Java 11, Docker, PostgreSQL и полный API E2E проверены в CI на Ubuntu 22.04 для сдачи 30.09 (прогон на commit 57bd009, финальный коммит сдачи — 08ee21f; режим по умолчанию тогда — `literal`). Команды, результаты и ограничения той сдачи — в [FINAL_RELEASE_REPORT.md](FINAL_RELEASE_REPORT.md) и [FINAL_VERIFICATION.md](FINAL_VERIFICATION.md). CI повторяет проверки на push/main, pull request и workflow_dispatch без игнорирования ошибок.
 
 ## Документация и файлы
 
+- [Доработка после обратной связи экспертов](docs/EXPERT_FEEDBACK.md)
 - [Алгоритм](docs/ALGORITHM.md)
 - [Сценарий демонстрации](docs/DEMO.md)
 - [Решение по спорному правилу §2.2](docs/TERMINAL_POLICY_DECISION.md)
 - [Результаты расчёта](results/)
 - [Официальное задание, разъяснения и набор данных](task/)
-- [Презентация команды Elades](presentation/LCT_Task2_final_presentation.pdf)
+- [Презентация команды Elades](presentation/Elades_LCT2026_task2_presentation.pdf) (PDF; исходник — `presentation/Elades_LCT2026_task2_presentation.pptx`)
+
+## Окончательная проверка
+
+Исправления после строгого ревью, свежие проверки и их границы: [FINAL_COMPLETION_REPORT.md](docs/FINAL_COMPLETION_REPORT.md). Регламент, обязательные слайды и назначение двух версий презентации: [FINAL_SUBMISSION_RULES.md](docs/FINAL_SUBMISSION_RULES.md). Для питча есть [текст выступления](presentation/PITCH_SCRIPT_RU.md) и [ответы на вопросы](presentation/DEFENSE_QA_RU.md).

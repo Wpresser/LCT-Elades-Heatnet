@@ -218,6 +218,10 @@ public final class ObstacleField {
         return roi.covers(gf.createPoint(c));
     }
 
+    public boolean insideRoi(Geometry g) {
+        return roi.covers(g);
+    }
+
     public LineString segment(Coordinate a, Coordinate b) {
         return gf.createLineString(new Coordinate[]{a, b});
     }

@@ -21,8 +21,10 @@ def artifact_metrics():
                   for f in json.loads(DATASET.read_text(encoding="utf-8"))["features"])
     data = {"schema_version": 2, "dataset_sha256": hashlib.sha256(DATASET.read_bytes()).hexdigest(),
             "cost_definition": "construction_cost = pipes + new chambers + existing chamber tie-ins; calculated_cost = construction_cost + unconnected_penalty",
-            "default_policy": "literal", "official_clarification_received": False}
-    for mode, policy in [("strict", "literal"), ("alternative", "relaxed")]:
+            "default_policy": "relaxed",
+            "terminal_rule_source": "additional clarifications 29.09.2026 No. 15 (received by a team member; "
+                                    "official publication not independently confirmed)"}
+    for mode, policy in [("main", "relaxed"), ("strict", "literal")]:
         path = ROOT / f"results/final_{mode}.geojson"
         rows = summaries(path)
         variants = {}

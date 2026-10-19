@@ -169,6 +169,26 @@ class ValidatorTest(unittest.TestCase):
         by_id(out, "v1_net_3")["geometry"] = line((130, 30), (170, 30), (158, 33), (160, 60))
         self.assertIn("geom.turn", self.codes(INPUT_B, out))
 
+    def test_flow_turn_over_ninety_in_branch_chamber(self):
+        # поток приходит в камеру v1_ch_2 с юга и уходит в ветку к 11 на юго-запад — поворот 135° (§2.1, 29.09 №19)
+        out = copy.deepcopy(OUTPUT_B)
+        by_id(out, "v1_net_2")["geometry"] = line((130, 30), (120, 20), (100, 40), (100, 60))
+        self.assertIn("geom.flow_turn", self.codes(INPUT_B, out))
+
+    def test_line_crossing_itself(self):
+        out = copy.deepcopy(OUTPUT_B)
+        by_id(out, "v1_net_3")["geometry"] = line((130, 30), (150, 30), (150, 40), (140, 40), (140, 20), (160, 20), (160, 60))
+        self.assertIn("geom.self_cross", self.codes(INPUT_B, out))
+
+    def test_free_strict_exit_with_gas_ahead_is_error(self):
+        # газопровод в 10 м за строгим выходом не мешает выйти через ближайшую точку: подход через другую — ошибка
+        inp = copy.deepcopy(INPUT_B)
+        inp["features"].append(feat({"id": 41, "object_type": "restriction", "restriction_type": "gas_pipeline"},
+                                    line((80, 45), (120, 45))))
+        out = copy.deepcopy(OUTPUT_B)
+        by_id(out, "v1_net_2")["geometry"] = line((130, 30), (130, 65), (100, 60))
+        self.assertIn("oks.final_approach", self.codes(inp, out))
+
     def test_final_approach_not_through_nearest_boundary(self):
         out = copy.deepcopy(OUTPUT_B)
         by_id(out, "v1_net_2")["geometry"] = line((130, 30), (130, 65), (100, 60))
@@ -234,22 +254,37 @@ class ValidatorTest(unittest.TestCase):
         rank_errors = [i for i in rep.errors() if i["code"] == "summary.rank"]
         self.assertEqual({"'v1'", "'v2'"}, {i["variant"] for i in rank_errors})
 
-    def test_literal_two_metre_special_conflicts_with_clearance(self):
-        """Воспроизводимый тест конфликта (DECISIONS №17): газопровод, ДУ 100, пересечение под 90°,
-        спецучасток ровно ± 2 м. Отступ 2,0 м между габаритами требует 2,0 + 0,2 + 0,255 = 2,455 м между осями,
-        а граница спецучастка в 2 м от оси — буквальное правило нарушается сразу за спецучастком."""
+    def _gas_case(self, *tail):
+        """Газопровод y = 50, ДУ 100, спецучасток ровно ± 2 м вдоль оси при пересечении под 90°."""
         inp = copy.deepcopy(INPUT_A)
         inp["features"].append(feat({"id": 50, "object_type": "restriction", "restriction_type": "gas_pipeline"},
                                     line((-100, 50), (100, 50))))
-        # 48 м базы + 4 м спец (K 1,25) + 48 м базы; ДУ 100
         out = fc([
             feat({"id": "v1_tn_1", "object_type": "technical_node", "variant_id": "v1"}, pt(0, 48)),
             feat({"id": "v1_tn_2", "object_type": "technical_node", "variant_id": "v1"}, pt(0, 52)),
             net("v1_net_1", "input_chamber_1", "v1_tn_1", 20.0, 100, 48.0, 48 * 89_748, (0, 0), (0, 48)),
             net("v1_net_2", "v1_tn_1", "v1_tn_2", 20.0, 100, 4.0, 4 * 89_748 * 1.25, (0, 48), (0, 52), laying="special"),
-            net("v1_net_3", "v1_tn_2", "input_oks_1", 20.0, 100, 48.0, 48 * 89_748, (0, 52), (0, 100)),
-            summary("v1", 1, 100 * 89_748 + 4 * 89_748 * 0.25 + 5_000_000, 0, 1, 0, 100.0, 0.0, []),
+            *tail,
         ])
+        return inp, out
+
+    def test_two_metre_special_crossing_is_valid(self):
+        """Дополнительные разъяснения 29.09, №14: граница спецпрохода — ± 2 м вдоль оси новой сети, половина
+        габарита не добавляется. Отступ 2,455 м между осями требуется только при прохождении рядом, поэтому прямое
+        продолжение за спецучастком внутри зоны отступа допустимо (раньше — конфликт DECISIONS №17)."""
+        inp, out = self._gas_case(
+            net("v1_net_3", "v1_tn_2", "input_oks_1", 20.0, 100, 48.0, 48 * 89_748, (0, 52), (0, 100)),
+            summary("v1", 1, 100 * 89_748 + 4 * 89_748 * 0.25 + 5_000_000, 0, 1, 0, 100.0, 0.0, []))
+        codes = self.codes(inp, out)
+        self.assertNotIn("clearance.gas_pipeline", codes)
+        self.assertNotIn("special.extent", codes)
+
+    def test_passing_beside_gas_after_crossing_violates_clearance(self):
+        """После спецучастка трасса поворачивает и идёт вдоль газопровода в зоне отступа — это «прохождение рядом»."""
+        inp, out = self._gas_case(
+            net("v1_net_3", "v1_tn_2", "v1_tn_3", 20.0, 100, 10.0, 10 * 89_748, (0, 52), (10, 52.2)),
+            feat({"id": "v1_tn_3", "object_type": "technical_node", "variant_id": "v1"}, pt(10, 52.2)),
+            net("v1_net_4", "v1_tn_3", "input_oks_1", 20.0, 100, 48.0, 48 * 89_748, (10, 52.2), (0, 100)))
         self.assertIn("clearance.gas_pipeline", self.codes(inp, out))
 
     def test_string_and_number_ids_are_distinct(self):

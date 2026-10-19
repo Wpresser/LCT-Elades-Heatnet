@@ -1,5 +1,6 @@
 package ru.lct.heatnet.solver;
 
+import org.locationtech.jts.geom.Coordinate;
 import ru.lct.heatnet.rules.DiameterTable;
 
 import java.util.ArrayDeque;
@@ -79,9 +80,19 @@ final class TreeCalc {
 
     /** Назначить расходы и ДУ. @return null или описание проблемы. */
     static String assign(Net net) {
+        org.locationtech.jts.geom.GeometryFactory gf = new org.locationtech.jts.geom.GeometryFactory();
+        for (Net.Line line : net.lines) {
+            if (line.coords.size() < 2 || !gf.createLineString(line.coords.toArray(new Coordinate[0])).isSimple()) {
+                return "самопересечение или вырожденная геометрия участка " + line.id;
+            }
+        }
         Tree t = orient(net);
         if (t.down.size() != net.lines.size()) {
             return "часть участков не связана с присоединением или образует цикл";
+        }
+        String turn = flowTurnViolation(t);
+        if (turn != null) {
+            return turn;
         }
         Map<Net.Node, List<Net.Line>> adj = adjacency(net);
         // расходы: снизу вверх
@@ -168,6 +179,52 @@ final class TreeCalc {
             for (Net.Line l : c.lines) {
                 l.flow = c.flow;
                 l.dn = c.dn;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Поток, входящий в узел новой сети по участку выше, при переходе в каждый участок ниже меняет направление
+     * не больше чем на 90° (§2.1, разъяснение №5, доп. разъяснения 29.09 №19). Проверяется по всему дереву:
+     * перестройка цепочки или переприсоединение ветки может изменить направление потока на уже проложенном
+     * участке. Узлы присоединения к существующей сети не проверяются: выше по потоку там существующая труба.
+     */
+    private static String flowTurnViolation(Tree t) {
+        for (Net.Line l : t.bfsOrder) {
+            Net.Line above = t.parent.get(l);
+            if (above == null) {
+                continue;
+            }
+            Net.Node at = l.other(t.down.get(l));
+            Coordinate in = neighbour(above, at);
+            Coordinate out = neighbour(l, at);
+            if (in == null || out == null) {
+                continue;
+            }
+            double x1 = at.xy.x - in.x;
+            double y1 = at.xy.y - in.y;
+            double x2 = out.x - at.xy.x;
+            double y2 = out.y - at.xy.y;
+            // как Router.turnOk: поворот не больше 90° ⇔ скалярное произведение направлений неотрицательно
+            if (x1 * x2 + y1 * y2 < -1e-9 * Math.hypot(x1, y1) * Math.hypot(x2, y2)) {
+                return "поворот потока в узле " + at.label() + " больше 90° (участок " + l.id + ")";
+            }
+        }
+        return null;
+    }
+
+    /** Ближайшая к узлу n несовпадающая с ним вершина участка l или null. */
+    private static Coordinate neighbour(Net.Line l, Net.Node n) {
+        List<Coordinate> c = l.coords;
+        boolean fromA = l.a == n;
+        if (!fromA && l.b != n) {
+            return null;
+        }
+        for (int k = 1; k < c.size(); k++) {
+            Coordinate q = c.get(fromA ? k : c.size() - 1 - k);
+            if (q.distance(n.xy) > 1e-9) {
+                return q;
             }
         }
         return null;

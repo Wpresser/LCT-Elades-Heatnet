@@ -86,6 +86,8 @@ public final class Net {
     }
 
     public final String variantId;
+    public final String summaryId;
+    private final java.util.Set<String> reservedIds;
     public final List<Node> nodes = new ArrayList<>();
     public final List<Line> lines = new ArrayList<>();
     /** Не подключённые цели → причина. */
@@ -102,7 +104,36 @@ public final class Net {
     private int lineSeq;
 
     public Net(String variantId) {
+        this(variantId, java.util.Collections.emptySet());
+    }
+
+    public Net(String variantId, java.util.Set<String> reservedIds) {
         this.variantId = variantId;
+        this.reservedIds = reservedIds;
+        String candidate = variantId + "_summary";
+        int suffix = 0;
+        while (reservedIds.contains(candidate)) {
+            candidate = variantId + "_summary_" + (++suffix);
+        }
+        this.summaryId = candidate;
+    }
+
+    private String nextChamberId() {
+        String id;
+        do { id = variantId + "_ch_" + (++chamberSeq); } while (reservedIds.contains(id));
+        return id;
+    }
+
+    private String nextTechnicalId() {
+        String id;
+        do { id = variantId + "_tn_" + (++techSeq); } while (reservedIds.contains(id));
+        return id;
+    }
+
+    private String nextLineId() {
+        String id;
+        do { id = variantId + "_net_" + (++lineSeq); } while (reservedIds.contains(id));
+        return id;
     }
 
     public Node target(Target t) {
@@ -125,19 +156,19 @@ public final class Net {
     }
 
     public Node newChamber(Coordinate xy) {
-        Node n = new Node(NodeKind.NEW_CHAMBER, null, variantId + "_ch_" + (++chamberSeq), xy, null);
+        Node n = new Node(NodeKind.NEW_CHAMBER, null, nextChamberId(), xy, null);
         nodes.add(n);
         return n;
     }
 
     public Node techNode(Coordinate xy) {
-        Node n = new Node(NodeKind.TECH_NODE, null, variantId + "_tn_" + (++techSeq), xy, null);
+        Node n = new Node(NodeKind.TECH_NODE, null, nextTechnicalId(), xy, null);
         nodes.add(n);
         return n;
     }
 
     public Line addLine(Node a, Node b, List<Coordinate> coords, boolean special, double k, List<String> crossing) {
-        Line l = new Line(variantId + "_net_" + (++lineSeq), a, b, coords, special, k, crossing);
+        Line l = new Line(nextLineId(), a, b, coords, special, k, crossing);
         lines.add(l);
         return l;
     }
@@ -210,8 +241,8 @@ public final class Net {
         }
         c1.set(c1.size() - 1, chamber.xy);
         c2.set(0, chamber.xy);
-        Line l1 = new Line(variantId + "_net_" + (++lineSeq), l.a, chamber, c1, l.special, l.kSpec, l.crossing);
-        Line l2 = new Line(variantId + "_net_" + (++lineSeq), chamber, l.b, c2, l.special, l.kSpec, l.crossing);
+        Line l1 = new Line(nextLineId(), l.a, chamber, c1, l.special, l.kSpec, l.crossing);
+        Line l2 = new Line(nextLineId(), chamber, l.b, c2, l.special, l.kSpec, l.crossing);
         for (Line x : new Line[]{l1, l2}) {
             x.flow = l.flow;
             x.dn = l.dn;
@@ -280,7 +311,7 @@ public final class Net {
             coords.addAll(c2.subList(1, c2.size()));
             Node a = l1.other(stop);
             Node b = l2.other(stop);
-            merged = new Line(variantId + "_net_" + (++lineSeq), a, b, coords, false, 1.0, java.util.Collections.emptyList());
+            merged = new Line(nextLineId(), a, b, coords, false, 1.0, java.util.Collections.emptyList());
             merged.routedDn = Math.min(l1.routedDn, l2.routedDn);
             merged.flow = l2.flow;
             merged.dn = l2.dn;

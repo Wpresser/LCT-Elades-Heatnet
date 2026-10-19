@@ -6,6 +6,7 @@ import ru.lct.heatnet.config.AppProperties;
 import ru.lct.heatnet.io.InputLoader;
 import ru.lct.heatnet.io.ResultWriter;
 import ru.lct.heatnet.model.InputModel;
+import ru.lct.heatnet.routing.TerminalPolicy;
 import ru.lct.heatnet.solver.SolveService;
 import ru.lct.heatnet.solver.VariantSummary;
 
@@ -43,6 +44,12 @@ class SolverDatasetTest {
         for (VariantSummary v : variants) {
             assertThat(widest.unconnected).as("%s не подключает цели, подключённые в %s", v.net.variantId, widest.net.variantId)
                     .containsAll(v.unconnected);
+        }
+        // режим по умолчанию (разъяснения 29.09 №15) подключает все 17 точек набора, ТЗ §2.9
+        if (TerminalPolicy.current() == TerminalPolicy.RELAXED) {
+            for (VariantSummary v : variants) {
+                assertThat(v.unconnected).as("%s: не подключены", v.net.variantId).isEmpty();
+            }
         }
     }
 }

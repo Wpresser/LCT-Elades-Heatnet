@@ -1,0 +1,1 @@
+[out:json][timeout:60];(way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|living_street|service|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link)$"](55.6900,37.6250,55.7066,37.6595);way["area:highway"](55.6900,37.6250,55.7066,37.6595);way["railway"="tram"](55.6900,37.6250,55.7066,37.6595););out geom tags;

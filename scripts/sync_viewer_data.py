@@ -7,8 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = {
+    "main.geojson": "results/final_main.geojson",
     "strict.geojson": "results/final_strict.geojson",
-    "alternative.geojson": "results/final_alternative.geojson",
     "input.geojson": "task/sources/Датасет скорректированный.geojson",
 }
 

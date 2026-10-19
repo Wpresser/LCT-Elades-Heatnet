@@ -8,7 +8,7 @@
     python validator.py INPUT.geojson OUTPUT.geojson [--json report.json]
 
 Код возврата: 0 — ошибок нет, 1 — есть нарушения, 2 — файлы не читаются.
-Трактовки спорных мест перечислены в DECISIONS.md репозитория.
+Трактовки спорных мест описаны в docs/ALGORITHM.md и docs/TERMINAL_POLICY_DECISION.md.
 """
 import argparse
 import json
@@ -31,6 +31,8 @@ MONEY_TOL = 1.0         # руб
 SCORE_TOL = 1e-6
 LEN_TOL = 0.01          # м
 TURN_TOL = 1e-6         # град
+OWN_PART_TOL = 1e-3     # м: цель на контуре своего ОКС (погрешность пересчёта WGS 84 → UTM)
+COLLINEAR_DEG = 1e-3    # град: вершина на прямой не делит финальный участок
 SPECIAL_EXT = 60.0      # м, насколько продлевать спецучасток при поиске зон
 
 OUT_TYPES = {"heat_network", "heat_chamber", "technical_node", "variant_summary"}
@@ -124,7 +126,7 @@ class InputData:
                 if r["type"] != "oks":
                     continue
                 for part in getattr(r["geom"], "geoms", [r["geom"]]):
-                    if part.geom_type == "Polygon" and part.covers(t["pt"]):
+                    if part.geom_type == "Polygon" and part.distance(t["pt"]) <= OWN_PART_TOL:
                         own.append(dict(id=r["id"], geom=part, restriction=r))
             self.own_oks[k] = own
 
@@ -221,6 +223,8 @@ class VariantChecker:
         self.tol = node_tol
         self.lines = []      # dict(key, props, geom)
         self.nodes = {}      # key -> dict(type, props, pt)
+        # (тип, id) линейного объекта -> прямые продолжения спецпрохода в его зоне отступа (разъяснения 29.09, №14)
+        self.crossing_exempt = defaultdict(list)
         self.summary = None
         for f in feats:
             p = f["properties"]
@@ -292,6 +296,8 @@ class VariantChecker:
             for i in range(len(cs) - 1):
                 if cs[i] == cs[i + 1]:
                     self.err("line.duplicate_vertex", f"участок {name}: повторяющаяся вершина №{i + 1}")
+            if len(cs) > 2 and not g.is_simple:
+                self.err("geom.self_cross", f"участок {name}: линия пересекает сама себя (§2.1)")
             for end, field, c in (("начало", "start_node_id", cs[0]), ("конец", "end_node_id", cs[-1])):
                 k = id_key(p.get(field))
                 kind, pt = self.resolve(k) if k else (None, None)
@@ -462,6 +468,21 @@ class VariantChecker:
                     self.down_node[ln["key"]] = other
                     self.parent_line[ln["key"]] = up_line[n]
                     stack.append(other)
+            # поворот потока в камере разветвления: из участка выше по потоку в каждый участок ниже — не больше 90°
+            # (§2.1, разъяснение №5, доп. разъяснения 29.09 №19); проходные узлы проверяет check_turns
+            for n in order:
+                up = up_line[n]
+                if up is None or len(self.adj[n]) < 3:
+                    continue
+                pt = self.resolve(n)[1]
+                p_in = self.neighbour_vertex(up["geom"], pt)
+                for ln, _ in self.adj[n]:
+                    if ln is up:
+                        continue
+                    t = turn_deg(p_in, (pt.x, pt.y), self.neighbour_vertex(ln["geom"], pt))
+                    if t is not None and t > 90.0 + TURN_TOL:
+                        self.err("geom.flow_turn", f"камера {fmt_id(n)}: поток из {fmt_id(up['key'])} в {fmt_id(ln['key'])} "
+                                                   f"поворачивает на {t:.1f}° > 90°")
             sub = defaultdict(float)
             for n in reversed(order):
                 if self.resolve(n)[0] == "target":
@@ -540,9 +561,25 @@ class VariantChecker:
             if not own:
                 continue
             cs = list(ln["geom"].coords)
-            seg = LineString(cs[:2] if first else cs[-2:])
+            if not first:
+                cs = cs[::-1]
+            j = 1
+            while j + 1 < len(cs):
+                t = turn_deg(cs[j - 1], cs[j], cs[j + 1])
+                if t is None or t > COLLINEAR_DEG:
+                    break
+                j += 1
+            seg = LineString([cs[0], cs[j]])
             return k, own, seg
         return None
+
+    def without_crossing(self, geom, key):
+        """Геометрия без прямых продолжений спецпрохода через линейный объект key в его зоне отступа (№14)."""
+        pieces = self.crossing_exempt.get(key)
+        if not pieces:
+            return geom
+        rest = geom.difference(unary_union(pieces).buffer(0.01, cap_style=2))
+        return None if rest.is_empty else rest
 
     def check_clearances(self):
         for ln in self.lines:
@@ -574,6 +611,9 @@ class VariantChecker:
                     continue
                 else:
                     need = rule["clearance"] + hw + rule["own_width"] / 2.0
+                    check = self.without_crossing(check, (r["type"], id_key(r["id"])))
+                    if check is None:
+                        continue
                 d = check.distance(r["geom"])
                 if d < need - EPS_CLEAR:
                     what = "пересекает" if d == 0 else f"в {d:.2f} м (нужно ≥ {need:.2f} м от оси)"
@@ -592,6 +632,9 @@ class VariantChecker:
                 if check.is_empty:
                     continue
                 if special and ("heat_network", id_key(p["id"])) in ln.get("run_crossed", set()):
+                    continue
+                check = self.without_crossing(check, ("heat_network", id_key(p["id"])))
+                if check is None:
                     continue
                 d = check.distance(p["line"])
                 if d < need - EPS_CLEAR:
@@ -618,8 +661,15 @@ class VariantChecker:
         u = ((pb.x - tpt.x) / d, (pb.y - tpt.y) / d)
         need_own = R.clearance("oks", dn) + R.half_width(dn)
         others = []
+        specials = []
         for r in self.inp.restrictions_near(LineString([(pb.x, pb.y), (pb.x + u[0] * 80, pb.y + u[1] * 80)]), 15.0):
-            if r is poly["restriction"] or R.RESTRICTIONS[r["type"]]["kind"] != "forbidden":
+            if r is poly["restriction"]:
+                continue
+            if R.RESTRICTIONS[r["type"]]["kind"] != "forbidden":
+                # только дорога и трамвай: у них угол пересечения ≥ 45° и запас 3 м, выход у фасада может быть
+                # непроходим; газ, кабель и теплосеть пересекаются под любым углом — строгий выход к ним свободен
+                if r["type"] in ("road", "tram_tracks"):
+                    specials.append(r["geom"])
                 continue
             others.append((r["geom"], R.clearance(r["type"], dn) + R.half_width(dn)))
         # строгий выход свободен, если по лучу есть точка вне зоны отступа своего ОКС,
@@ -636,9 +686,17 @@ class VariantChecker:
                 blocked = False
                 break
             s_ += 0.25
+        ahead = LineString([start, (pb.x + u[0] * (s_ + 30.0), pb.y + u[1] * (s_ + 30.0))])
+        if not blocked and any(ahead.intersects(g) for g in specials):
+            # выход по лучу свободен, но сразу за ним дорога или трамвайные пути: есть ли от этого выхода
+            # допустимый маршрут (угол пересечения ≥ 45°, поворот ≤ 90°), валидатор не проверяет. Другая точка внешнего
+            # контура допустима, если через ближайшую маршрута нет (разъяснения 29.09, №15) — предупреждение, не ошибка
+            self.warn("oks.final_approach_special", f"участок {name}: к цели {fmt_id(tk)} подход не через ближайшую точку "
+                                                    f"контура ОКС {poly['id']}; за строгим выходом дорога или трамвай")
+            return
         if blocked:
             self.warn("oks.final_approach_relaxed", f"участок {name}: к цели {fmt_id(tk)} подход не через ближайшую точку "
-                                                    f"контура ОКС {poly['id']} — строгий выход закрыт (DECISIONS №27)")
+                                                    f"контура ОКС {poly['id']} — строгий выход закрыт (доп. разъяснения 29.09, №15)")
         else:
             self.err("oks.final_approach", f"участок {name}: финальный подход к цели {fmt_id(tk)} не через ближайшую точку "
                                            f"контура ОКС {poly['id']}, хотя строгий выход свободен (§2.2)")
@@ -710,9 +768,14 @@ class VariantChecker:
         end_lo_root = any(Point(a).distance(p) <= self.tol for p in root_pts)
         end_hi_root = any(Point(b).distance(p) <= self.tol for p in root_pts)
         crossed = set()
+        root_ends = [Point(p) for p, at_root in ((a, end_lo_root), (b, end_hi_root)) if at_root]
         for rtype, rule, geom, rid, own_hw in candidates:
             if not run_line.intersects(geom):
                 continue
+            if rtype == "heat_network" and root_ends:
+                touch = run_line.intersection(geom).difference(unary_union([e.buffer(self.tol) for e in root_ends]))
+                if touch.is_empty:
+                    continue   # своя труба врезки: серия в ней только начинается
             crossed.add((rtype, id_key(rid)))
             clear_iv = intervals_along(ext, geom.buffer(rule["clearance"] + hw + own_hw))
             for s0, s1 in intervals_along(ext, geom):
@@ -728,10 +791,16 @@ class VariantChecker:
                 if z0 < s_lo - LEN_TOL or z1 > s_hi + LEN_TOL:
                     self.err("special.extent", f"спецпроход через {rtype} id={rid}: участок должен покрывать "
                                                f"{'полигон' if rule['kind'] == 'area' else 'точку пересечения'} и по {rule['margin']} м с каждой стороны (§4)")
-                # зона спецпрохода: запас по таблице 2, а если отступ требует большего — до выхода из зоны отступа
+                # зона спецпрохода: запас по таблице 2. У дороги и трамвая, если отступ требует большего, — до выхода
+                # из зоны отступа. У газа, кабеля и теплосети — ровно ±2 м вдоль оси (разъяснения 29.09, №14); прямое
+                # продолжение прохода внутри зоны отступа — часть того же пересечения, а не «прохождение рядом»
                 for c0, c1 in clear_iv:
                     if c0 <= s0 + 1e-6 and c1 >= s1 - 1e-6:
-                        z0, z1 = min(z0, c0), max(z1, c1)
+                        if rule["kind"] == "area":
+                            z0, z1 = min(z0, c0), max(z1, c1)
+                        else:
+                            self.crossing_exempt[(rtype, id_key(rid))].append(
+                                LineString([ext.interpolate(c0).coords[0], ext.interpolate(c1).coords[0]]))
                 zones.append((max(z0, s_lo), min(z1, s_hi), rule["k"], f"{rtype} id={rid}"))
                 if rule["angle"]:
                     for s in [x for x, inside in ((s0, inside_lo), (s1, inside_hi)) if not inside]:

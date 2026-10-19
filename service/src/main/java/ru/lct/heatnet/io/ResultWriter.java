@@ -129,7 +129,7 @@ public final class ResultWriter {
         g.writeStartObject();
         g.writeStringField("type", "Feature");
         g.writeObjectFieldStart("properties");
-        g.writeStringField("id", vid + "_summary");
+        g.writeStringField("id", net.summaryId);
         g.writeStringField("object_type", "variant_summary");
         g.writeStringField("variant_id", vid);
         g.writeNumberField("rank", s.rank);
