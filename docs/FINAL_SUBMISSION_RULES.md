@@ -26,6 +26,7 @@
 - `presentation/Elades_LCT2026_task2_presentation.pdf` и `.pptx` — платформа.
 - `presentation/dlya_pitcha/Elades_LCT2026_task2_pitch.pdf` и `.pptx` — модератор и выступление.
 - `presentation/PITCH_SCRIPT_RU.md` — речь 75/75/150 секунд; `DEFENSE_QA_RU.md` — банк вопросов; `PROJECT_FOR_BEGINNERS_RU.md` — объяснение проекта.
+- [Пять отдельных файлов модератору](../presentation/moderator/README.md) и [учебные PDF для команды](../presentation/preparation/README.md) доступны в репозитории.
 
 Старые прямые пути `presentation/LCT_Task2_final_presentation.pdf` и `.pptx` сохранены как побайтные копии версии платформы. `scripts/sync_presentation_aliases.py --check` проверяет соответствие.
 
