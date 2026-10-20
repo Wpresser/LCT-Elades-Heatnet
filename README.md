@@ -86,6 +86,8 @@ Java 11, Docker, PostgreSQL и полный API E2E проверены в CI н�
 - [Результаты расчёта](results/)
 - [Официальное задание, разъяснения и набор данных](task/)
 - [Презентация команды Elades](presentation/Elades_LCT2026_task2_presentation.pdf) (PDF; исходник — `presentation/Elades_LCT2026_task2_presentation.pptx`)
+- [Пять файлов для модератора: презентация, фото и два скриншота](presentation/moderator/README.md)
+- [PDF для подготовки команды: объяснение, речь, карточка и вопросы](presentation/preparation/README.md)
 
 ## Окончательная проверка
 
