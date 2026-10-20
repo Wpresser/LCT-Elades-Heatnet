@@ -22,8 +22,7 @@ def artifact_metrics():
     data = {"schema_version": 2, "dataset_sha256": hashlib.sha256(DATASET.read_bytes()).hexdigest(),
             "cost_definition": "construction_cost = pipes + new chambers + existing chamber tie-ins; calculated_cost = construction_cost + unconnected_penalty",
             "default_policy": "relaxed",
-            "terminal_rule_source": "additional clarifications 29.09.2026 No. 15 (received by a team member; "
-                                    "official publication not independently confirmed)"}
+            "terminal_rule_source": "official additional clarifications 29.09.2026 No. 15; captain confirmed on 20.10.2026 that official examiners supplied the file in the agreed LCT chat and it is agreed with LCT"}
     for mode, policy in [("main", "relaxed"), ("strict", "literal")]:
         path = ROOT / f"results/final_{mode}.geojson"
         rows = summaries(path)

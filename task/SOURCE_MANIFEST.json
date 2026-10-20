@@ -37,10 +37,13 @@
       "file": "sources/Дополнительные разъяснения 29.09.2026.docx",
       "bytes": 17564,
       "sha256": "c0125cadb537ea58a750dc9587ccdf075717c1d028357381bc2b79c0abbdf84c",
-      "source_url": "Оригинал предоставлен участником команды; публичная ссылка организатора не установлена",
+      "source_url": null,
       "retrieved_date": null,
-      "status": "Original bytes preserved; receipt date/channel and official publication not independently confirmed",
-      "document_date": "2026-09-29"
+      "status": "Original bytes preserved; official source confirmed by captain. Exact original receipt date and public URL not asserted.",
+      "document_date": "2026-09-29",
+      "source_channel": "Official examiners in the agreed LCT chat, confirmed directly by captain",
+      "source_confirmation_date": "2026-10-20",
+      "source_confirmation": "Direct captain testimony in this chat: file supplied by official examiners and agreed with LCT"
     }
   ]
 }
