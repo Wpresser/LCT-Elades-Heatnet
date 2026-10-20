@@ -1,0 +1,392 @@
+{
+  "checks": [
+    {
+      "check": "main-audit",
+      "exit_code": 0
+    },
+    {
+      "check": "main-validator",
+      "exit_code": 0
+    },
+    {
+      "check": "main-contract",
+      "exit_code": 0
+    },
+    {
+      "check": "strict-audit",
+      "exit_code": 0
+    },
+    {
+      "check": "strict-validator",
+      "exit_code": 0
+    },
+    {
+      "check": "strict-contract",
+      "exit_code": 0
+    },
+    {
+      "check": "osm-audit",
+      "exit_code": 0
+    },
+    {
+      "check": "osm-validator",
+      "exit_code": 0
+    },
+    {
+      "check": "osm-contract",
+      "exit_code": 0
+    },
+    {
+      "check": "main-under-literal-rule",
+      "exit_code": 1
+    },
+    {
+      "check": "python-tests",
+      "exit_code": 0
+    },
+    {
+      "check": "metrics",
+      "exit_code": 0
+    },
+    {
+      "check": "double-flow-validator",
+      "exit_code": 0
+    },
+    {
+      "check": "one-target-validator",
+      "exit_code": 0
+    },
+    {
+      "check": "blocked-16-validator",
+      "exit_code": 0
+    }
+  ],
+  "replays": [
+    {
+      "mode": "main",
+      "exit_code": 0,
+      "sha256": "bd5ce35f9c5df8980959a2426f845b2e0ad752753dfe1f62618ccec1db984079",
+      "byte_identical_to_published": true,
+      "variants": [
+        {
+          "id": "v1_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v1",
+          "rank": 1,
+          "construction_cost": 273561967.97212696,
+          "chamber_construction_cost": 60000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 0.0,
+          "calculated_cost": 273561967.97212696,
+          "new_network_length": 1845.7049970776632,
+          "score": 13.196850094452543,
+          "unconnected_oks_ids": [],
+          "diag_description": "совместное подключение: цели присоединяются к существующей или уже построенной новой сети; порядок целей: больший расход — раньше",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            10,
+            5,
+            2
+          ],
+          "diag_unconnected_reasons": {}
+        },
+        {
+          "id": "v2_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v2",
+          "rank": 2,
+          "construction_cost": 289662746.22315645,
+          "chamber_construction_cost": 57000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 0.0,
+          "calculated_cost": 289662746.22315645,
+          "new_network_length": 2078.3122040839266,
+          "score": 14.345493506500162,
+          "unconnected_oks_ids": [],
+          "diag_description": "совместное подключение с минимумом присоединений к существующей сети; порядок целей: ближе к сети — раньше",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            5,
+            2,
+            10
+          ],
+          "diag_unconnected_reasons": {}
+        }
+      ]
+    },
+    {
+      "mode": "strict",
+      "exit_code": 0,
+      "sha256": "e670942c8879748df86544b5d05b606b438332fd5a8f716cfb803454dab4592d",
+      "byte_identical_to_published": true,
+      "variants": [
+        {
+          "id": "v1_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v1",
+          "rank": 1,
+          "construction_cost": 229868588.8904298,
+          "chamber_construction_cost": 50000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 338995000,
+          "calculated_cost": 568863588.8904297,
+          "new_network_length": 1553.6655696326086,
+          "score": 20.58917719782986,
+          "unconnected_oks_ids": [
+            2,
+            5,
+            10
+          ],
+          "diag_description": "совместное подключение: цели присоединяются к существующей или уже построенной новой сети; порядок целей: больший расход — раньше",
+          "diag_terminal_policy": "literal",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [],
+          "diag_unconnected_reasons": {
+            "10": "строгий финальный подход закрыт по входным данным (§2.2) (ДУ 125)",
+            "5": "строгий финальный подход закрыт по входным данным (§2.2) (ДУ 125)",
+            "2": "строгий финальный подход закрыт по входным данным (§2.2) (ДУ 100)"
+          }
+        },
+        {
+          "id": "v2_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v2",
+          "rank": 2,
+          "construction_cost": 269083886.0645064,
+          "chamber_construction_cost": 45000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 338995000,
+          "calculated_cost": 608078886.0645064,
+          "new_network_length": 1906.2081719957919,
+          "score": 22.744833325793554,
+          "unconnected_oks_ids": [
+            2,
+            5,
+            10
+          ],
+          "diag_description": "совместное подключение с минимумом присоединений к существующей сети; порядок целей: больший расход — раньше",
+          "diag_terminal_policy": "literal",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [],
+          "diag_unconnected_reasons": {
+            "10": "строгий финальный подход закрыт по входным данным (§2.2) (ДУ 125)",
+            "5": "строгий финальный подход закрыт по входным данным (§2.2) (ДУ 125)",
+            "2": "строгий финальный подход закрыт по входным данным (§2.2) (ДУ 100)"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "osm",
+      "exit_code": 0,
+      "sha256": "4c2845f8e3d7f766acfc4b709bd88a56d9fdf17d03a7f28dc207baa2c92a35c3",
+      "byte_identical_to_published": true,
+      "variants": [
+        {
+          "id": "v1_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v1",
+          "rank": 1,
+          "construction_cost": 292945280.6904708,
+          "chamber_construction_cost": 52000000,
+          "existing_chamber_tie_in_count": 1,
+          "existing_chamber_tie_in_cost": 5000000.0,
+          "unconnected_penalty": 0.0,
+          "calculated_cost": 292945280.6904708,
+          "new_network_length": 2040.9882017095629,
+          "score": 14.325432464461873,
+          "unconnected_oks_ids": [],
+          "diag_description": "совместное подключение: цели присоединяются к существующей или уже построенной новой сети; порядок целей: ближайшая к уже подключённым",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            17,
+            2,
+            5,
+            10
+          ],
+          "diag_unconnected_reasons": {}
+        },
+        {
+          "id": "v2_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v2",
+          "rank": 2,
+          "construction_cost": 301814749.20633256,
+          "chamber_construction_cost": 56000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 0.0,
+          "calculated_cost": 301814749.20633256,
+          "new_network_length": 2055.2187107349578,
+          "score": 14.616469109982184,
+          "unconnected_oks_ids": [],
+          "diag_description": "совместное подключение с минимумом присоединений к существующей сети; порядок целей: ближайшая к уже подключённым",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            17,
+            2,
+            5,
+            10
+          ],
+          "diag_unconnected_reasons": {}
+        }
+      ]
+    },
+    {
+      "mode": "double-flow",
+      "exit_code": 0,
+      "sha256": "7d4bb567a32b6af2d36f58223229ab123c752375d63ee3d92a4126699315aa10",
+      "byte_identical_to_published": null,
+      "variants": [
+        {
+          "id": "v1_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v1",
+          "rank": 1,
+          "construction_cost": 314003913.5002454,
+          "chamber_construction_cost": 62000000,
+          "existing_chamber_tie_in_count": 1,
+          "existing_chamber_tie_in_cost": 5000000.0,
+          "unconnected_penalty": 0.0,
+          "calculated_cost": 314003913.5002454,
+          "new_network_length": 1932.3129651288343,
+          "score": 14.589048473393373,
+          "unconnected_oks_ids": [],
+          "diag_description": "совместное подключение: цели присоединяются к существующей или уже построенной новой сети; порядок целей: больший расход — раньше",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            10,
+            5,
+            2
+          ],
+          "diag_unconnected_reasons": {}
+        },
+        {
+          "id": "v2_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v2",
+          "rank": 2,
+          "construction_cost": 335008386.6138624,
+          "chamber_construction_cost": 58000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 0.0,
+          "calculated_cost": 335008386.6138624,
+          "new_network_length": 2025.0383695932348,
+          "score": 15.455349933967852,
+          "unconnected_oks_ids": [],
+          "diag_description": "совместное подключение с минимумом присоединений к существующей сети; порядок целей: ближайшая к уже подключённым",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            5,
+            10,
+            2
+          ],
+          "diag_unconnected_reasons": {}
+        }
+      ]
+    },
+    {
+      "mode": "one-target",
+      "exit_code": 0,
+      "sha256": "4efe156ede7e48f703026c01d09a72afea7362b8110820757ebfa2cb0771745d",
+      "byte_identical_to_published": null,
+      "variants": [
+        {
+          "id": "v1_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v1",
+          "rank": 1,
+          "construction_cost": 27731222.6825696,
+          "chamber_construction_cost": 5000000.0,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 0.0,
+          "calculated_cost": 27731222.6825696,
+          "new_network_length": 188.99374502240366,
+          "score": 1.3434554701791597,
+          "unconnected_oks_ids": [],
+          "diag_description": "совместное подключение: цели присоединяются к существующей или уже построенной новой сети; порядок целей: ближе к сети — раньше",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [],
+          "diag_unconnected_reasons": {}
+        }
+      ]
+    },
+    {
+      "mode": "blocked-16",
+      "exit_code": 0,
+      "sha256": "5da943aff8bf3f2072407b3e6c5a6f4f3935edfb68e5a47ecc3c1d2ef0418530",
+      "byte_identical_to_published": null,
+      "variants": [
+        {
+          "id": "v1_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v1",
+          "rank": 1,
+          "construction_cost": 245729489.11016503,
+          "chamber_construction_cost": 55000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 138135000,
+          "calculated_cost": 383864489.110165,
+          "new_network_length": 1655.8693798507918,
+          "score": 15.715813834636995,
+          "unconnected_oks_ids": [
+            16
+          ],
+          "diag_description": "совместное подключение: цели присоединяются к существующей или уже построенной новой сети; порядок целей: больший расход — раньше",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            10,
+            5,
+            2
+          ],
+          "diag_unconnected_reasons": {
+            "16": "финальный подход к цели заблокирован: ни от одной точки контура своего ОКС нет свободного прямого выхода (§2.2) (ДУ 200)"
+          }
+        },
+        {
+          "id": "v2_summary",
+          "object_type": "variant_summary",
+          "variant_id": "v2",
+          "rank": 2,
+          "construction_cost": 271377225.5796781,
+          "chamber_construction_cost": 64000000,
+          "existing_chamber_tie_in_count": 0,
+          "existing_chamber_tie_in_cost": 0.0,
+          "unconnected_penalty": 138135000,
+          "calculated_cost": 409512225.5796781,
+          "new_network_length": 1799.2566905299066,
+          "score": 16.864112387820704,
+          "unconnected_oks_ids": [
+            16
+          ],
+          "diag_description": "совместное подключение с минимумом присоединений к существующей сети; порядок целей: ближайшая к уже подключённым",
+          "diag_terminal_policy": "relaxed",
+          "diag_search_truncated": false,
+          "diag_relaxed_final_approach": [
+            2,
+            5,
+            10
+          ],
+          "diag_unconnected_reasons": {
+            "16": "финальный подход к цели заблокирован: ни от одной точки контура своего ОКС нет свободного прямого выхода (§2.2) (ДУ 200)"
+          }
+        }
+      ]
+    }
+  ]
+}

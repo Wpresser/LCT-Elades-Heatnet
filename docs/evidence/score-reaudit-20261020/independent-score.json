@@ -1,0 +1,6424 @@
+{
+  "method": "Original DOCX table extraction; independent Python graph traversal, Shapely and pyproj. No project modules imported. Hard-gap tolerance 0.1 mm; endpoint tolerance 0.1 mm. Special K derived from geometry.",
+  "source_docx_sha256": "c757f68dcf58f23abd18cb9217cd65107102bd53653a7485041d4363e54b71d6",
+  "reports": {
+    "main": {
+      "v1": {
+        "target_count": 17,
+        "connected_count": 17,
+        "total_flow_tph": 488.71999999999997,
+        "length_m_from_coordinates": 1845.7049970761366,
+        "geodesic_length_check_m": 1846.2769591684846,
+        "pipe_cost": 213561967.97203478,
+        "chamber_cost": 60000000.0,
+        "tie_in_cost": 0,
+        "penalty": 0,
+        "construction_cost": 273561967.9720348,
+        "total_cost": 273561967.9720348,
+        "score_cost_term": 7.659735103216975,
+        "score_length_term": 5.5371149912284094,
+        "score": 13.196850094445384,
+        "declared_score": 13.196850094452543,
+        "new_lines": 27,
+        "new_chambers": 14,
+        "flow_dn_upgrades_above_capacity_minimum": [],
+        "same_dn_longest_runs_m": {
+          "125": 164.5224199304324,
+          "300": 384.6828381776929,
+          "100": 107.91912481687686,
+          "200": 198.99595405747328,
+          "250": 146.7062531037186,
+          "150": 10.586861520297578,
+          "65": 69.25978963149267
+        },
+        "components": [
+          {
+            "root": "v1_ch_1",
+            "nodes": 2,
+            "edges": 1,
+            "targets": [
+              16
+            ]
+          },
+          {
+            "root": "v1_ch_2",
+            "nodes": 25,
+            "edges": 24,
+            "targets": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          {
+            "root": "v1_ch_8",
+            "nodes": 2,
+            "edges": 1,
+            "targets": [
+              7
+            ]
+          },
+          {
+            "root": "v1_ch_11",
+            "nodes": 2,
+            "edges": 1,
+            "targets": [
+              17
+            ]
+          }
+        ],
+        "targets": [
+          {
+            "id": 1,
+            "connected": true,
+            "flow": 24.87,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_24",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 2,
+            "connected": true,
+            "flow": 18.76,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_30",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 3,
+            "connected": true,
+            "flow": 29.42,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_42",
+              "v1_net_41",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 4,
+            "connected": true,
+            "flow": 47.7,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_4",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 5,
+            "connected": true,
+            "flow": 26.09,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_21",
+              "v1_net_19",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 6,
+            "connected": true,
+            "flow": 15.99,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_36",
+              "v1_net_38",
+              "v1_net_41",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 7,
+            "connected": true,
+            "flow": 27.82,
+            "root": "v1_ch_8",
+            "path_edges": [
+              "v1_net_18"
+            ]
+          },
+          {
+            "id": 8,
+            "connected": true,
+            "flow": 18.03,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_35",
+              "v1_net_38",
+              "v1_net_41",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 9,
+            "connected": true,
+            "flow": 34.53,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_10",
+              "v1_net_27",
+              "v1_net_26",
+              "v1_net_12",
+              "v1_net_20",
+              "v1_net_19",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 10,
+            "connected": true,
+            "flow": 33.14,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_11",
+              "v1_net_27",
+              "v1_net_26",
+              "v1_net_12",
+              "v1_net_20",
+              "v1_net_19",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 11,
+            "connected": true,
+            "flow": 4.08,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_39",
+              "v1_net_41",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 12,
+            "connected": true,
+            "flow": 40.0,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_7",
+              "v1_net_20",
+              "v1_net_19",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 13,
+            "connected": true,
+            "flow": 19.77,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_28",
+              "v1_net_26",
+              "v1_net_12",
+              "v1_net_20",
+              "v1_net_19",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 14,
+            "connected": true,
+            "flow": 19.73,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_29",
+              "v1_net_26",
+              "v1_net_12",
+              "v1_net_20",
+              "v1_net_19",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 15,
+            "connected": true,
+            "flow": 31.89,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_14",
+              "v1_net_12",
+              "v1_net_20",
+              "v1_net_19",
+              "v1_net_23",
+              "v1_net_22",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 16,
+            "connected": true,
+            "flow": 76.27,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_1"
+            ]
+          },
+          {
+            "id": 17,
+            "connected": true,
+            "flow": 20.63,
+            "root": "v1_ch_11",
+            "path_edges": [
+              "v1_net_25"
+            ]
+          }
+        ],
+        "terminals": [
+          {
+            "id": 1,
+            "building": 75,
+            "inside_length_m": 8.311169003854385,
+            "nearest_exterior_m": 8.311169004042569,
+            "nearest_any_boundary_m": 8.311169004042569,
+            "extra_inside_m": -1.8818369085238373e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_24"
+          },
+          {
+            "id": 2,
+            "building": 77,
+            "inside_length_m": 8.84033350023999,
+            "nearest_exterior_m": 5.799401572059233,
+            "nearest_any_boundary_m": 5.799401572059233,
+            "extra_inside_m": 3.040931928180756,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_30"
+          },
+          {
+            "id": 3,
+            "building": 74,
+            "inside_length_m": 4.948051415546704,
+            "nearest_exterior_m": 4.948051415661567,
+            "nearest_any_boundary_m": 4.948051415661567,
+            "extra_inside_m": -1.14862785949299e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_42"
+          },
+          {
+            "id": 4,
+            "building": 71,
+            "inside_length_m": 4.586861519753697,
+            "nearest_exterior_m": 4.586861519969149,
+            "nearest_any_boundary_m": 4.586861519969149,
+            "extra_inside_m": -2.1545254469401698e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_4"
+          },
+          {
+            "id": 5,
+            "building": 72,
+            "inside_length_m": 10.39393996754161,
+            "nearest_exterior_m": 10.393939967314504,
+            "nearest_any_boundary_m": 7.1566981411203585,
+            "extra_inside_m": 2.2710722191732202e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_21"
+          },
+          {
+            "id": 6,
+            "building": 82,
+            "inside_length_m": 2.5520223191676927,
+            "nearest_exterior_m": 2.552022319364324,
+            "nearest_any_boundary_m": 2.552022319364324,
+            "extra_inside_m": -1.9663115580215162e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_36"
+          },
+          {
+            "id": 7,
+            "building": 83,
+            "inside_length_m": 5.193667368948671,
+            "nearest_exterior_m": 5.193667369318897,
+            "nearest_any_boundary_m": 5.193667369318897,
+            "extra_inside_m": -3.702256279325411e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_18"
+          },
+          {
+            "id": 8,
+            "building": 81,
+            "inside_length_m": 2.52664681774065,
+            "nearest_exterior_m": 2.5266468177082393,
+            "nearest_any_boundary_m": 2.5266468177082393,
+            "extra_inside_m": 3.241051871327727e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_35"
+          },
+          {
+            "id": 9,
+            "building": 87,
+            "inside_length_m": 7.353166867504493,
+            "nearest_exterior_m": 7.353166867764537,
+            "nearest_any_boundary_m": 7.353166867764537,
+            "extra_inside_m": -2.6004443043348147e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_10"
+          },
+          {
+            "id": 10,
+            "building": 88,
+            "inside_length_m": 8.796021942107727,
+            "nearest_exterior_m": 6.535781990440415,
+            "nearest_any_boundary_m": 6.535781990440415,
+            "extra_inside_m": 2.2602399516673115,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_11"
+          },
+          {
+            "id": 11,
+            "building": 90,
+            "inside_length_m": 6.269130718603466,
+            "nearest_exterior_m": 6.26913071858671,
+            "nearest_any_boundary_m": 6.26913071858671,
+            "extra_inside_m": 1.6756374066062563e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_39"
+          },
+          {
+            "id": 12,
+            "building": 92,
+            "inside_length_m": 1.5213664387943227,
+            "nearest_exterior_m": 1.5213664388402883,
+            "nearest_any_boundary_m": 1.5213664388402883,
+            "extra_inside_m": -4.5965675710135656e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_7"
+          },
+          {
+            "id": 13,
+            "building": 91,
+            "inside_length_m": 3.2135594904889384,
+            "nearest_exterior_m": 3.213559490331682,
+            "nearest_any_boundary_m": 3.213559490331682,
+            "extra_inside_m": 1.5725643010000567e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_28"
+          },
+          {
+            "id": 14,
+            "building": 89,
+            "inside_length_m": 0.05767955560545929,
+            "nearest_exterior_m": 0.057679555347899286,
+            "nearest_any_boundary_m": 0.057679555347899286,
+            "extra_inside_m": 2.575600011045509e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_29"
+          },
+          {
+            "id": 15,
+            "building": 92,
+            "inside_length_m": 2.1704066543535006,
+            "nearest_exterior_m": 2.1704066542693963,
+            "nearest_any_boundary_m": 2.1704066542693963,
+            "extra_inside_m": 8.410427909666396e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_14"
+          },
+          {
+            "id": 16,
+            "building": 96,
+            "inside_length_m": 2.1550742509280125,
+            "nearest_exterior_m": 2.155074250950035,
+            "nearest_any_boundary_m": 2.155074250950035,
+            "extra_inside_m": -2.2022383916464605e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_1"
+          },
+          {
+            "id": 17,
+            "building": 97,
+            "inside_length_m": 5.374510727692428,
+            "nearest_exterior_m": 5.374510728046409,
+            "nearest_any_boundary_m": 5.374510728046409,
+            "extra_inside_m": -3.539808446362258e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_25"
+          }
+        ],
+        "tightest_hard_gaps": [
+          {
+            "edge": "v1_net_42",
+            "restriction": 76,
+            "type": "oks",
+            "outside_gap_m": 5.067730292782356,
+            "required_m": 5,
+            "margin_m": 0.06773029278235576
+          },
+          {
+            "edge": "v1_net_22",
+            "restriction": 77,
+            "type": "oks",
+            "outside_gap_m": 5.17749617459637,
+            "required_m": 5,
+            "margin_m": 0.1774961745963699
+          },
+          {
+            "edge": "v1_net_22",
+            "restriction": 71,
+            "type": "oks",
+            "outside_gap_m": 5.177618173665934,
+            "required_m": 5,
+            "margin_m": 0.1776181736659339
+          },
+          {
+            "edge": "v1_net_23",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.227645917545379,
+            "required_m": 5,
+            "margin_m": 0.2276459175453791
+          },
+          {
+            "edge": "v1_net_19",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.227648325021954,
+            "required_m": 5,
+            "margin_m": 0.22764832502195365
+          },
+          {
+            "edge": "v1_net_41",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.312648325021954,
+            "required_m": 5,
+            "margin_m": 0.3126483250219536
+          },
+          {
+            "edge": "v1_net_1",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.312688123971516,
+            "required_m": 5,
+            "margin_m": 0.31268812397151624
+          },
+          {
+            "edge": "v1_net_12",
+            "restriction": 91,
+            "type": "oks",
+            "outside_gap_m": 5.314780447127343,
+            "required_m": 5,
+            "margin_m": 0.314780447127343
+          },
+          {
+            "edge": "v1_net_3",
+            "restriction": 83,
+            "type": "oks",
+            "outside_gap_m": 5.369569448328698,
+            "required_m": 5,
+            "margin_m": 0.369569448328698
+          },
+          {
+            "edge": "v1_net_3",
+            "restriction": 71,
+            "type": "oks",
+            "outside_gap_m": 5.425000000328429,
+            "required_m": 5,
+            "margin_m": 0.42500000032842866
+          },
+          {
+            "edge": "v1_net_14",
+            "restriction": 89,
+            "type": "oks",
+            "outside_gap_m": 5.4297551717117605,
+            "required_m": 5,
+            "margin_m": 0.4297551717117605
+          },
+          {
+            "edge": "v1_net_11",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.429994128972669,
+            "required_m": 5,
+            "margin_m": 0.42999412897266875
+          }
+        ],
+        "pipe_items": [
+          {
+            "id": "v1_net_1",
+            "length_m": 189.83561722740504,
+            "dn": 200,
+            "flow_from_graph": 76.27,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 22832478.86202614,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_3",
+            "length_m": 222.53250276009544,
+            "dn": 300,
+            "flow_from_graph": 364.0,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 33384771.12907504,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_4",
+            "length_m": 10.586861520297578,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 1116987.9984220366,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_22",
+            "length_m": 162.15033541759743,
+            "dn": 300,
+            "flow_from_graph": 316.30000000000007,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 24326117.620018803,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_23",
+            "length_m": 21.63954640027312,
+            "dn": 250,
+            "flow_from_graph": 272.67,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 2928328.3375241593,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_19",
+            "length_m": 114.20101159775011,
+            "dn": 250,
+            "flow_from_graph": 205.14999999999998,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 15454023.492442338,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_20",
+            "length_m": 10.865695105695387,
+            "dn": 250,
+            "flow_from_graph": 179.06,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 1470378.4587880168,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_7",
+            "length_m": 7.521366439111903,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 731640.9203646104,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_12",
+            "length_m": 92.83574882897989,
+            "dn": 200,
+            "flow_from_graph": 139.06,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 11165819.690405557,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_26",
+            "length_m": 53.30312162433204,
+            "dn": 200,
+            "flow_from_graph": 107.17,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 6411032.953366537,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_27",
+            "length_m": 52.85708360416137,
+            "dn": 200,
+            "flow_from_graph": 67.67,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 6357385.7304905085,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_10",
+            "length_m": 13.353166867367515,
+            "dn": 125,
+            "flow_from_graph": 34.53,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1298929.307023175,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_11",
+            "length_m": 101.48794830016755,
+            "dn": 125,
+            "flow_from_graph": 33.14,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 9872240.170898799,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_14",
+            "length_m": 128.17932236862234,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 12468643.583407737,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_18",
+            "length_m": 34.92359693886736,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3397192.8922283226,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_21",
+            "length_m": 164.5224199304324,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 16003918.398732811,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_24",
+            "length_m": 17.485068725210567,
+            "dn": 125,
+            "flow_from_graph": 24.87,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1700860.060244858,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_25",
+            "length_m": 107.91912481687686,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 9685525.614065064,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_28",
+            "length_m": 16.413145210308844,
+            "dn": 100,
+            "flow_from_graph": 19.77,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1473046.9563347981,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_29",
+            "length_m": 13.734065234220498,
+            "dn": 100,
+            "flow_from_graph": 19.73,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1232604.8866408214,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_30",
+            "length_m": 26.029059212074742,
+            "dn": 100,
+            "flow_from_graph": 18.76,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2336056.0061652837,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_38",
+            "length_m": 49.9576942570925,
+            "dn": 125,
+            "flow_from_graph": 34.02,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 4859634.7088586725,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_35",
+            "length_m": 11.332611383135037,
+            "dn": 100,
+            "flow_from_graph": 18.03,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1017079.2064136033,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_36",
+            "length_m": 33.74660874559913,
+            "dn": 100,
+            "flow_from_graph": 15.99,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 3028690.641700031,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_39",
+            "length_m": 69.25978963149267,
+            "dn": 65,
+            "flow_from_graph": 4.08,
+            "flow_minimum_dn": 65,
+            "price_per_m": 78631.0,
+            "k_special": 1,
+            "cost": 5445966.5185139,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_41",
+            "length_m": 86.24908071381158,
+            "dn": 200,
+            "flow_from_graph": 67.52,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 10373608.182853688,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_42",
+            "length_m": 32.78340421515783,
+            "dn": 125,
+            "flow_from_graph": 29.42,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3189005.645029478,
+            "special_objects": []
+          }
+        ],
+        "chamber_items": [
+          {
+            "id": "v1_ch_1",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_2",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_3",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_4",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_5",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_6",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_7",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_8",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_9",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_10",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v1_ch_11",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_12",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v1_ch_14",
+            "dn_including_existing": 125,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_15",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          }
+        ],
+        "issues": []
+      },
+      "v2": {
+        "target_count": 17,
+        "connected_count": 17,
+        "total_flow_tph": 488.71999999999997,
+        "length_m_from_coordinates": 2078.3122040836893,
+        "geodesic_length_check_m": 2078.9562774075002,
+        "pipe_cost": 232662746.22308955,
+        "chamber_cost": 57000000.0,
+        "tie_in_cost": 0,
+        "penalty": 0,
+        "construction_cost": 289662746.2230896,
+        "total_cost": 289662746.2230896,
+        "score_cost_term": 8.110556894246509,
+        "score_length_term": 6.234936612251067,
+        "score": 14.345493506497576,
+        "declared_score": 14.345493506500162,
+        "new_lines": 33,
+        "new_chambers": 15,
+        "flow_dn_upgrades_above_capacity_minimum": [],
+        "same_dn_longest_runs_m": {
+          "125": 178.19907719213407,
+          "150": 194.87141296625816,
+          "200": 268.8128776320084,
+          "250": 161.67147657564684,
+          "300": 109.4606802718734,
+          "100": 194.0262285708177,
+          "65": 36.12960532675862
+        },
+        "components": [
+          {
+            "root": "v2_ch_1",
+            "nodes": 34,
+            "edges": 33,
+            "targets": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17
+            ]
+          }
+        ],
+        "targets": [
+          {
+            "id": 1,
+            "connected": true,
+            "flow": 24.87,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_28",
+              "v2_net_27",
+              "v2_net_32",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 2,
+            "connected": true,
+            "flow": 18.76,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_29",
+              "v2_net_27",
+              "v2_net_32",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 3,
+            "connected": true,
+            "flow": 29.42,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_64",
+              "v2_net_63",
+              "v2_net_60",
+              "v2_net_34",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 4,
+            "connected": true,
+            "flow": 47.7,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_25",
+              "v2_net_32",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 5,
+            "connected": true,
+            "flow": 26.09,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_16",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 6,
+            "connected": true,
+            "flow": 15.99,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_44",
+              "v2_net_62",
+              "v2_net_63",
+              "v2_net_60",
+              "v2_net_34",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 7,
+            "connected": true,
+            "flow": 27.82,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_7",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 8,
+            "connected": true,
+            "flow": 18.03,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_45",
+              "v2_net_62",
+              "v2_net_63",
+              "v2_net_60",
+              "v2_net_34",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 9,
+            "connected": true,
+            "flow": 34.53,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_19",
+              "v2_net_54",
+              "v2_net_53",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 10,
+            "connected": true,
+            "flow": 33.14,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_55",
+              "v2_net_53",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 11,
+            "connected": true,
+            "flow": 4.08,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_59",
+              "v2_net_60",
+              "v2_net_34",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 12,
+            "connected": true,
+            "flow": 40.0,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_35",
+              "v2_net_34",
+              "v2_net_31",
+              "v2_net_15",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 13,
+            "connected": true,
+            "flow": 19.77,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_23",
+              "v2_net_21",
+              "v2_net_54",
+              "v2_net_53",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 14,
+            "connected": true,
+            "flow": 19.73,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_22",
+              "v2_net_21",
+              "v2_net_54",
+              "v2_net_53",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 15,
+            "connected": true,
+            "flow": 31.89,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_30",
+              "v2_net_21",
+              "v2_net_54",
+              "v2_net_53",
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          },
+          {
+            "id": 16,
+            "connected": true,
+            "flow": 76.27,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_46"
+            ]
+          },
+          {
+            "id": 17,
+            "connected": true,
+            "flow": 20.63,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_51",
+              "v2_net_50",
+              "v2_net_49",
+              "v2_net_47",
+              "v2_net_6"
+            ]
+          }
+        ],
+        "terminals": [
+          {
+            "id": 1,
+            "building": 75,
+            "inside_length_m": 8.311169003854385,
+            "nearest_exterior_m": 8.311169004042569,
+            "nearest_any_boundary_m": 8.311169004042569,
+            "extra_inside_m": -1.8818369085238373e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_28"
+          },
+          {
+            "id": 2,
+            "building": 77,
+            "inside_length_m": 9.059969121282073,
+            "nearest_exterior_m": 5.799401572059233,
+            "nearest_any_boundary_m": 5.799401572059233,
+            "extra_inside_m": 3.2605675492228396,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_29"
+          },
+          {
+            "id": 3,
+            "building": 74,
+            "inside_length_m": 4.948051415546704,
+            "nearest_exterior_m": 4.948051415661567,
+            "nearest_any_boundary_m": 4.948051415661567,
+            "extra_inside_m": -1.14862785949299e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_64"
+          },
+          {
+            "id": 4,
+            "building": 71,
+            "inside_length_m": 4.586861519753697,
+            "nearest_exterior_m": 4.586861519969149,
+            "nearest_any_boundary_m": 4.586861519969149,
+            "extra_inside_m": -2.1545254469401698e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_25"
+          },
+          {
+            "id": 5,
+            "building": 72,
+            "inside_length_m": 10.39393996754161,
+            "nearest_exterior_m": 10.393939967314504,
+            "nearest_any_boundary_m": 7.1566981411203585,
+            "extra_inside_m": 2.2710722191732202e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_16"
+          },
+          {
+            "id": 6,
+            "building": 82,
+            "inside_length_m": 2.5520223191676927,
+            "nearest_exterior_m": 2.552022319364324,
+            "nearest_any_boundary_m": 2.552022319364324,
+            "extra_inside_m": -1.9663115580215162e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_44"
+          },
+          {
+            "id": 7,
+            "building": 83,
+            "inside_length_m": 5.193667368948671,
+            "nearest_exterior_m": 5.193667369318897,
+            "nearest_any_boundary_m": 5.193667369318897,
+            "extra_inside_m": -3.702256279325411e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_7"
+          },
+          {
+            "id": 8,
+            "building": 81,
+            "inside_length_m": 2.52664681774065,
+            "nearest_exterior_m": 2.5266468177082393,
+            "nearest_any_boundary_m": 2.5266468177082393,
+            "extra_inside_m": 3.241051871327727e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_45"
+          },
+          {
+            "id": 9,
+            "building": 87,
+            "inside_length_m": 7.353166867504493,
+            "nearest_exterior_m": 7.353166867764537,
+            "nearest_any_boundary_m": 7.353166867764537,
+            "extra_inside_m": -2.6004443043348147e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_19"
+          },
+          {
+            "id": 10,
+            "building": 88,
+            "inside_length_m": 9.651495037735742,
+            "nearest_exterior_m": 6.535781990440415,
+            "nearest_any_boundary_m": 6.535781990440415,
+            "extra_inside_m": 3.115713047295327,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_55"
+          },
+          {
+            "id": 11,
+            "building": 90,
+            "inside_length_m": 6.269130718603466,
+            "nearest_exterior_m": 6.26913071858671,
+            "nearest_any_boundary_m": 6.26913071858671,
+            "extra_inside_m": 1.6756374066062563e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_59"
+          },
+          {
+            "id": 12,
+            "building": 92,
+            "inside_length_m": 1.5213664387943227,
+            "nearest_exterior_m": 1.5213664388402883,
+            "nearest_any_boundary_m": 1.5213664388402883,
+            "extra_inside_m": -4.5965675710135656e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_35"
+          },
+          {
+            "id": 13,
+            "building": 91,
+            "inside_length_m": 3.2135594904889384,
+            "nearest_exterior_m": 3.213559490331682,
+            "nearest_any_boundary_m": 3.213559490331682,
+            "extra_inside_m": 1.5725643010000567e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_23"
+          },
+          {
+            "id": 14,
+            "building": 89,
+            "inside_length_m": 0.05767955560545929,
+            "nearest_exterior_m": 0.057679555347899286,
+            "nearest_any_boundary_m": 0.057679555347899286,
+            "extra_inside_m": 2.575600011045509e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_22"
+          },
+          {
+            "id": 15,
+            "building": 92,
+            "inside_length_m": 2.1704066543535006,
+            "nearest_exterior_m": 2.1704066542693963,
+            "nearest_any_boundary_m": 2.1704066542693963,
+            "extra_inside_m": 8.410427909666396e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_30"
+          },
+          {
+            "id": 16,
+            "building": 96,
+            "inside_length_m": 2.1550742509280125,
+            "nearest_exterior_m": 2.155074250950035,
+            "nearest_any_boundary_m": 2.155074250950035,
+            "extra_inside_m": -2.2022383916464605e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_46"
+          },
+          {
+            "id": 17,
+            "building": 97,
+            "inside_length_m": 5.374510727692428,
+            "nearest_exterior_m": 5.374510728046409,
+            "nearest_any_boundary_m": 5.374510728046409,
+            "extra_inside_m": -3.539808446362258e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_51"
+          }
+        ],
+        "tightest_hard_gaps": [
+          {
+            "edge": "v2_net_60",
+            "restriction": 90,
+            "type": "oks",
+            "outside_gap_m": 5.067566505861948,
+            "required_m": 5,
+            "margin_m": 0.06756650586194812
+          },
+          {
+            "edge": "v2_net_60",
+            "restriction": 92,
+            "type": "oks",
+            "outside_gap_m": 5.0676988501668125,
+            "required_m": 5,
+            "margin_m": 0.06769885016681254
+          },
+          {
+            "edge": "v2_net_31",
+            "restriction": 72,
+            "type": "oks",
+            "outside_gap_m": 5.227610071410654,
+            "required_m": 5,
+            "margin_m": 0.2276100714106537
+          },
+          {
+            "edge": "v2_net_15",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.228512488741864,
+            "required_m": 5,
+            "margin_m": 0.22851248874186414
+          },
+          {
+            "edge": "v2_net_34",
+            "restriction": 91,
+            "type": "oks",
+            "outside_gap_m": 5.290925761849601,
+            "required_m": 5,
+            "margin_m": 0.29092576184960084
+          },
+          {
+            "edge": "v2_net_46",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.302632474521659,
+            "required_m": 5,
+            "margin_m": 0.3026324745216593
+          },
+          {
+            "edge": "v2_net_32",
+            "restriction": 72,
+            "type": "oks",
+            "outside_gap_m": 5.312610071673674,
+            "required_m": 5,
+            "margin_m": 0.3126100716736744
+          },
+          {
+            "edge": "v2_net_54",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.313444683390747,
+            "required_m": 5,
+            "margin_m": 0.31344468339074716
+          },
+          {
+            "edge": "v2_net_48",
+            "restriction": 105,
+            "type": "oks",
+            "outside_gap_m": 5.378301308150271,
+            "required_m": 5,
+            "margin_m": 0.3783013081502711
+          },
+          {
+            "edge": "v2_net_6",
+            "restriction": 83,
+            "type": "oks",
+            "outside_gap_m": 5.424999999347631,
+            "required_m": 5,
+            "margin_m": 0.424999999347631
+          },
+          {
+            "edge": "v2_net_47",
+            "restriction": 83,
+            "type": "oks",
+            "outside_gap_m": 5.424999999347631,
+            "required_m": 5,
+            "margin_m": 0.424999999347631
+          },
+          {
+            "edge": "v2_net_25",
+            "restriction": 85,
+            "type": "oks",
+            "outside_gap_m": 5.427074014784652,
+            "required_m": 5,
+            "margin_m": 0.4270740147846519
+          }
+        ],
+        "pipe_items": [
+          {
+            "id": "v2_net_6",
+            "length_m": 23.72992957020083,
+            "dn": 300,
+            "flow_from_graph": 412.45,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 3560011.493980669,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_7",
+            "length_m": 11.19366736866653,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1088863.9932870367,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_47",
+            "length_m": 6.275535441194682,
+            "dn": 300,
+            "flow_from_graph": 384.63,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 941468.3779589086,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_48",
+            "length_m": 79.4552152604779,
+            "dn": 300,
+            "flow_from_graph": 364.0,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 11920030.303807415,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_19",
+            "length_m": 13.353166867367515,
+            "dn": 125,
+            "flow_from_graph": 34.53,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1298929.307023175,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_15",
+            "length_m": 141.50803357789724,
+            "dn": 250,
+            "flow_from_graph": 224.94000000000003,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 19149291.627861787,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_16",
+            "length_m": 16.393939966685785,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1594720.5102593598,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_31",
+            "length_m": 20.1634429977496,
+            "dn": 250,
+            "flow_from_graph": 198.85000000000002,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 2728577.5967844687,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_32",
+            "length_m": 97.59332559727171,
+            "dn": 200,
+            "flow_from_graph": 91.33000000000001,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 11738037.236211855,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_25",
+            "length_m": 194.87141296625816,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 20560298.167831,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_21",
+            "length_m": 51.11606343242369,
+            "dn": 200,
+            "flow_from_graph": 71.39,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 6147984.529334759,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_22",
+            "length_m": 17.8847930343043,
+            "dn": 100,
+            "flow_from_graph": 19.73,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1605124.4052427423,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_23",
+            "length_m": 16.956007576368133,
+            "dn": 100,
+            "flow_from_graph": 19.77,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1521767.7679638872,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_27",
+            "length_m": 70.78838874153192,
+            "dn": 150,
+            "flow_from_graph": 43.63,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 7468670.530952808,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_28",
+            "length_m": 14.311169004169196,
+            "dn": 125,
+            "flow_from_graph": 24.87,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1392118.9648805587,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_29",
+            "length_m": 28.906686033545,
+            "dn": 100,
+            "flow_from_graph": 18.76,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2594317.2581385965,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_30",
+            "length_m": 178.19907719213407,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 17334315.23386484,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_34",
+            "length_m": 112.60995066132583,
+            "dn": 200,
+            "flow_from_graph": 107.52000000000001,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 13544161.815790964,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_35",
+            "length_m": 8.882903534995389,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 864084.4413666765,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_44",
+            "length_m": 24.766924371216568,
+            "dn": 100,
+            "flow_from_graph": 15.99,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2222781.9284679447,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_45",
+            "length_m": 28.440038274869533,
+            "dn": 100,
+            "flow_from_graph": 18.03,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2552436.555092991,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_46",
+            "length_m": 222.09084473035298,
+            "dn": 200,
+            "flow_from_graph": 76.27,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 26711976.349943206,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_49",
+            "length_m": 46.91103044818188,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 4210171.160663428,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_50",
+            "length_m": 4.00000000233812,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1.05,
+            "cost": 376941.60022033367,
+            "special_objects": [
+              {
+                "id": 128,
+                "type": "heat_network",
+                "k": 1.05
+              }
+            ]
+          },
+          {
+            "id": "v2_net_51",
+            "length_m": 143.1151981202977,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 12844302.800900478,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_53",
+            "length_m": 67.11698400322119,
+            "dn": 200,
+            "flow_from_graph": 139.06,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 8072495.250987429,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_54",
+            "length_m": 120.74844304107975,
+            "dn": 200,
+            "flow_from_graph": 105.92,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 14523018.986765867,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_55",
+            "length_m": 15.935577543585804,
+            "dn": 125,
+            "flow_from_graph": 33.14,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1550133.3055523091,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_59",
+            "length_m": 36.12960532675862,
+            "dn": 65,
+            "flow_from_graph": 4.08,
+            "flow_minimum_dn": 65,
+            "price_per_m": 78631.0,
+            "k_special": 1,
+            "cost": 2840906.996448357,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_60",
+            "length_m": 156.20292697068254,
+            "dn": 200,
+            "flow_from_graph": 67.52,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 18787307.041398842,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_62",
+            "length_m": 37.04407320350008,
+            "dn": 125,
+            "flow_from_graph": 34.02,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3603462.2208704706,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_63",
+            "length_m": 42.20264578054373,
+            "dn": 150,
+            "flow_from_graph": 63.440000000000005,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 4452674.548367827,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_64",
+            "length_m": 29.415203442493453,
+            "dn": 125,
+            "flow_from_graph": 29.42,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 2861363.914868551,
+            "special_objects": []
+          }
+        ],
+        "chamber_items": [
+          {
+            "id": "v2_ch_1",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_3",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_5",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_6",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_7",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_8",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_9",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_10",
+            "dn_including_existing": 150,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_11",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_12",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_15",
+            "dn_including_existing": 125,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_16",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_17",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_18",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_19",
+            "dn_including_existing": 150,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          }
+        ],
+        "issues": []
+      }
+    },
+    "strict": {
+      "v1": {
+        "target_count": 17,
+        "connected_count": 14,
+        "total_flow_tph": 488.71999999999997,
+        "length_m_from_coordinates": 1553.6655696334617,
+        "geodesic_length_check_m": 1554.1470613924992,
+        "pipe_cost": 179868588.89056545,
+        "chamber_cost": 50000000.0,
+        "tie_in_cost": 0,
+        "penalty": 338995000.0,
+        "construction_cost": 229868588.89056545,
+        "total_cost": 568863588.8905654,
+        "score_cost_term": 15.92818048893583,
+        "score_length_term": 4.660996708900385,
+        "score": 20.589177197836214,
+        "declared_score": 20.58917719782986,
+        "new_lines": 22,
+        "new_chambers": 12,
+        "flow_dn_upgrades_above_capacity_minimum": [],
+        "same_dn_longest_runs_m": {
+          "125": 128.17932236862234,
+          "250": 183.78988181787054,
+          "300": 222.53250276009544,
+          "200": 271.20557715675744,
+          "150": 10.586861520297578,
+          "100": 107.91912481687686,
+          "65": 69.25978963149267
+        },
+        "components": [
+          {
+            "root": "v1_ch_1",
+            "nodes": 2,
+            "edges": 1,
+            "targets": [
+              16
+            ]
+          },
+          {
+            "root": "v1_ch_2",
+            "nodes": 20,
+            "edges": 19,
+            "targets": [
+              1,
+              3,
+              4,
+              6,
+              8,
+              9,
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          {
+            "root": "v1_ch_7",
+            "nodes": 2,
+            "edges": 1,
+            "targets": [
+              7
+            ]
+          },
+          {
+            "root": "v1_ch_9",
+            "nodes": 2,
+            "edges": 1,
+            "targets": [
+              17
+            ]
+          }
+        ],
+        "targets": [
+          {
+            "id": 1,
+            "connected": true,
+            "flow": 24.87,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_18",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 2,
+            "connected": false,
+            "flow": 18.76
+          },
+          {
+            "id": 3,
+            "connected": true,
+            "flow": 29.42,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_35",
+              "v1_net_34",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 4,
+            "connected": true,
+            "flow": 47.7,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_4",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 5,
+            "connected": false,
+            "flow": 26.09
+          },
+          {
+            "id": 6,
+            "connected": true,
+            "flow": 15.99,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_29",
+              "v1_net_31",
+              "v1_net_34",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 7,
+            "connected": true,
+            "flow": 27.82,
+            "root": "v1_ch_7",
+            "path_edges": [
+              "v1_net_15"
+            ]
+          },
+          {
+            "id": 8,
+            "connected": true,
+            "flow": 18.03,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_28",
+              "v1_net_31",
+              "v1_net_34",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 9,
+            "connected": true,
+            "flow": 34.53,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_21",
+              "v1_net_20",
+              "v1_net_9",
+              "v1_net_13",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 10,
+            "connected": false,
+            "flow": 33.14
+          },
+          {
+            "id": 11,
+            "connected": true,
+            "flow": 4.08,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_32",
+              "v1_net_34",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 12,
+            "connected": true,
+            "flow": 40.0,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_7",
+              "v1_net_13",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 13,
+            "connected": true,
+            "flow": 19.77,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_22",
+              "v1_net_20",
+              "v1_net_9",
+              "v1_net_13",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 14,
+            "connected": true,
+            "flow": 19.73,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_23",
+              "v1_net_20",
+              "v1_net_9",
+              "v1_net_13",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 15,
+            "connected": true,
+            "flow": 31.89,
+            "root": "v1_ch_2",
+            "path_edges": [
+              "v1_net_11",
+              "v1_net_9",
+              "v1_net_13",
+              "v1_net_17",
+              "v1_net_16",
+              "v1_net_3"
+            ]
+          },
+          {
+            "id": 16,
+            "connected": true,
+            "flow": 76.27,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_1"
+            ]
+          },
+          {
+            "id": 17,
+            "connected": true,
+            "flow": 20.63,
+            "root": "v1_ch_9",
+            "path_edges": [
+              "v1_net_19"
+            ]
+          }
+        ],
+        "terminals": [
+          {
+            "id": 1,
+            "building": 75,
+            "inside_length_m": 8.311169003854385,
+            "nearest_exterior_m": 8.311169004042569,
+            "nearest_any_boundary_m": 8.311169004042569,
+            "extra_inside_m": -1.8818369085238373e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_18"
+          },
+          {
+            "id": 3,
+            "building": 74,
+            "inside_length_m": 4.948051415546704,
+            "nearest_exterior_m": 4.948051415661567,
+            "nearest_any_boundary_m": 4.948051415661567,
+            "extra_inside_m": -1.14862785949299e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_35"
+          },
+          {
+            "id": 4,
+            "building": 71,
+            "inside_length_m": 4.586861519753697,
+            "nearest_exterior_m": 4.586861519969149,
+            "nearest_any_boundary_m": 4.586861519969149,
+            "extra_inside_m": -2.1545254469401698e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_4"
+          },
+          {
+            "id": 6,
+            "building": 82,
+            "inside_length_m": 2.5520223191676927,
+            "nearest_exterior_m": 2.552022319364324,
+            "nearest_any_boundary_m": 2.552022319364324,
+            "extra_inside_m": -1.9663115580215162e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_29"
+          },
+          {
+            "id": 7,
+            "building": 83,
+            "inside_length_m": 5.193667368948671,
+            "nearest_exterior_m": 5.193667369318897,
+            "nearest_any_boundary_m": 5.193667369318897,
+            "extra_inside_m": -3.702256279325411e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_15"
+          },
+          {
+            "id": 8,
+            "building": 81,
+            "inside_length_m": 2.52664681774065,
+            "nearest_exterior_m": 2.5266468177082393,
+            "nearest_any_boundary_m": 2.5266468177082393,
+            "extra_inside_m": 3.241051871327727e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_28"
+          },
+          {
+            "id": 9,
+            "building": 87,
+            "inside_length_m": 7.353166867504493,
+            "nearest_exterior_m": 7.353166867764537,
+            "nearest_any_boundary_m": 7.353166867764537,
+            "extra_inside_m": -2.6004443043348147e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_21"
+          },
+          {
+            "id": 11,
+            "building": 90,
+            "inside_length_m": 6.269130718603466,
+            "nearest_exterior_m": 6.26913071858671,
+            "nearest_any_boundary_m": 6.26913071858671,
+            "extra_inside_m": 1.6756374066062563e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_32"
+          },
+          {
+            "id": 12,
+            "building": 92,
+            "inside_length_m": 1.5213664387943227,
+            "nearest_exterior_m": 1.5213664388402883,
+            "nearest_any_boundary_m": 1.5213664388402883,
+            "extra_inside_m": -4.5965675710135656e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_7"
+          },
+          {
+            "id": 13,
+            "building": 91,
+            "inside_length_m": 3.2135594904889384,
+            "nearest_exterior_m": 3.213559490331682,
+            "nearest_any_boundary_m": 3.213559490331682,
+            "extra_inside_m": 1.5725643010000567e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_22"
+          },
+          {
+            "id": 14,
+            "building": 89,
+            "inside_length_m": 0.05767955560545929,
+            "nearest_exterior_m": 0.057679555347899286,
+            "nearest_any_boundary_m": 0.057679555347899286,
+            "extra_inside_m": 2.575600011045509e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_23"
+          },
+          {
+            "id": 15,
+            "building": 92,
+            "inside_length_m": 2.1704066543535006,
+            "nearest_exterior_m": 2.1704066542693963,
+            "nearest_any_boundary_m": 2.1704066542693963,
+            "extra_inside_m": 8.410427909666396e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_11"
+          },
+          {
+            "id": 16,
+            "building": 96,
+            "inside_length_m": 2.1550742509280125,
+            "nearest_exterior_m": 2.155074250950035,
+            "nearest_any_boundary_m": 2.155074250950035,
+            "extra_inside_m": -2.2022383916464605e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_1"
+          },
+          {
+            "id": 17,
+            "building": 97,
+            "inside_length_m": 5.374510727692428,
+            "nearest_exterior_m": 5.374510728046409,
+            "nearest_any_boundary_m": 5.374510728046409,
+            "extra_inside_m": -3.539808446362258e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_19"
+          }
+        ],
+        "tightest_hard_gaps": [
+          {
+            "edge": "v1_net_35",
+            "restriction": 76,
+            "type": "oks",
+            "outside_gap_m": 5.067730292782356,
+            "required_m": 5,
+            "margin_m": 0.06773029278235576
+          },
+          {
+            "edge": "v1_net_16",
+            "restriction": 77,
+            "type": "oks",
+            "outside_gap_m": 5.22749617459637,
+            "required_m": 5,
+            "margin_m": 0.22749617459636973
+          },
+          {
+            "edge": "v1_net_16",
+            "restriction": 71,
+            "type": "oks",
+            "outside_gap_m": 5.227618173665934,
+            "required_m": 5,
+            "margin_m": 0.22761817366593373
+          },
+          {
+            "edge": "v1_net_17",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.227645917545379,
+            "required_m": 5,
+            "margin_m": 0.2276459175453791
+          },
+          {
+            "edge": "v1_net_13",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.312648325021954,
+            "required_m": 5,
+            "margin_m": 0.3126483250219536
+          },
+          {
+            "edge": "v1_net_34",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.312648325021954,
+            "required_m": 5,
+            "margin_m": 0.3126483250219536
+          },
+          {
+            "edge": "v1_net_1",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.312688123971516,
+            "required_m": 5,
+            "margin_m": 0.31268812397151624
+          },
+          {
+            "edge": "v1_net_9",
+            "restriction": 91,
+            "type": "oks",
+            "outside_gap_m": 5.314780447127343,
+            "required_m": 5,
+            "margin_m": 0.314780447127343
+          },
+          {
+            "edge": "v1_net_3",
+            "restriction": 83,
+            "type": "oks",
+            "outside_gap_m": 5.369569448328698,
+            "required_m": 5,
+            "margin_m": 0.369569448328698
+          },
+          {
+            "edge": "v1_net_3",
+            "restriction": 71,
+            "type": "oks",
+            "outside_gap_m": 5.425000000328429,
+            "required_m": 5,
+            "margin_m": 0.42500000032842866
+          },
+          {
+            "edge": "v1_net_11",
+            "restriction": 89,
+            "type": "oks",
+            "outside_gap_m": 5.4297551717117605,
+            "required_m": 5,
+            "margin_m": 0.4297551717117605
+          },
+          {
+            "edge": "v1_net_20",
+            "restriction": 91,
+            "type": "oks",
+            "outside_gap_m": 5.443201714821323,
+            "required_m": 5,
+            "margin_m": 0.4432017148213232
+          }
+        ],
+        "pipe_items": [
+          {
+            "id": "v1_net_1",
+            "length_m": 189.83561722740504,
+            "dn": 200,
+            "flow_from_graph": 76.27,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 22832478.86202614,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_3",
+            "length_m": 222.53250276009544,
+            "dn": 300,
+            "flow_from_graph": 286.01,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 33384771.12907504,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_4",
+            "length_m": 10.586861520297578,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 1116987.9984220366,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_16",
+            "length_m": 162.15033541759743,
+            "dn": 250,
+            "flow_from_graph": 238.31,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 21942669.839715537,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_17",
+            "length_m": 21.63954640027312,
+            "dn": 250,
+            "flow_from_graph": 213.44,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 2928328.3375241593,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_13",
+            "length_m": 125.0667067034455,
+            "dn": 200,
+            "flow_from_graph": 145.92000000000002,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 15042398.148756908,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_7",
+            "length_m": 7.521366439111903,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 731640.9203646104,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_9",
+            "length_m": 92.83574882897989,
+            "dn": 200,
+            "flow_from_graph": 105.92,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 11165819.690405557,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_20",
+            "length_m": 53.30312162433204,
+            "dn": 200,
+            "flow_from_graph": 74.03,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 6411032.953366537,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_21",
+            "length_m": 66.21025047152888,
+            "dn": 125,
+            "flow_from_graph": 34.53,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 6440602.114617972,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_11",
+            "length_m": 128.17932236862234,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 12468643.583407737,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_15",
+            "length_m": 34.92359693886736,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3397192.8922283226,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_18",
+            "length_m": 17.485068725210567,
+            "dn": 125,
+            "flow_from_graph": 24.87,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1700860.060244858,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_19",
+            "length_m": 107.91912481687686,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 9685525.614065064,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_22",
+            "length_m": 16.413145210308844,
+            "dn": 100,
+            "flow_from_graph": 19.77,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1473046.9563347981,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_23",
+            "length_m": 13.734065234220498,
+            "dn": 100,
+            "flow_from_graph": 19.73,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1232604.8866408214,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_31",
+            "length_m": 49.9576942570925,
+            "dn": 125,
+            "flow_from_graph": 34.02,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 4859634.7088586725,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_28",
+            "length_m": 11.332611383135037,
+            "dn": 100,
+            "flow_from_graph": 18.03,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1017079.2064136033,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_29",
+            "length_m": 33.74660874559913,
+            "dn": 100,
+            "flow_from_graph": 15.99,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 3028690.641700031,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_32",
+            "length_m": 69.25978963149267,
+            "dn": 65,
+            "flow_from_graph": 4.08,
+            "flow_minimum_dn": 65,
+            "price_per_m": 78631.0,
+            "k_special": 1,
+            "cost": 5445966.5185139,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_34",
+            "length_m": 86.24908071381158,
+            "dn": 200,
+            "flow_from_graph": 67.52,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 10373608.182853688,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_35",
+            "length_m": 32.78340421515783,
+            "dn": 125,
+            "flow_from_graph": 29.42,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3189005.645029478,
+            "special_objects": []
+          }
+        ],
+        "chamber_items": [
+          {
+            "id": "v1_ch_1",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_2",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_3",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_4",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_5",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_6",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_7",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_8",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_9",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_10",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v1_ch_12",
+            "dn_including_existing": 125,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_13",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          }
+        ],
+        "issues": []
+      },
+      "v2": {
+        "target_count": 17,
+        "connected_count": 14,
+        "total_flow_tph": 488.71999999999997,
+        "length_m_from_coordinates": 1906.2081719972732,
+        "geodesic_length_check_m": 1906.7989812406313,
+        "pipe_cost": 224083886.06464738,
+        "chamber_cost": 45000000.0,
+        "tie_in_cost": 0,
+        "penalty": 338995000.0,
+        "construction_cost": 269083886.0646474,
+        "total_cost": 608078886.0646474,
+        "score_cost_term": 17.02620880981013,
+        "score_length_term": 5.718624515991819,
+        "score": 22.74483332580195,
+        "declared_score": 22.744833325793554,
+        "new_lines": 26,
+        "new_chambers": 11,
+        "flow_dn_upgrades_above_capacity_minimum": [],
+        "same_dn_longest_runs_m": {
+          "125": 128.17932236862234,
+          "300": 412.9605653554074,
+          "200": 189.83561722740504,
+          "250": 239.5420019326985,
+          "150": 260.5267716947827,
+          "100": 189.04209345472202,
+          "65": 69.25978963149267
+        },
+        "components": [
+          {
+            "root": "v2_ch_1",
+            "nodes": 27,
+            "edges": 26,
+            "targets": [
+              1,
+              3,
+              4,
+              6,
+              7,
+              8,
+              9,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17
+            ]
+          }
+        ],
+        "targets": [
+          {
+            "id": 1,
+            "connected": true,
+            "flow": 24.87,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_20",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 2,
+            "connected": false,
+            "flow": 18.76
+          },
+          {
+            "id": 3,
+            "connected": true,
+            "flow": 29.42,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_41",
+              "v2_net_40",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 4,
+            "connected": true,
+            "flow": 47.7,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_4",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 5,
+            "connected": false,
+            "flow": 26.09
+          },
+          {
+            "id": 6,
+            "connected": true,
+            "flow": 15.99,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_35",
+              "v2_net_37",
+              "v2_net_40",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 7,
+            "connected": true,
+            "flow": 27.82,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_48",
+              "v2_net_47",
+              "v2_net_27",
+              "v2_net_26",
+              "v2_net_9",
+              "v2_net_13",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 8,
+            "connected": true,
+            "flow": 18.03,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_34",
+              "v2_net_37",
+              "v2_net_40",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 9,
+            "connected": true,
+            "flow": 34.53,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_16",
+              "v2_net_27",
+              "v2_net_26",
+              "v2_net_9",
+              "v2_net_13",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 10,
+            "connected": false,
+            "flow": 33.14
+          },
+          {
+            "id": 11,
+            "connected": true,
+            "flow": 4.08,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_38",
+              "v2_net_40",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 12,
+            "connected": true,
+            "flow": 40.0,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_7",
+              "v2_net_13",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 13,
+            "connected": true,
+            "flow": 19.77,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_28",
+              "v2_net_26",
+              "v2_net_9",
+              "v2_net_13",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 14,
+            "connected": true,
+            "flow": 19.73,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_29",
+              "v2_net_26",
+              "v2_net_9",
+              "v2_net_13",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 15,
+            "connected": true,
+            "flow": 31.89,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_11",
+              "v2_net_9",
+              "v2_net_13",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          },
+          {
+            "id": 16,
+            "connected": true,
+            "flow": 76.27,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_1"
+            ]
+          },
+          {
+            "id": 17,
+            "connected": true,
+            "flow": 20.63,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_51",
+              "v2_net_50",
+              "v2_net_49",
+              "v2_net_47",
+              "v2_net_27",
+              "v2_net_26",
+              "v2_net_9",
+              "v2_net_13",
+              "v2_net_19",
+              "v2_net_18",
+              "v2_net_3"
+            ]
+          }
+        ],
+        "terminals": [
+          {
+            "id": 1,
+            "building": 75,
+            "inside_length_m": 8.311169003854385,
+            "nearest_exterior_m": 8.311169004042569,
+            "nearest_any_boundary_m": 8.311169004042569,
+            "extra_inside_m": -1.8818369085238373e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_20"
+          },
+          {
+            "id": 3,
+            "building": 74,
+            "inside_length_m": 4.948051415546704,
+            "nearest_exterior_m": 4.948051415661567,
+            "nearest_any_boundary_m": 4.948051415661567,
+            "extra_inside_m": -1.14862785949299e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_41"
+          },
+          {
+            "id": 4,
+            "building": 71,
+            "inside_length_m": 4.586861519753697,
+            "nearest_exterior_m": 4.586861519969149,
+            "nearest_any_boundary_m": 4.586861519969149,
+            "extra_inside_m": -2.1545254469401698e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_4"
+          },
+          {
+            "id": 6,
+            "building": 82,
+            "inside_length_m": 2.5520223191676927,
+            "nearest_exterior_m": 2.552022319364324,
+            "nearest_any_boundary_m": 2.552022319364324,
+            "extra_inside_m": -1.9663115580215162e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_35"
+          },
+          {
+            "id": 7,
+            "building": 83,
+            "inside_length_m": 5.193667368948671,
+            "nearest_exterior_m": 5.193667369318897,
+            "nearest_any_boundary_m": 5.193667369318897,
+            "extra_inside_m": -3.702256279325411e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_48"
+          },
+          {
+            "id": 8,
+            "building": 81,
+            "inside_length_m": 2.52664681774065,
+            "nearest_exterior_m": 2.5266468177082393,
+            "nearest_any_boundary_m": 2.5266468177082393,
+            "extra_inside_m": 3.241051871327727e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_34"
+          },
+          {
+            "id": 9,
+            "building": 87,
+            "inside_length_m": 7.353166867504493,
+            "nearest_exterior_m": 7.353166867764537,
+            "nearest_any_boundary_m": 7.353166867764537,
+            "extra_inside_m": -2.6004443043348147e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_16"
+          },
+          {
+            "id": 11,
+            "building": 90,
+            "inside_length_m": 6.269130718603466,
+            "nearest_exterior_m": 6.26913071858671,
+            "nearest_any_boundary_m": 6.26913071858671,
+            "extra_inside_m": 1.6756374066062563e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_38"
+          },
+          {
+            "id": 12,
+            "building": 92,
+            "inside_length_m": 1.5213664387943227,
+            "nearest_exterior_m": 1.5213664388402883,
+            "nearest_any_boundary_m": 1.5213664388402883,
+            "extra_inside_m": -4.5965675710135656e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_7"
+          },
+          {
+            "id": 13,
+            "building": 91,
+            "inside_length_m": 3.2135594904889384,
+            "nearest_exterior_m": 3.213559490331682,
+            "nearest_any_boundary_m": 3.213559490331682,
+            "extra_inside_m": 1.5725643010000567e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_28"
+          },
+          {
+            "id": 14,
+            "building": 89,
+            "inside_length_m": 0.05767955560545929,
+            "nearest_exterior_m": 0.057679555347899286,
+            "nearest_any_boundary_m": 0.057679555347899286,
+            "extra_inside_m": 2.575600011045509e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_29"
+          },
+          {
+            "id": 15,
+            "building": 92,
+            "inside_length_m": 2.1704066543535006,
+            "nearest_exterior_m": 2.1704066542693963,
+            "nearest_any_boundary_m": 2.1704066542693963,
+            "extra_inside_m": 8.410427909666396e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_11"
+          },
+          {
+            "id": 16,
+            "building": 96,
+            "inside_length_m": 2.1550742509280125,
+            "nearest_exterior_m": 2.155074250950035,
+            "nearest_any_boundary_m": 2.155074250950035,
+            "extra_inside_m": -2.2022383916464605e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_1"
+          },
+          {
+            "id": 17,
+            "building": 97,
+            "inside_length_m": 5.374510727692428,
+            "nearest_exterior_m": 5.374510728046409,
+            "nearest_any_boundary_m": 5.374510728046409,
+            "extra_inside_m": -3.539808446362258e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_51"
+          }
+        ],
+        "tightest_hard_gaps": [
+          {
+            "edge": "v2_net_41",
+            "restriction": 76,
+            "type": "oks",
+            "outside_gap_m": 5.067730292782356,
+            "required_m": 5,
+            "margin_m": 0.06773029278235576
+          },
+          {
+            "edge": "v2_net_18",
+            "restriction": 77,
+            "type": "oks",
+            "outside_gap_m": 5.17749617459637,
+            "required_m": 5,
+            "margin_m": 0.1774961745963699
+          },
+          {
+            "edge": "v2_net_18",
+            "restriction": 71,
+            "type": "oks",
+            "outside_gap_m": 5.177618173665934,
+            "required_m": 5,
+            "margin_m": 0.1776181736659339
+          },
+          {
+            "edge": "v2_net_3",
+            "restriction": 83,
+            "type": "oks",
+            "outside_gap_m": 5.177685330966155,
+            "required_m": 5,
+            "margin_m": 0.17768533096615524
+          },
+          {
+            "edge": "v2_net_19",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.227645917545379,
+            "required_m": 5,
+            "margin_m": 0.2276459175453791
+          },
+          {
+            "edge": "v2_net_13",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.227648325021954,
+            "required_m": 5,
+            "margin_m": 0.22764832502195365
+          },
+          {
+            "edge": "v2_net_9",
+            "restriction": 91,
+            "type": "oks",
+            "outside_gap_m": 5.229780447127343,
+            "required_m": 5,
+            "margin_m": 0.22978044712734302
+          },
+          {
+            "edge": "v2_net_40",
+            "restriction": 75,
+            "type": "oks",
+            "outside_gap_m": 5.312648325021954,
+            "required_m": 5,
+            "margin_m": 0.3126483250219536
+          },
+          {
+            "edge": "v2_net_1",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.312688123971516,
+            "required_m": 5,
+            "margin_m": 0.31268812397151624
+          },
+          {
+            "edge": "v2_net_3",
+            "restriction": 71,
+            "type": "oks",
+            "outside_gap_m": 5.425000000328429,
+            "required_m": 5,
+            "margin_m": 0.42500000032842866
+          },
+          {
+            "edge": "v2_net_47",
+            "restriction": 105,
+            "type": "oks",
+            "outside_gap_m": 5.427643349320639,
+            "required_m": 5,
+            "margin_m": 0.42764334932063885
+          },
+          {
+            "edge": "v2_net_47",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.428444683390747,
+            "required_m": 5,
+            "margin_m": 0.42844468339074737
+          }
+        ],
+        "pipe_items": [
+          {
+            "id": "v2_net_1",
+            "length_m": 189.83561722740504,
+            "dn": 200,
+            "flow_from_graph": 76.27,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 22832478.86202614,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_3",
+            "length_m": 250.81022993781,
+            "dn": 300,
+            "flow_from_graph": 334.46000000000004,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 37627052.31573013,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_4",
+            "length_m": 10.586861520297578,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 1116987.9984220366,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_18",
+            "length_m": 162.15033541759743,
+            "dn": 300,
+            "flow_from_graph": 286.76,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 24326117.620018803,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_19",
+            "length_m": 21.63954640027312,
+            "dn": 250,
+            "flow_from_graph": 261.89,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 2928328.3375241593,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_13",
+            "length_m": 125.0667067034455,
+            "dn": 250,
+            "flow_from_graph": 194.37,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 16924401.951230355,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_7",
+            "length_m": 7.521366439111903,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 731640.9203646104,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_9",
+            "length_m": 92.83574882897989,
+            "dn": 250,
+            "flow_from_graph": 154.37,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 12562812.038784046,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_26",
+            "length_m": 53.30312162433204,
+            "dn": 200,
+            "flow_from_graph": 122.48,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 6411032.953366537,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_27",
+            "length_m": 52.85708360416137,
+            "dn": 200,
+            "flow_from_graph": 82.97999999999999,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 6357385.7304905085,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_16",
+            "length_m": 13.353166867367515,
+            "dn": 125,
+            "flow_from_graph": 34.53,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1298929.307023175,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_11",
+            "length_m": 128.17932236862234,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 12468643.583407737,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_20",
+            "length_m": 17.485068725210567,
+            "dn": 125,
+            "flow_from_graph": 24.87,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1700860.060244858,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_28",
+            "length_m": 16.413145210308844,
+            "dn": 100,
+            "flow_from_graph": 19.77,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1473046.9563347981,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_29",
+            "length_m": 13.734065234220498,
+            "dn": 100,
+            "flow_from_graph": 19.73,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1232604.8866408214,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_37",
+            "length_m": 49.9576942570925,
+            "dn": 125,
+            "flow_from_graph": 34.02,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 4859634.7088586725,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_34",
+            "length_m": 11.332611383135037,
+            "dn": 100,
+            "flow_from_graph": 18.03,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1017079.2064136033,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_35",
+            "length_m": 33.74660874559913,
+            "dn": 100,
+            "flow_from_graph": 15.99,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 3028690.641700031,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_38",
+            "length_m": 69.25978963149267,
+            "dn": 65,
+            "flow_from_graph": 4.08,
+            "flow_minimum_dn": 65,
+            "price_per_m": 78631.0,
+            "k_special": 1,
+            "cost": 5445966.5185139,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_40",
+            "length_m": 86.24908071381158,
+            "dn": 200,
+            "flow_from_graph": 67.52,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 10373608.182853688,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_41",
+            "length_m": 32.78340421515783,
+            "dn": 125,
+            "flow_from_graph": 29.42,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3189005.645029478,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_47",
+            "length_m": 260.5267716947827,
+            "dn": 150,
+            "flow_from_graph": 48.45,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 27487398.10120144,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_48",
+            "length_m": 17.538731792336456,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1706080.1350995288,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_49",
+            "length_m": 39.73184127845955,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 3565853.2910591876,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_50",
+            "length_m": 3.9999999986418815,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1.05,
+            "cost": 376941.59987201716,
+            "special_objects": [
+              {
+                "id": 128,
+                "type": "heat_network",
+                "k": 1.05
+              }
+            ]
+          },
+          {
+            "id": "v2_net_51",
+            "length_m": 145.3102521776206,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 13041304.512437094,
+            "special_objects": []
+          }
+        ],
+        "chamber_items": [
+          {
+            "id": "v2_ch_1",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_2",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_3",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_4",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_5",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_6",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_7",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_9",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_11",
+            "dn_including_existing": 125,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_12",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_14",
+            "dn_including_existing": 150,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          }
+        ],
+        "issues": []
+      }
+    },
+    "osm": {
+      "v1": {
+        "target_count": 17,
+        "connected_count": 17,
+        "total_flow_tph": 488.71999999999997,
+        "length_m_from_coordinates": 2040.988201711239,
+        "geodesic_length_check_m": 2041.6207300359006,
+        "pipe_cost": 235945280.6905557,
+        "chamber_cost": 52000000.0,
+        "tie_in_cost": 5000000,
+        "penalty": 0,
+        "construction_cost": 292945280.6905557,
+        "total_cost": 292945280.6905557,
+        "score_cost_term": 8.202467859335558,
+        "score_length_term": 6.122964605133717,
+        "score": 14.325432464469275,
+        "declared_score": 14.325432464461873,
+        "new_lines": 49,
+        "new_chambers": 14,
+        "flow_dn_upgrades_above_capacity_minimum": [],
+        "same_dn_longest_runs_m": {
+          "125": 208.00208369401457,
+          "150": 233.12097086984988,
+          "200": 316.2829970639783,
+          "250": 123.5092524509194,
+          "300": 115.11584780414256,
+          "100": 101.3791342673641,
+          "65": 40.999518791195406
+        },
+        "components": [
+          {
+            "root": 110,
+            "nodes": 6,
+            "edges": 5,
+            "targets": [
+              16,
+              17
+            ]
+          },
+          {
+            "root": "v1_ch_1",
+            "nodes": 44,
+            "edges": 43,
+            "targets": [
+              1,
+              2,
+              3,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          {
+            "root": "v1_ch_15",
+            "nodes": 2,
+            "edges": 1,
+            "targets": [
+              4
+            ]
+          }
+        ],
+        "targets": [
+          {
+            "id": 1,
+            "connected": true,
+            "flow": 24.87,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_42",
+              "v1_net_84",
+              "v1_net_82",
+              "v1_net_81",
+              "v1_net_36",
+              "v1_net_76",
+              "v1_net_75",
+              "v1_net_29",
+              "v1_net_54",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 2,
+            "connected": true,
+            "flow": 18.76,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_43",
+              "v1_net_84",
+              "v1_net_82",
+              "v1_net_81",
+              "v1_net_36",
+              "v1_net_76",
+              "v1_net_75",
+              "v1_net_29",
+              "v1_net_54",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 3,
+            "connected": true,
+            "flow": 29.42,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_85",
+              "v1_net_82",
+              "v1_net_81",
+              "v1_net_36",
+              "v1_net_76",
+              "v1_net_75",
+              "v1_net_29",
+              "v1_net_54",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 4,
+            "connected": true,
+            "flow": 47.7,
+            "root": "v1_ch_15",
+            "path_edges": [
+              "v1_net_58"
+            ]
+          },
+          {
+            "id": 5,
+            "connected": true,
+            "flow": 26.09,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_57",
+              "v1_net_56",
+              "v1_net_55",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 6,
+            "connected": true,
+            "flow": 15.99,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_88",
+              "v1_net_87",
+              "v1_net_82",
+              "v1_net_81",
+              "v1_net_36",
+              "v1_net_76",
+              "v1_net_75",
+              "v1_net_29",
+              "v1_net_54",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 7,
+            "connected": true,
+            "flow": 27.82,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_69",
+              "v1_net_68",
+              "v1_net_67",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 8,
+            "connected": true,
+            "flow": 18.03,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_89",
+              "v1_net_87",
+              "v1_net_82",
+              "v1_net_81",
+              "v1_net_36",
+              "v1_net_76",
+              "v1_net_75",
+              "v1_net_29",
+              "v1_net_54",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 9,
+            "connected": true,
+            "flow": 34.53,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_19",
+              "v1_net_72",
+              "v1_net_71",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 10,
+            "connected": true,
+            "flow": 33.14,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_73",
+              "v1_net_71",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 11,
+            "connected": true,
+            "flow": 4.08,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_83",
+              "v1_net_81",
+              "v1_net_36",
+              "v1_net_76",
+              "v1_net_75",
+              "v1_net_29",
+              "v1_net_54",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 12,
+            "connected": true,
+            "flow": 40.0,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_79",
+              "v1_net_78",
+              "v1_net_77",
+              "v1_net_75",
+              "v1_net_29",
+              "v1_net_54",
+              "v1_net_53",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 13,
+            "connected": true,
+            "flow": 19.77,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_25",
+              "v1_net_23",
+              "v1_net_21",
+              "v1_net_20",
+              "v1_net_72",
+              "v1_net_71",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 14,
+            "connected": true,
+            "flow": 19.73,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_24",
+              "v1_net_23",
+              "v1_net_21",
+              "v1_net_20",
+              "v1_net_72",
+              "v1_net_71",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 15,
+            "connected": true,
+            "flow": 31.89,
+            "root": "v1_ch_1",
+            "path_edges": [
+              "v1_net_63",
+              "v1_net_62",
+              "v1_net_61",
+              "v1_net_60",
+              "v1_net_59",
+              "v1_net_23",
+              "v1_net_21",
+              "v1_net_20",
+              "v1_net_72",
+              "v1_net_71",
+              "v1_net_26",
+              "v1_net_13",
+              "v1_net_66",
+              "v1_net_65"
+            ]
+          },
+          {
+            "id": 16,
+            "connected": true,
+            "flow": 76.27,
+            "root": 110,
+            "path_edges": [
+              "v1_net_6",
+              "v1_net_5"
+            ]
+          },
+          {
+            "id": 17,
+            "connected": true,
+            "flow": 20.63,
+            "root": 110,
+            "path_edges": [
+              "v1_net_9",
+              "v1_net_8",
+              "v1_net_7",
+              "v1_net_5"
+            ]
+          }
+        ],
+        "terminals": [
+          {
+            "id": 1,
+            "building": 75,
+            "inside_length_m": 8.311169003854385,
+            "nearest_exterior_m": 8.311169004042569,
+            "nearest_any_boundary_m": 8.311169004042569,
+            "extra_inside_m": -1.8818369085238373e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_42"
+          },
+          {
+            "id": 2,
+            "building": 77,
+            "inside_length_m": 9.066551776219672,
+            "nearest_exterior_m": 5.799401572059233,
+            "nearest_any_boundary_m": 5.799401572059233,
+            "extra_inside_m": 3.2671502041604388,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_43"
+          },
+          {
+            "id": 3,
+            "building": 74,
+            "inside_length_m": 4.948051415546704,
+            "nearest_exterior_m": 4.948051415661567,
+            "nearest_any_boundary_m": 4.948051415661567,
+            "extra_inside_m": -1.14862785949299e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_85"
+          },
+          {
+            "id": 4,
+            "building": 71,
+            "inside_length_m": 4.586861519753697,
+            "nearest_exterior_m": 4.586861519969149,
+            "nearest_any_boundary_m": 4.586861519969149,
+            "extra_inside_m": -2.1545254469401698e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_58"
+          },
+          {
+            "id": 5,
+            "building": 72,
+            "inside_length_m": 10.39393996754161,
+            "nearest_exterior_m": 10.393939967314504,
+            "nearest_any_boundary_m": 7.1566981411203585,
+            "extra_inside_m": 2.2710722191732202e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_57"
+          },
+          {
+            "id": 6,
+            "building": 82,
+            "inside_length_m": 2.5520223191676927,
+            "nearest_exterior_m": 2.552022319364324,
+            "nearest_any_boundary_m": 2.552022319364324,
+            "extra_inside_m": -1.9663115580215162e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_88"
+          },
+          {
+            "id": 7,
+            "building": 83,
+            "inside_length_m": 5.193667368948671,
+            "nearest_exterior_m": 5.193667369318897,
+            "nearest_any_boundary_m": 5.193667369318897,
+            "extra_inside_m": -3.702256279325411e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_69"
+          },
+          {
+            "id": 8,
+            "building": 81,
+            "inside_length_m": 2.52664681774065,
+            "nearest_exterior_m": 2.5266468177082393,
+            "nearest_any_boundary_m": 2.5266468177082393,
+            "extra_inside_m": 3.241051871327727e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_89"
+          },
+          {
+            "id": 9,
+            "building": 87,
+            "inside_length_m": 7.353166867504493,
+            "nearest_exterior_m": 7.353166867764537,
+            "nearest_any_boundary_m": 7.353166867764537,
+            "extra_inside_m": -2.6004443043348147e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_19"
+          },
+          {
+            "id": 10,
+            "building": 88,
+            "inside_length_m": 9.651495037735742,
+            "nearest_exterior_m": 6.535781990440415,
+            "nearest_any_boundary_m": 6.535781990440415,
+            "extra_inside_m": 3.115713047295327,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_73"
+          },
+          {
+            "id": 11,
+            "building": 90,
+            "inside_length_m": 6.269130718603466,
+            "nearest_exterior_m": 6.26913071858671,
+            "nearest_any_boundary_m": 6.26913071858671,
+            "extra_inside_m": 1.6756374066062563e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_83"
+          },
+          {
+            "id": 12,
+            "building": 92,
+            "inside_length_m": 1.5213664387943227,
+            "nearest_exterior_m": 1.5213664388402883,
+            "nearest_any_boundary_m": 1.5213664388402883,
+            "extra_inside_m": -4.5965675710135656e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_79"
+          },
+          {
+            "id": 13,
+            "building": 91,
+            "inside_length_m": 3.2135594904889384,
+            "nearest_exterior_m": 3.213559490331682,
+            "nearest_any_boundary_m": 3.213559490331682,
+            "extra_inside_m": 1.5725643010000567e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_25"
+          },
+          {
+            "id": 14,
+            "building": 89,
+            "inside_length_m": 0.05767955560545929,
+            "nearest_exterior_m": 0.057679555347899286,
+            "nearest_any_boundary_m": 0.057679555347899286,
+            "extra_inside_m": 2.575600011045509e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_24"
+          },
+          {
+            "id": 15,
+            "building": 92,
+            "inside_length_m": 2.1704066543535006,
+            "nearest_exterior_m": 2.1704066542693963,
+            "nearest_any_boundary_m": 2.1704066542693963,
+            "extra_inside_m": 8.410427909666396e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_63"
+          },
+          {
+            "id": 16,
+            "building": 96,
+            "inside_length_m": 2.1550742509280125,
+            "nearest_exterior_m": 2.155074250950035,
+            "nearest_any_boundary_m": 2.155074250950035,
+            "extra_inside_m": -2.2022383916464605e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_6"
+          },
+          {
+            "id": 17,
+            "building": 97,
+            "inside_length_m": 14.146350976544982,
+            "nearest_exterior_m": 5.374510728046409,
+            "nearest_any_boundary_m": 5.374510728046409,
+            "extra_inside_m": 8.771840248498574,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v1_net_9"
+          }
+        ],
+        "tightest_hard_gaps": [
+          {
+            "edge": "v1_net_85",
+            "restriction": 76,
+            "type": "oks",
+            "outside_gap_m": 5.083521485340361,
+            "required_m": 5,
+            "margin_m": 0.08352148534036097
+          },
+          {
+            "edge": "v1_net_53",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.228512488741864,
+            "required_m": 5,
+            "margin_m": 0.22851248874186414
+          },
+          {
+            "edge": "v1_net_89",
+            "restriction": 81,
+            "type": "oks",
+            "outside_gap_m": 5.265857918167201,
+            "required_m": 5,
+            "margin_m": 0.2658579181672014
+          },
+          {
+            "edge": "v1_net_6",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.302632474521659,
+            "required_m": 5,
+            "margin_m": 0.3026324745216593
+          },
+          {
+            "edge": "v1_net_81",
+            "restriction": 90,
+            "type": "oks",
+            "outside_gap_m": 5.312564357353625,
+            "required_m": 5,
+            "margin_m": 0.312564357353625
+          },
+          {
+            "edge": "v1_net_5",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.312622931860612,
+            "required_m": 5,
+            "margin_m": 0.31262293186061196
+          },
+          {
+            "edge": "v1_net_72",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.313444683390747,
+            "required_m": 5,
+            "margin_m": 0.31344468339074716
+          },
+          {
+            "edge": "v1_net_85",
+            "restriction": 74,
+            "type": "oks",
+            "outside_gap_m": 5.450000000175701,
+            "required_m": 5,
+            "margin_m": 0.4500000001757014
+          },
+          {
+            "edge": "v1_net_59",
+            "restriction": 89,
+            "type": "oks",
+            "outside_gap_m": 5.45173594994443,
+            "required_m": 5,
+            "margin_m": 0.45173594994443
+          },
+          {
+            "edge": "v1_net_75",
+            "restriction": 91,
+            "type": "oks",
+            "outside_gap_m": 5.463744676002988,
+            "required_m": 5,
+            "margin_m": 0.46374467600298797
+          },
+          {
+            "edge": "v1_net_87",
+            "restriction": 74,
+            "type": "oks",
+            "outside_gap_m": 5.486766801108413,
+            "required_m": 5,
+            "margin_m": 0.48676680110841275
+          },
+          {
+            "edge": "v1_net_71",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.510261123588229,
+            "required_m": 5,
+            "margin_m": 0.5102611235882293
+          }
+        ],
+        "pipe_items": [
+          {
+            "id": "v1_net_5",
+            "length_m": 104.62048988121265,
+            "dn": 200,
+            "flow_from_graph": 96.89999999999999,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 12583229.42046285,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_6",
+            "length_m": 110.89735675560743,
+            "dn": 200,
+            "flow_from_graph": 76.27,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 13338179.583780684,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_7",
+            "length_m": 17.995565577856592,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1615066.0194814734,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_8",
+            "length_m": 12.00545017625656,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1.6,
+            "cost": 1723944.227869878,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_9",
+            "length_m": 71.37811851325094,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 6406043.380327245,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_13",
+            "length_m": 12.163873839277477,
+            "dn": 300,
+            "flow_from_graph": 316.30000000000007,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1.6,
+            "cost": 2919757.889785737,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_26",
+            "length_m": 12.910869459320255,
+            "dn": 300,
+            "flow_from_graph": 316.30000000000007,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 1936914.4580261433,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_19",
+            "length_m": 13.353166867367515,
+            "dn": 125,
+            "flow_from_graph": 34.53,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1298929.307023175,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_20",
+            "length_m": 24.205590403321526,
+            "dn": 200,
+            "flow_from_graph": 71.39,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 2911327.3857594966,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_21",
+            "length_m": 12.509975081840308,
+            "dn": 200,
+            "flow_from_graph": 71.39,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1.6,
+            "cost": 2407419.604749349,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_23",
+            "length_m": 14.400497947261854,
+            "dn": 200,
+            "flow_from_graph": 71.39,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 1732019.8906069195,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_24",
+            "length_m": 17.8847930343043,
+            "dn": 100,
+            "flow_from_graph": 19.73,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1605124.4052427423,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_25",
+            "length_m": 16.956007576368133,
+            "dn": 100,
+            "flow_from_graph": 19.77,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1521767.7679638872,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_53",
+            "length_m": 123.5092524509194,
+            "dn": 250,
+            "flow_from_graph": 177.24000000000004,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 16713642.569415767,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_54",
+            "length_m": 25.141247782691828,
+            "dn": 200,
+            "flow_from_graph": 151.15,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 3023863.5770632597,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_29",
+            "length_m": 12.000145226940335,
+            "dn": 200,
+            "flow_from_graph": 151.15,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1.6,
+            "cost": 2309307.947472398,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_36",
+            "length_m": 14.541244522916292,
+            "dn": 200,
+            "flow_from_graph": 111.15,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1.6,
+            "cost": 2798317.0959900115,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_42",
+            "length_m": 24.26658950210654,
+            "dn": 125,
+            "flow_from_graph": 24.87,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 2360532.4938174137,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_43",
+            "length_m": 27.37080825872445,
+            "dn": 100,
+            "flow_from_graph": 18.76,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2456475.299604002,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_55",
+            "length_m": 6.846053561809264,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 665949.8602249962,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_56",
+            "length_m": 12.000572871517008,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 1867769.161722907,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_57",
+            "length_m": 19.60167502458179,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1906752.9380161937,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_58",
+            "length_m": 233.12097086984988,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 24595894.27356525,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_59",
+            "length_m": 127.3448002609029,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 12387465.44537933,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_60",
+            "length_m": 14.613379572796978,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 2274426.3967101215,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_61",
+            "length_m": 34.36946164359861,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3343289.381381055,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_62",
+            "length_m": 12.001088530219862,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 1867849.4188434195,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_63",
+            "length_m": 19.673353686496213,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1913725.4798539192,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_65",
+            "length_m": 24.107783789637573,
+            "dn": 300,
+            "flow_from_graph": 344.12,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 3616697.939689008,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_66",
+            "length_m": 65.93332071590726,
+            "dn": 300,
+            "flow_from_graph": 316.30000000000007,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 9891448.640441839,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_67",
+            "length_m": 5.7006769665177695,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 554533.351918016,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_68",
+            "length_m": 12.143132064255198,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 1889957.074480679,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_69",
+            "length_m": 13.642723655112825,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1327095.9435511,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_71",
+            "length_m": 70.35715531249376,
+            "dn": 200,
+            "flow_from_graph": 139.06,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 8462206.855210187,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_72",
+            "length_m": 120.74844304107975,
+            "dn": 200,
+            "flow_from_graph": 105.92,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 14523018.986765867,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_73",
+            "length_m": 15.935577543585804,
+            "dn": 125,
+            "flow_from_graph": 33.14,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1550133.3055523091,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_75",
+            "length_m": 77.90198586307115,
+            "dn": 200,
+            "flow_from_graph": 151.15,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 9369661.349680882,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_76",
+            "length_m": 1.4998853479459429,
+            "dn": 200,
+            "flow_from_graph": 111.15,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 180398.71022419826,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_77",
+            "length_m": 1.3779906835089593,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 134044.043738334,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_78",
+            "length_m": 14.345750513373845,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 2232772.6099015055,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v1_net_79",
+            "length_m": 11.90418752479862,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1157979.841474786,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_81",
+            "length_m": 151.73032983330256,
+            "dn": 200,
+            "flow_from_graph": 111.15,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 18249365.420700464,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_82",
+            "length_m": 33.468158487110195,
+            "dn": 200,
+            "flow_from_graph": 107.07000000000001,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 4025382.7620371785,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_83",
+            "length_m": 40.999518791195406,
+            "dn": 65,
+            "flow_from_graph": 4.08,
+            "flow_minimum_dn": 65,
+            "price_per_m": 78631.0,
+            "k_special": 1,
+            "cost": 3223833.1620704858,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_84",
+            "length_m": 107.39143442866018,
+            "dn": 150,
+            "flow_from_graph": 43.63,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 11330548.072264649,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_85",
+            "length_m": 35.525411795232806,
+            "dn": 125,
+            "flow_from_graph": 29.42,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3455734.4323812714,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_87",
+            "length_m": 44.43981591115214,
+            "dn": 125,
+            "flow_from_graph": 34.02,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 4322883.092757325,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_88",
+            "length_m": 30.21997144269146,
+            "dn": 100,
+            "flow_from_graph": 15.99,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2712181.997038673,
+            "special_objects": []
+          },
+          {
+            "id": "v1_net_89",
+            "length_m": 13.932549121288409,
+            "dn": 100,
+            "flow_from_graph": 18.03,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1250418.418537392,
+            "special_objects": []
+          }
+        ],
+        "chamber_items": [
+          {
+            "id": "v1_ch_1",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_2",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_5",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_6",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v1_ch_7",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_10",
+            "dn_including_existing": 150,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_12",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v1_ch_14",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_15",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_16",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_17",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_18",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_19",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v1_ch_20",
+            "dn_including_existing": 125,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          }
+        ],
+        "issues": []
+      },
+      "v2": {
+        "target_count": 17,
+        "connected_count": 17,
+        "total_flow_tph": 488.71999999999997,
+        "length_m_from_coordinates": 2055.218710735599,
+        "geodesic_length_check_m": 2055.855567495732,
+        "pipe_cost": 245814749.20637175,
+        "chamber_cost": 56000000.0,
+        "tie_in_cost": 0,
+        "penalty": 0,
+        "construction_cost": 301814749.2063718,
+        "total_cost": 301814749.2063718,
+        "score_cost_term": 8.45081297777841,
+        "score_length_term": 6.165656132206797,
+        "score": 14.616469109985207,
+        "declared_score": 14.616469109982184,
+        "new_lines": 54,
+        "new_chambers": 14,
+        "flow_dn_upgrades_above_capacity_minimum": [],
+        "same_dn_longest_runs_m": {
+          "125": 208.00208369401457,
+          "150": 223.70474075845843,
+          "200": 242.22166178599718,
+          "250": 439.7922495148977,
+          "300": 115.11584780414256,
+          "100": 101.3791342673641,
+          "65": 40.999518791195406
+        },
+        "components": [
+          {
+            "root": "v2_ch_1",
+            "nodes": 55,
+            "edges": 54,
+            "targets": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17
+            ]
+          }
+        ],
+        "targets": [
+          {
+            "id": 1,
+            "connected": true,
+            "flow": 24.87,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_44",
+              "v2_net_61",
+              "v2_net_90",
+              "v2_net_88",
+              "v2_net_87",
+              "v2_net_38",
+              "v2_net_82",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 2,
+            "connected": true,
+            "flow": 18.76,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_45",
+              "v2_net_61",
+              "v2_net_90",
+              "v2_net_88",
+              "v2_net_87",
+              "v2_net_38",
+              "v2_net_82",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 3,
+            "connected": true,
+            "flow": 29.42,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_91",
+              "v2_net_88",
+              "v2_net_87",
+              "v2_net_38",
+              "v2_net_82",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 4,
+            "connected": true,
+            "flow": 47.7,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_64",
+              "v2_net_63",
+              "v2_net_62",
+              "v2_net_90",
+              "v2_net_88",
+              "v2_net_87",
+              "v2_net_38",
+              "v2_net_82",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 5,
+            "connected": true,
+            "flow": 26.09,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_59",
+              "v2_net_58",
+              "v2_net_57",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 6,
+            "connected": true,
+            "flow": 15.99,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_94",
+              "v2_net_93",
+              "v2_net_88",
+              "v2_net_87",
+              "v2_net_38",
+              "v2_net_82",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 7,
+            "connected": true,
+            "flow": 27.82,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_75",
+              "v2_net_74",
+              "v2_net_73",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 8,
+            "connected": true,
+            "flow": 18.03,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_95",
+              "v2_net_93",
+              "v2_net_88",
+              "v2_net_87",
+              "v2_net_38",
+              "v2_net_82",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 9,
+            "connected": true,
+            "flow": 34.53,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_21",
+              "v2_net_78",
+              "v2_net_77",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 10,
+            "connected": true,
+            "flow": 33.14,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_79",
+              "v2_net_77",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 11,
+            "connected": true,
+            "flow": 4.08,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_89",
+              "v2_net_87",
+              "v2_net_38",
+              "v2_net_82",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 12,
+            "connected": true,
+            "flow": 40.0,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_85",
+              "v2_net_84",
+              "v2_net_83",
+              "v2_net_81",
+              "v2_net_31",
+              "v2_net_56",
+              "v2_net_55",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 13,
+            "connected": true,
+            "flow": 19.77,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_27",
+              "v2_net_25",
+              "v2_net_23",
+              "v2_net_22",
+              "v2_net_78",
+              "v2_net_77",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 14,
+            "connected": true,
+            "flow": 19.73,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_26",
+              "v2_net_25",
+              "v2_net_23",
+              "v2_net_22",
+              "v2_net_78",
+              "v2_net_77",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 15,
+            "connected": true,
+            "flow": 31.89,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_69",
+              "v2_net_68",
+              "v2_net_67",
+              "v2_net_66",
+              "v2_net_65",
+              "v2_net_25",
+              "v2_net_23",
+              "v2_net_22",
+              "v2_net_78",
+              "v2_net_77",
+              "v2_net_28",
+              "v2_net_15",
+              "v2_net_72",
+              "v2_net_71"
+            ]
+          },
+          {
+            "id": 16,
+            "connected": true,
+            "flow": 76.27,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_8",
+              "v2_net_7",
+              "v2_net_5",
+              "v2_net_4"
+            ]
+          },
+          {
+            "id": 17,
+            "connected": true,
+            "flow": 20.63,
+            "root": "v2_ch_1",
+            "path_edges": [
+              "v2_net_11",
+              "v2_net_10",
+              "v2_net_9",
+              "v2_net_7",
+              "v2_net_5",
+              "v2_net_4"
+            ]
+          }
+        ],
+        "terminals": [
+          {
+            "id": 1,
+            "building": 75,
+            "inside_length_m": 8.311169003854385,
+            "nearest_exterior_m": 8.311169004042569,
+            "nearest_any_boundary_m": 8.311169004042569,
+            "extra_inside_m": -1.8818369085238373e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_44"
+          },
+          {
+            "id": 2,
+            "building": 77,
+            "inside_length_m": 9.066551776219672,
+            "nearest_exterior_m": 5.799401572059233,
+            "nearest_any_boundary_m": 5.799401572059233,
+            "extra_inside_m": 3.2671502041604388,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_45"
+          },
+          {
+            "id": 3,
+            "building": 74,
+            "inside_length_m": 4.948051415546704,
+            "nearest_exterior_m": 4.948051415661567,
+            "nearest_any_boundary_m": 4.948051415661567,
+            "extra_inside_m": -1.14862785949299e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_91"
+          },
+          {
+            "id": 4,
+            "building": 71,
+            "inside_length_m": 4.586861519753697,
+            "nearest_exterior_m": 4.586861519969149,
+            "nearest_any_boundary_m": 4.586861519969149,
+            "extra_inside_m": -2.1545254469401698e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_64"
+          },
+          {
+            "id": 5,
+            "building": 72,
+            "inside_length_m": 10.39393996754161,
+            "nearest_exterior_m": 10.393939967314504,
+            "nearest_any_boundary_m": 7.1566981411203585,
+            "extra_inside_m": 2.2710722191732202e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_59"
+          },
+          {
+            "id": 6,
+            "building": 82,
+            "inside_length_m": 2.5520223191676927,
+            "nearest_exterior_m": 2.552022319364324,
+            "nearest_any_boundary_m": 2.552022319364324,
+            "extra_inside_m": -1.9663115580215162e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_94"
+          },
+          {
+            "id": 7,
+            "building": 83,
+            "inside_length_m": 5.193667368948671,
+            "nearest_exterior_m": 5.193667369318897,
+            "nearest_any_boundary_m": 5.193667369318897,
+            "extra_inside_m": -3.702256279325411e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_75"
+          },
+          {
+            "id": 8,
+            "building": 81,
+            "inside_length_m": 2.52664681774065,
+            "nearest_exterior_m": 2.5266468177082393,
+            "nearest_any_boundary_m": 2.5266468177082393,
+            "extra_inside_m": 3.241051871327727e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_95"
+          },
+          {
+            "id": 9,
+            "building": 87,
+            "inside_length_m": 7.353166867504493,
+            "nearest_exterior_m": 7.353166867764537,
+            "nearest_any_boundary_m": 7.353166867764537,
+            "extra_inside_m": -2.6004443043348147e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_21"
+          },
+          {
+            "id": 10,
+            "building": 88,
+            "inside_length_m": 9.651495037735742,
+            "nearest_exterior_m": 6.535781990440415,
+            "nearest_any_boundary_m": 6.535781990440415,
+            "extra_inside_m": 3.115713047295327,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_79"
+          },
+          {
+            "id": 11,
+            "building": 90,
+            "inside_length_m": 6.269130718603466,
+            "nearest_exterior_m": 6.26913071858671,
+            "nearest_any_boundary_m": 6.26913071858671,
+            "extra_inside_m": 1.6756374066062563e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_89"
+          },
+          {
+            "id": 12,
+            "building": 92,
+            "inside_length_m": 1.5213664387943227,
+            "nearest_exterior_m": 1.5213664388402883,
+            "nearest_any_boundary_m": 1.5213664388402883,
+            "extra_inside_m": -4.5965675710135656e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_85"
+          },
+          {
+            "id": 13,
+            "building": 91,
+            "inside_length_m": 3.2135594904889384,
+            "nearest_exterior_m": 3.213559490331682,
+            "nearest_any_boundary_m": 3.213559490331682,
+            "extra_inside_m": 1.5725643010000567e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_27"
+          },
+          {
+            "id": 14,
+            "building": 89,
+            "inside_length_m": 0.05767955560545929,
+            "nearest_exterior_m": 0.057679555347899286,
+            "nearest_any_boundary_m": 0.057679555347899286,
+            "extra_inside_m": 2.575600011045509e-10,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_26"
+          },
+          {
+            "id": 15,
+            "building": 92,
+            "inside_length_m": 2.1704066543535006,
+            "nearest_exterior_m": 2.1704066542693963,
+            "nearest_any_boundary_m": 2.1704066542693963,
+            "extra_inside_m": 8.410427909666396e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_69"
+          },
+          {
+            "id": 16,
+            "building": 96,
+            "inside_length_m": 2.1550742509280125,
+            "nearest_exterior_m": 2.155074250950035,
+            "nearest_any_boundary_m": 2.155074250950035,
+            "extra_inside_m": -2.2022383916464605e-11,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_8"
+          },
+          {
+            "id": 17,
+            "building": 97,
+            "inside_length_m": 14.146350976544982,
+            "nearest_exterior_m": 5.374510728046409,
+            "nearest_any_boundary_m": 5.374510728046409,
+            "extra_inside_m": 8.771840248498574,
+            "strict_exit_other_blockers": [],
+            "output_edge": "v2_net_11"
+          }
+        ],
+        "tightest_hard_gaps": [
+          {
+            "edge": "v2_net_91",
+            "restriction": 76,
+            "type": "oks",
+            "outside_gap_m": 5.083521485340361,
+            "required_m": 5,
+            "margin_m": 0.08352148534036097
+          },
+          {
+            "edge": "v2_net_87",
+            "restriction": 90,
+            "type": "oks",
+            "outside_gap_m": 5.227564357353625,
+            "required_m": 5,
+            "margin_m": 0.227564357353625
+          },
+          {
+            "edge": "v2_net_55",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.228512488741864,
+            "required_m": 5,
+            "margin_m": 0.22851248874186414
+          },
+          {
+            "edge": "v2_net_95",
+            "restriction": 81,
+            "type": "oks",
+            "outside_gap_m": 5.265857918167201,
+            "required_m": 5,
+            "margin_m": 0.2658579181672014
+          },
+          {
+            "edge": "v2_net_8",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.302632474521659,
+            "required_m": 5,
+            "margin_m": 0.3026324745216593
+          },
+          {
+            "edge": "v2_net_7",
+            "restriction": 96,
+            "type": "oks",
+            "outside_gap_m": 5.312622931860612,
+            "required_m": 5,
+            "margin_m": 0.31262293186061196
+          },
+          {
+            "edge": "v2_net_78",
+            "restriction": 88,
+            "type": "oks",
+            "outside_gap_m": 5.313444683390747,
+            "required_m": 5,
+            "margin_m": 0.31344468339074716
+          },
+          {
+            "edge": "v2_net_81",
+            "restriction": 91,
+            "type": "oks",
+            "outside_gap_m": 5.378744676002988,
+            "required_m": 5,
+            "margin_m": 0.378744676002988
+          },
+          {
+            "edge": "v2_net_62",
+            "restriction": 77,
+            "type": "oks",
+            "outside_gap_m": 5.427442177089282,
+            "required_m": 5,
+            "margin_m": 0.427442177089282
+          },
+          {
+            "edge": "v2_net_91",
+            "restriction": 74,
+            "type": "oks",
+            "outside_gap_m": 5.450000000175701,
+            "required_m": 5,
+            "margin_m": 0.4500000001757014
+          },
+          {
+            "edge": "v2_net_65",
+            "restriction": 89,
+            "type": "oks",
+            "outside_gap_m": 5.45173594994443,
+            "required_m": 5,
+            "margin_m": 0.45173594994443
+          },
+          {
+            "edge": "v2_net_93",
+            "restriction": 74,
+            "type": "oks",
+            "outside_gap_m": 5.486766801108413,
+            "required_m": 5,
+            "margin_m": 0.48676680110841275
+          }
+        ],
+        "pipe_items": [
+          {
+            "id": "v2_net_4",
+            "length_m": 21.073956596870843,
+            "dn": 200,
+            "flow_from_graph": 96.89999999999999,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 2534670.1296886406,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_5",
+            "length_m": 14.890963503658902,
+            "dn": 200,
+            "flow_from_graph": 96.89999999999999,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1.6,
+            "cost": 2865617.0166441193,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_7",
+            "length_m": 92.3023089164342,
+            "dn": 200,
+            "flow_from_graph": 96.89999999999999,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 11101660.204924123,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_8",
+            "length_m": 110.89735675560743,
+            "dn": 200,
+            "flow_from_graph": 76.27,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 13338179.583780684,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_9",
+            "length_m": 17.995565577856592,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1615066.0194814734,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_10",
+            "length_m": 12.00545017625656,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1.6,
+            "cost": 1723944.227869878,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_11",
+            "length_m": 71.37811851325094,
+            "dn": 100,
+            "flow_from_graph": 20.63,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 6406043.380327245,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_15",
+            "length_m": 12.163873839277477,
+            "dn": 300,
+            "flow_from_graph": 364.0,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1.6,
+            "cost": 2919757.889785737,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_28",
+            "length_m": 12.910869459320255,
+            "dn": 300,
+            "flow_from_graph": 364.0,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 1936914.4580261433,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_21",
+            "length_m": 13.353166867367515,
+            "dn": 125,
+            "flow_from_graph": 34.53,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1298929.307023175,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_22",
+            "length_m": 24.205590403321526,
+            "dn": 200,
+            "flow_from_graph": 71.39,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 2911327.3857594966,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_23",
+            "length_m": 12.509975081840308,
+            "dn": 200,
+            "flow_from_graph": 71.39,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1.6,
+            "cost": 2407419.604749349,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_25",
+            "length_m": 14.400497947261854,
+            "dn": 200,
+            "flow_from_graph": 71.39,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 1732019.8906069195,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_26",
+            "length_m": 17.8847930343043,
+            "dn": 100,
+            "flow_from_graph": 19.73,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1605124.4052427423,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_27",
+            "length_m": 16.956007576368133,
+            "dn": 100,
+            "flow_from_graph": 19.77,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1521767.7679638872,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_55",
+            "length_m": 123.5092524509194,
+            "dn": 250,
+            "flow_from_graph": 224.94000000000003,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 16713642.569415767,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_56",
+            "length_m": 25.141247782691828,
+            "dn": 250,
+            "flow_from_graph": 198.85000000000002,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 3402189.073697206,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_31",
+            "length_m": 12.000145226940335,
+            "dn": 250,
+            "flow_from_graph": 198.85000000000002,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1.6,
+            "cost": 2598233.044072395,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_38",
+            "length_m": 14.541244522916292,
+            "dn": 250,
+            "flow_from_graph": 158.85000000000002,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1.6,
+            "cost": 3148423.732119363,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_61",
+            "length_m": 27.11858430430677,
+            "dn": 150,
+            "flow_from_graph": 43.63,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 2861200.474194494,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_44",
+            "length_m": 24.26658950210654,
+            "dn": 125,
+            "flow_from_graph": 24.87,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 2360532.4938174137,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_45",
+            "length_m": 27.37080825872445,
+            "dn": 100,
+            "flow_from_graph": 18.76,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2456475.299604002,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_57",
+            "length_m": 6.846053561809264,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 665949.8602249962,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_58",
+            "length_m": 12.000572871517008,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 1867769.161722907,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_59",
+            "length_m": 19.60167502458179,
+            "dn": 125,
+            "flow_from_graph": 26.09,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1906752.9380161937,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_62",
+            "length_m": 180.06265608291773,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 18997870.6553404,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_63",
+            "length_m": 12.000718517189764,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1.6,
+            "cost": 2025855.6937490248,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_64",
+            "length_m": 31.641366158350937,
+            "dn": 150,
+            "flow_from_graph": 47.7,
+            "flow_minimum_dn": 150,
+            "price_per_m": 105507.0,
+            "k_special": 1,
+            "cost": 3338385.619269132,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_65",
+            "length_m": 127.3448002609029,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 12387465.44537933,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_66",
+            "length_m": 14.613379572796978,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 2274426.3967101215,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_67",
+            "length_m": 34.36946164359861,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3343289.381381055,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_68",
+            "length_m": 12.001088530219862,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 1867849.4188434195,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_69",
+            "length_m": 19.673353686496213,
+            "dn": 125,
+            "flow_from_graph": 31.89,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1913725.4798539192,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_71",
+            "length_m": 24.107783789637573,
+            "dn": 300,
+            "flow_from_graph": 391.82,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 3616697.939689008,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_72",
+            "length_m": 65.93332071590726,
+            "dn": 300,
+            "flow_from_graph": 364.0,
+            "flow_minimum_dn": 300,
+            "price_per_m": 150022.0,
+            "k_special": 1,
+            "cost": 9891448.640441839,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_73",
+            "length_m": 5.7006769665177695,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 554533.351918016,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_74",
+            "length_m": 12.143132064255198,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 1889957.074480679,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_75",
+            "length_m": 13.642723655112825,
+            "dn": 125,
+            "flow_from_graph": 27.82,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1327095.9435511,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_77",
+            "length_m": 70.35715531249376,
+            "dn": 200,
+            "flow_from_graph": 139.06,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 8462206.855210187,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_78",
+            "length_m": 120.74844304107975,
+            "dn": 200,
+            "flow_from_graph": 105.92,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 14523018.986765867,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_79",
+            "length_m": 15.935577543585804,
+            "dn": 125,
+            "flow_from_graph": 33.14,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1550133.3055523091,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_81",
+            "length_m": 77.90198586307115,
+            "dn": 250,
+            "flow_from_graph": 198.85000000000002,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 10541930.432948377,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_82",
+            "length_m": 1.4998853479459429,
+            "dn": 250,
+            "flow_from_graph": 158.85000000000002,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 202968.98494008882,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_83",
+            "length_m": 1.3779906835089593,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 134044.043738334,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_84",
+            "length_m": 14.345750513373845,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1.6,
+            "cost": 2232772.6099015055,
+            "special_objects": [
+              {
+                "id": "osm_road_1",
+                "type": "road",
+                "k": 1.6
+              }
+            ]
+          },
+          {
+            "id": "v2_net_85",
+            "length_m": 11.90418752479862,
+            "dn": 125,
+            "flow_from_graph": 40.0,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 1157979.841474786,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_87",
+            "length_m": 151.73032983330256,
+            "dn": 250,
+            "flow_from_graph": 158.85000000000002,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 20532603.424032003,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_88",
+            "length_m": 33.468158487110195,
+            "dn": 250,
+            "flow_from_graph": 154.77,
+            "flow_minimum_dn": 250,
+            "price_per_m": 135323.0,
+            "k_special": 1,
+            "cost": 4529011.610951213,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_89",
+            "length_m": 40.999518791195406,
+            "dn": 65,
+            "flow_from_graph": 4.08,
+            "flow_minimum_dn": 65,
+            "price_per_m": 78631.0,
+            "k_special": 1,
+            "cost": 3223833.1620704858,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_90",
+            "length_m": 80.27285012435341,
+            "dn": 200,
+            "flow_from_graph": 91.33000000000001,
+            "flow_minimum_dn": 200,
+            "price_per_m": 120275.0,
+            "k_special": 1,
+            "cost": 9654817.048706606,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_91",
+            "length_m": 35.525411795232806,
+            "dn": 125,
+            "flow_from_graph": 29.42,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 3455734.4323812714,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_93",
+            "length_m": 44.43981591115214,
+            "dn": 125,
+            "flow_from_graph": 34.02,
+            "flow_minimum_dn": 125,
+            "price_per_m": 97275.0,
+            "k_special": 1,
+            "cost": 4322883.092757325,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_94",
+            "length_m": 30.21997144269146,
+            "dn": 100,
+            "flow_from_graph": 15.99,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 2712181.997038673,
+            "special_objects": []
+          },
+          {
+            "id": "v2_net_95",
+            "length_m": 13.932549121288409,
+            "dn": 100,
+            "flow_from_graph": 18.03,
+            "flow_minimum_dn": 100,
+            "price_per_m": 89748.0,
+            "k_special": 1,
+            "cost": 1250418.418537392,
+            "special_objects": []
+          }
+        ],
+        "chamber_items": [
+          {
+            "id": "v2_ch_1",
+            "dn_including_existing": 400,
+            "cost": 5000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_2",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_5",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_6",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_7",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_10",
+            "dn_including_existing": 150,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_12",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 4
+          },
+          {
+            "id": "v2_ch_14",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_15",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_16",
+            "dn_including_existing": 300,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_17",
+            "dn_including_existing": 200,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_18",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_19",
+            "dn_including_existing": 250,
+            "cost": 5000000.0,
+            "total_incidence": 3
+          },
+          {
+            "id": "v2_ch_20",
+            "dn_including_existing": 125,
+            "cost": 3000000.0,
+            "total_incidence": 3
+          }
+        ],
+        "issues": []
+      }
+    }
+  },
+  "strict_to_main_decomposition": {
+    "removed_penalty_rub": 338995000.0,
+    "score_reduction_from_removed_penalty": 9.491859999999999,
+    "extra_construction_rub": 43693379.08146936,
+    "score_increase_from_extra_construction": 1.223414614281142,
+    "extra_length_m": 292.0394274426749,
+    "score_increase_from_extra_length": 0.8761182823280247,
+    "net_score_change": -7.39232710339083
+  },
+  "issues": []
+}

@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "check": "java",
+      "exit_code": 0
+    },
+    {
+      "check": "scenarios",
+      "exit_code": 0
+    },
+    {
+      "check": "viewer-sync",
+      "exit_code": 0
+    },
+    {
+      "check": "presentation-aliases",
+      "exit_code": 0
+    },
+    {
+      "check": "viewer-tests",
+      "exit_code": 0
+    },
+    {
+      "check": "viewer-types",
+      "exit_code": 0
+    }
+  ],
+  "java_totals": {
+    "tests": 46,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "dataset_result_byte_identical": true
+}

@@ -1,0 +1,152 @@
+[
+  {
+    "target": 2,
+    "building": 77,
+    "nearest_any": {
+      "nearest_distance_m": 5.799401572059233,
+      "required_axis_clearance_m": 5.255,
+      "own_building_reentry_after_m": 3.6797423291984823,
+      "max_axis_gap_before_reentry_m_sampled": 0.5877218528264244,
+      "whole_available_ray_covered_by_own_building_clearance_zone": true,
+      "ray_enters_courtyard": false,
+      "boundary_wgs84": null,
+      "boundary_utm": [
+        414191.7750085661,
+        6173518.681616971
+      ],
+      "ray_utm": [
+        [
+          414191.77501838346,
+          6173518.681615069
+        ],
+        [
+          414289.9486642258,
+          6173499.657071395
+        ]
+      ]
+    },
+    "nearest_exterior": {
+      "nearest_distance_m": 5.799401572059233,
+      "required_axis_clearance_m": 5.255,
+      "own_building_reentry_after_m": 3.6797423291984823,
+      "max_axis_gap_before_reentry_m_sampled": 0.5877218528264244,
+      "whole_available_ray_covered_by_own_building_clearance_zone": true,
+      "ray_enters_courtyard": false,
+      "boundary_wgs84": null,
+      "boundary_utm": [
+        414191.7750085661,
+        6173518.681616971
+      ],
+      "ray_utm": [
+        [
+          414191.77501838346,
+          6173518.681615069
+        ],
+        [
+          414289.9486642258,
+          6173499.657071395
+        ]
+      ]
+    }
+  },
+  {
+    "target": 5,
+    "building": 72,
+    "nearest_any": {
+      "nearest_distance_m": 7.1566981411203585,
+      "required_axis_clearance_m": 5.3,
+      "own_building_reentry_after_m": 4.13707271134875,
+      "max_axis_gap_before_reentry_m_sampled": 0.782483544355148,
+      "whole_available_ray_covered_by_own_building_clearance_zone": true,
+      "ray_enters_courtyard": true,
+      "boundary_wgs84": null,
+      "boundary_utm": [
+        414239.9460534952,
+        6173386.619176661
+      ],
+      "ray_utm": [
+        [
+          414239.94605930714,
+          6173386.619184799
+        ],
+        [
+          414298.0651443742,
+          6173467.995901069
+        ]
+      ]
+    },
+    "nearest_exterior": {
+      "nearest_distance_m": 10.393939967498047,
+      "required_axis_clearance_m": 5.3,
+      "own_building_reentry_after_m": 100,
+      "max_axis_gap_before_reentry_m_sampled": 100.0000000002854,
+      "whole_available_ray_covered_by_own_building_clearance_zone": false,
+      "ray_enters_courtyard": false,
+      "boundary_wgs84": null,
+      "boundary_utm": [
+        414231.89711059135,
+        6173371.156539935
+      ],
+      "ray_utm": [
+        [
+          414231.89710684924,
+          6173371.1565306615
+        ],
+        [
+          414194.47593037033,
+          6173278.422213653
+        ]
+      ]
+    }
+  },
+  {
+    "target": 10,
+    "building": 88,
+    "nearest_any": {
+      "nearest_distance_m": 6.535781990557818,
+      "required_axis_clearance_m": 5.3,
+      "own_building_reentry_after_m": 6.989117575702318,
+      "max_axis_gap_before_reentry_m_sampled": 3.382702983218039,
+      "whole_available_ray_covered_by_own_building_clearance_zone": true,
+      "ray_enters_courtyard": false,
+      "boundary_wgs84": null,
+      "boundary_utm": [
+        414269.3235800948,
+        6173235.688470034
+      ],
+      "ray_utm": [
+        [
+          414269.32357080234,
+          6173235.6884737285
+        ],
+        [
+          414176.39886651374,
+          6173272.634344038
+        ]
+      ]
+    },
+    "nearest_exterior": {
+      "nearest_distance_m": 6.535781990557818,
+      "required_axis_clearance_m": 5.3,
+      "own_building_reentry_after_m": 6.989117575702318,
+      "max_axis_gap_before_reentry_m_sampled": 3.382702983218039,
+      "whole_available_ray_covered_by_own_building_clearance_zone": true,
+      "ray_enters_courtyard": false,
+      "boundary_wgs84": null,
+      "boundary_utm": [
+        414269.3235800948,
+        6173235.688470034
+      ],
+      "ray_utm": [
+        [
+          414269.32357080234,
+          6173235.6884737285
+        ],
+        [
+          414176.39886651374,
+          6173272.634344038
+        ]
+      ]
+    }
+  }
+]
